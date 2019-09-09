@@ -7,3 +7,7 @@ ruby "2.6.3"
 gem "rails", "~> 6.0.0"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
+
+group :development, :test do
+  gem "rspec-rails", "~> 3.8.2"
+end
