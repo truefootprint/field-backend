@@ -6,4 +6,8 @@ FactoryBot.define do
   factory :activity do
     sequence(:name) { |n| "Activity #{n}" }
   end
+
+  factory :topic do
+    sequence(:name) { |n| "Topic #{n}" }
+  end
 end
