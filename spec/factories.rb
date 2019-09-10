@@ -50,4 +50,8 @@ FactoryBot.define do
     user
     sequence(:value) { |n| "Value #{n}" }
   end
+
+  factory :location do
+    association :subject, factory: :project
+  end
 end
