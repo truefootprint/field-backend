@@ -10,4 +10,5 @@ gem "puma", "~> 3.11"
 
 group :development, :test do
   gem "rspec-rails", "~> 3.8.2"
+  gem "factory_bot_rails", "~> 5.0.2"
 end
