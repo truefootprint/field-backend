@@ -20,4 +20,10 @@ FactoryBot.define do
     project_type
     sequence(:name) { |n| "Project #{n}" }
   end
+
+  factory :project_activity do
+    project
+    activity
+    state { "not_started" }
+  end
 end
