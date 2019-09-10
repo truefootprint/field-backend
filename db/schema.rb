@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_155908) do
+ActiveRecord::Schema.define(version: 2019_09_10_160503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2019_09_10_155908) do
     t.index ["activity_id"], name: "index_project_activities_on_activity_id"
     t.index ["project_id"], name: "index_project_activities_on_project_id"
     t.index ["state"], name: "index_project_activities_on_state"
+  end
+
+  create_table "project_questions", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.bigint "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_project_questions_on_question_id"
+    t.index ["subject_type", "subject_id"], name: "index_project_questions_on_subject_type_and_subject_id"
   end
 
   create_table "project_types", force: :cascade do |t|

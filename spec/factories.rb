@@ -26,4 +26,9 @@ FactoryBot.define do
     activity
     state { "not_started" }
   end
+
+  factory :project_question do
+    question
+    association :subject, factory: :project_activity
+  end
 end
