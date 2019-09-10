@@ -31,4 +31,8 @@ FactoryBot.define do
     question
     association :subject, factory: :project_activity
   end
+
+  factory :user do
+    sequence(:name) { |n| "User #{n}" }
+  end
 end
