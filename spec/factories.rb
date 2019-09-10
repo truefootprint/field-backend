@@ -15,4 +15,9 @@ FactoryBot.define do
     topic
     sequence(:text) { |n| "Question #{n}" }
   end
+
+  factory :project do
+    project_type
+    sequence(:name) { |n| "Project #{n}" }
+  end
 end
