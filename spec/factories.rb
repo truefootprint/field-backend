@@ -54,4 +54,9 @@ FactoryBot.define do
   factory :location do
     association :subject, factory: :project
   end
+
+  factory :problem do
+    association :subject, factory: :project
+    state { "resolved" }
+  end
 end
