@@ -44,4 +44,10 @@ FactoryBot.define do
     user
     role
   end
+
+  factory :response do
+    project_question
+    user
+    sequence(:value) { |n| "Value #{n}" }
+  end
 end
