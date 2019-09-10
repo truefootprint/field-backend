@@ -10,4 +10,9 @@ FactoryBot.define do
   factory :topic do
     sequence(:name) { |n| "Topic #{n}" }
   end
+
+  factory :question do
+    topic
+    sequence(:text) { |n| "Question #{n}" }
+  end
 end
