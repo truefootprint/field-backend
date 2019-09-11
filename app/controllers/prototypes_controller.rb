@@ -2,7 +2,10 @@ class PrototypesController < ApplicationController
   def topic_and_question_listing
     user = User.find_by_name!("Suleman")
     user_roles = user.user_roles.joins(:role).where(roles: { name: "monitor" })
-    project = user_roles.where(scope_type: "Project").map(&:scope).first
+    projects = user_roles.where(scope_type: "Project").map(&:scope)
+
+    project_id = params[:project_id] || 1
+    project = projects.detect { |p| p.id == Integer(project_id) }
 
     project_activities = project.project_activities.order(:order)
 
