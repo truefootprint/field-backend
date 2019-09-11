@@ -25,6 +25,7 @@ FactoryBot.define do
     project
     activity
     state { "not_started" }
+    order { 1 }
   end
 
   factory :project_question do
