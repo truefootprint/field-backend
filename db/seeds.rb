@@ -44,32 +44,61 @@ rusinda_hand_pump = Project.create!(
   project_type: water_pump,
 )
 
-_clearing_space_pa = ProjectActivity.create!(activity: clearing_space, project: rusinda_hand_pump, state: "not_started")
-digging_the_hole_pa = ProjectActivity.create!(activity: digging_the_hole, project: rusinda_hand_pump, state: "not_started")
-installing_pump_pa = ProjectActivity.create!(activity: installing_pump, project: rusinda_hand_pump, state: "not_started")
-installing_platform_pa = ProjectActivity.create!(activity: installing_platform, project: rusinda_hand_pump, state: "not_started")
-using_the_pump_pa = ProjectActivity.create!(activity: using_the_pump, project: rusinda_hand_pump, state: "not_started")
+_clearing_space_pa = ProjectActivity.create!(
+  activity: clearing_space,
+  project: rusinda_hand_pump,
+  state: "not_started",
+  order: 1,
+)
 
-ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_1)
-ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_2)
-ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_3)
-ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_4)
+digging_the_hole_pa = ProjectActivity.create!(
+  activity: digging_the_hole,
+  project: rusinda_hand_pump,
+  state: "not_started",
+  order: 2,
+)
 
-ProjectQuestion.create!(subject: installing_pump_pa, question: question_5)
-ProjectQuestion.create!(subject: installing_pump_pa, question: question_6)
-ProjectQuestion.create!(subject: installing_pump_pa, question: question_7)
-ProjectQuestion.create!(subject: installing_pump_pa, question: question_8)
+installing_pump_pa = ProjectActivity.create!(
+  activity: installing_pump,
+  project: rusinda_hand_pump,
+  state: "not_started",
+  order: 3,
+)
 
-ProjectQuestion.create!(subject: installing_platform_pa, question: question_9)
-ProjectQuestion.create!(subject: installing_platform_pa, question: question_10)
-ProjectQuestion.create!(subject: installing_platform_pa, question: question_11)
-ProjectQuestion.create!(subject: installing_platform_pa, question: question_12)
+installing_platform_pa = ProjectActivity.create!(
+  activity: installing_platform,
+  project: rusinda_hand_pump,
+  state: "not_started",
+  order: 4,
+)
 
-ProjectQuestion.create!(subject: using_the_pump_pa, question: question_13)
-ProjectQuestion.create!(subject: using_the_pump_pa, question: question_14)
-ProjectQuestion.create!(subject: using_the_pump_pa, question: question_15)
-ProjectQuestion.create!(subject: using_the_pump_pa, question: question_16)
-ProjectQuestion.create!(subject: using_the_pump_pa, question: question_17)
+using_the_pump_pa = ProjectActivity.create!(
+  activity: using_the_pump,
+  project: rusinda_hand_pump,
+  state: "not_started",
+  order: 5,
+)
+
+ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_1, order: 1)
+ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_2, order: 2)
+ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_3, order: 3)
+ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_4, order: 4)
+
+ProjectQuestion.create!(subject: installing_pump_pa, question: question_5, order: 5)
+ProjectQuestion.create!(subject: installing_pump_pa, question: question_6, order: 6)
+ProjectQuestion.create!(subject: installing_pump_pa, question: question_7, order: 7)
+ProjectQuestion.create!(subject: installing_pump_pa, question: question_8, order: 8)
+
+ProjectQuestion.create!(subject: installing_platform_pa, question: question_9, order: 9)
+ProjectQuestion.create!(subject: installing_platform_pa, question: question_10, order: 10)
+ProjectQuestion.create!(subject: installing_platform_pa, question: question_11, order: 11)
+ProjectQuestion.create!(subject: installing_platform_pa, question: question_12, order: 12)
+
+ProjectQuestion.create!(subject: using_the_pump_pa, question: question_13, order: 13)
+ProjectQuestion.create!(subject: using_the_pump_pa, question: question_14, order: 14)
+ProjectQuestion.create!(subject: using_the_pump_pa, question: question_15, order: 15)
+ProjectQuestion.create!(subject: using_the_pump_pa, question: question_16, order: 16)
+ProjectQuestion.create!(subject: using_the_pump_pa, question: question_17, order: 17)
 
 # Users
 
