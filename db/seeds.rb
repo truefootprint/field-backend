@@ -59,39 +59,32 @@ rusinda_hand_pump = Project.create!(
   project_type: water_pump,
 )
 
-_clearing_space_pa = ProjectActivity.create!(
-  activity: clearing_space,
-  project: rusinda_hand_pump,
-  state: "not_started",
-  order: 1,
-)
-
 digging_the_hole_pa = ProjectActivity.create!(
   activity: digging_the_hole,
   project: rusinda_hand_pump,
-  state: "not_started",
-  order: 2,
+  state: "finished",
+  order: 1,
 )
 
 installing_pump_pa = ProjectActivity.create!(
   activity: installing_pump,
   project: rusinda_hand_pump,
   state: "not_started",
-  order: 3,
+  order: 2,
 )
 
 installing_platform_pa = ProjectActivity.create!(
   activity: installing_platform,
   project: rusinda_hand_pump,
   state: "not_started",
-  order: 4,
+  order: 3,
 )
 
 using_the_pump_pa = ProjectActivity.create!(
   activity: using_the_pump,
   project: rusinda_hand_pump,
   state: "not_started",
-  order: 5,
+  order: 4,
 )
 
 ProjectQuestion.create!(subject: digging_the_hole_pa, question: question_1, order: 1)
@@ -124,3 +117,10 @@ suleman = User.create!(name: "Suleman")
 monitor = Role.create!(name: "monitor")
 
 UserRole.create!(user: suleman, role: monitor, scope: rusinda_hand_pump)
+
+# Data Collection
+
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "2")
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "3")
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4")
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2")

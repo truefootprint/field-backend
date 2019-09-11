@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get "/1", to: "prototypes#topic_and_question_listing"
+  get "/2", to: "prototypes#average_water_pump_depth"
 end
