@@ -61,4 +61,10 @@ FactoryBot.define do
     association :subject, factory: :project
     state { "resolved" }
   end
+
+  factory :response_trigger do
+    question
+    value { "yes" }
+    event_name { "ActivityCompletionEvent" }
+  end
 end
