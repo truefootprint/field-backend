@@ -31,6 +31,7 @@ FactoryBot.define do
   factory :project_question do
     question
     association :subject, factory: :project_activity
+    order { 1 }
   end
 
   factory :user do

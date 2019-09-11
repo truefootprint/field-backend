@@ -5,5 +5,10 @@ RSpec.describe ProjectQuestion do
     it "has a valid default factory" do
       expect(project_question).to be_valid
     end
+
+    it "requires an order" do
+      project_question.order = nil
+      expect(project_question).to be_invalid
+    end
   end
 end
