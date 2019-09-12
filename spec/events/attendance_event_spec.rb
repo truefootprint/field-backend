@@ -22,6 +22,14 @@ RSpec.describe AttendanceEvent do
       expect(project_activity.activity).to eq(activity)
     end
 
+    it "sets the project activity's order from the default for the project type" do
+      expect { event.process }.to change(ProjectActivity, :count).by(1)
+
+      project_activity = ProjectActivity.last
+
+      expect(project_activity.order).to eq(default_activity.order)
+    end
+
     it "creates project questions based on the defaults for that activity" do
       FactoryBot.create(:default_question, activity: activity)
       FactoryBot.create(:default_question, activity: activity)
@@ -34,12 +42,15 @@ RSpec.describe AttendanceEvent do
       expect(project_question.subject).to eq(project_activity)
     end
 
-    it "sets the project activity's order from the default for the project type" do
-      expect { event.process }.to change(ProjectActivity, :count).by(1)
+    it "creates a record of the user's involvement in the follow on activity" do
+      expect { event.process }.to change(Involvement, :count).by(1)
 
       project_activity = ProjectActivity.last
+      involvement = Involvement.last
 
-      expect(project_activity.order).to eq(default_activity.order)
+      expect(involvement.project_activity).to eq(project_activity)
+      expect(involvement.user).to eq(response.user)
+      expect(involvement.kind).to eq("attendee")
     end
   end
 end

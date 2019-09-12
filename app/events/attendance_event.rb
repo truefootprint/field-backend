@@ -14,6 +14,7 @@ class AttendanceEvent
     project_activity = create_project_activity
 
     create_project_questions(project_activity)
+    create_involvement(project_activity)
   end
 
   private
@@ -35,6 +36,14 @@ class AttendanceEvent
         order: default.order,
       )
     end
+  end
+
+  def create_involvement(project_activity)
+    Involvement.create!(
+      project_activity: project_activity,
+      user: response.user,
+      kind: "attendee",
+    )
   end
 
   def order_specified_by_project_type
