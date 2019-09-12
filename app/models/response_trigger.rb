@@ -2,7 +2,7 @@ class ResponseTrigger < ApplicationRecord
   belongs_to :question
 
   validates :value, presence: true
-  validates :event_name, presence: true
+  validates :event_class, presence: true
 
   scope :triggered_by, -> (response) do
     where(question: response.question, value: response.value)
@@ -13,7 +13,7 @@ class ResponseTrigger < ApplicationRecord
   end
 
   def fire_event(response)
-    event_name.constantize.fire(response: response, **event_params)
+    event_class.constantize.fire(response: response, **event_params)
   end
 
   def event_params

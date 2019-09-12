@@ -65,6 +65,12 @@ FactoryBot.define do
   factory :response_trigger do
     question
     value { "yes" }
-    event_name { "ActivityCompletionEvent" }
+    event_class { "ActivityCompletionEvent" }
+  end
+
+  factory :default_question do
+    activity
+    question
+    order { 1 }
   end
 end

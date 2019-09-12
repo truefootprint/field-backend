@@ -17,7 +17,7 @@ question_4 = Question.create!(text: "Any other comments", topic: hole)
 question_5 = Question.create!(text: "Has the hole been dug?", topic: hole)
 
 ResponseTrigger.create!(
-  question: question_5, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_5, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 pump = Topic.create!(name: "Pump")
@@ -29,7 +29,7 @@ question_9 = Question.create!(text: "Any other comments", topic: pump)
 question_10 = Question.create!(text: "Is the pump installed?", topic: pump)
 
 ResponseTrigger.create!(
-  question: question_10, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_10, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 platform = Topic.create!(name: "Platform")
@@ -41,7 +41,7 @@ question_14 = Question.create!(text: "Any other comments", topic: platform)
 question_15 = Question.create!(text: "Is the platform built?", topic: platform)
 
 ResponseTrigger.create!(
-  question: question_15, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_15, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 water = Topic.create!(name: "Water")

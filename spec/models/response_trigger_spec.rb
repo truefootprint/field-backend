@@ -11,8 +11,8 @@ RSpec.describe ResponseTrigger do
       expect(response_trigger).to be_invalid
     end
 
-    it "requires an event_name" do
-      response_trigger.event_name = " "
+    it "requires an event_class" do
+      response_trigger.event_class = " "
       expect(response_trigger).to be_invalid
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe ResponseTrigger do
     before { allow(TestEvent).to receive(:fire) }
 
     let(:trigger) do
-      FactoryBot.create(:response_trigger, value: "yes", event_name: "TestEvent", event_params: { foo: "bar" })
+      FactoryBot.create(:response_trigger, value: "yes", event_class: "TestEvent", event_params: { foo: "bar" })
     end
 
     let(:response_matching_trigger) do

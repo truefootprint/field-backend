@@ -33,15 +33,15 @@ question_15 = Question.create!(text: "Are the walls built?", topic: progress)
 question_16 = Question.create!(text: "Is the roof complete?", topic: progress)
 
 ResponseTrigger.create!(
-  question: question_14, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_14, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 ResponseTrigger.create!(
-  question: question_15, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_15, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 ResponseTrigger.create!(
-  question: question_16, value: "yes", event_name: "ActivityCompletionEvent"
+  question: question_16, value: "yes", event_class: "ActivityCompletionEvent"
 )
 
 teaching = Topic.create!(name: "Teaching")

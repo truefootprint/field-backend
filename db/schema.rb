@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_092455) do
+ActiveRecord::Schema.define(version: 2019_09_12_110021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,11 +98,11 @@ ActiveRecord::Schema.define(version: 2019_09_12_092455) do
   create_table "response_triggers", force: :cascade do |t|
     t.bigint "question_id"
     t.text "value"
-    t.string "event_name"
+    t.string "event_class"
     t.json "event_params"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["event_name"], name: "index_response_triggers_on_event_name"
+    t.index ["event_class"], name: "index_response_triggers_on_event_class"
     t.index ["question_id"], name: "index_response_triggers_on_question_id"
   end
 
