@@ -85,4 +85,9 @@ FactoryBot.define do
     user
     kind { "attendee" }
   end
+
+  factory :visibility do
+    association :subject, factory: :question
+    association :visible_to, factory: :role
+  end
 end

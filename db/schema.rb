@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_142932) do
+ActiveRecord::Schema.define(version: 2019_09_12_164336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,17 @@ ActiveRecord::Schema.define(version: 2019_09_12_142932) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_users_on_name"
+  end
+
+  create_table "visibilities", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.string "visible_to_type"
+    t.bigint "visible_to_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id"], name: "index_visibilities_on_subject_type_and_subject_id"
+    t.index ["visible_to_type", "visible_to_id"], name: "index_visibilities_on_visible_to_type_and_visible_to_id"
   end
 
 end
