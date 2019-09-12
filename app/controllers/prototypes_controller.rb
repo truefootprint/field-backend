@@ -2,7 +2,7 @@ class PrototypesController < ApplicationController
   def topic_and_question_listing
     user = User.find_by_name!(params[:name] || "Suleman")
     user_roles = user.user_roles.joins(:role).where(roles: { name: params[:role] || "monitor" })
-    projects = user_roles.where(scope_type: "Project").map(&:scope)
+    projects = Visibility.where(visible_to: user_roles, subject_type: "Project").map(&:subject)
 
     project_id = params[:project_id] || 1
     project = projects.detect { |p| p.id == Integer(project_id) }

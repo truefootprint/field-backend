@@ -116,7 +116,8 @@ ProjectQuestion.create!(subject: using_the_pump_pa, question: question_20, order
 suleman = User.create!(name: "Suleman")
 monitor = Role.create!(name: "monitor")
 
-UserRole.create!(user: suleman, role: monitor, scope: rusinda_hand_pump)
+user_role = UserRole.create!(user: suleman, role: monitor)
+Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role)
 
 # Data Collection
 

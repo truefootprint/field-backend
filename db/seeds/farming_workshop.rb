@@ -111,5 +111,8 @@ nyah = User.create!(name: "Nyah")
 
 farmer = Role.create!(name: "farmer")
 
-UserRole.create!(user: azizi, role: farmer, scope: ololu_workshop)
-UserRole.create!(user: nyah, role: farmer, scope: ololu_workshop)
+user_role1 = UserRole.create!(user: azizi, role: farmer)
+user_role2 = UserRole.create!(user: nyah, role: farmer)
+
+Visibility.create!(subject: ololu_workshop, visible_to: user_role1)
+Visibility.create!(subject: ololu_workshop, visible_to: user_role2)

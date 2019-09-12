@@ -135,4 +135,5 @@ ProjectQuestion.create!(subject: educate_children_pa, question: question_25, ord
 suleman = User.find_by!(name: "Suleman")
 monitor = Role.find_by!(name: "monitor")
 
-UserRole.create!(user: suleman, role: monitor, scope: bilobilo_school)
+user_role = UserRole.find_by!(user: suleman, role: monitor)
+Visibility.create!(subject: bilobilo_school, visible_to: user_role)
