@@ -84,4 +84,16 @@ RSpec.describe ResponseTrigger do
       ))
     end
   end
+
+  describe "#event_params" do
+    it "returns an empty hash if the trigger has no event_params" do
+      trigger = FactoryBot.build(:response_trigger, event_params: nil)
+      expect(trigger.event_params).to eq({})
+    end
+
+    it "deep symbolizes keys" do
+      trigger = FactoryBot.build(:response_trigger, event_params: { "foo" => { "bar" => "baz" } })
+      expect(trigger.event_params).to eq(foo: { bar: "baz" })
+    end
+  end
 end

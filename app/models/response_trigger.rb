@@ -17,6 +17,6 @@ class ResponseTrigger < ApplicationRecord
   end
 
   def event_params
-    super.deep_symbolize_keys
+    (super || {}).deep_symbolize_keys
   end
 end
