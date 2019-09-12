@@ -79,4 +79,10 @@ FactoryBot.define do
     question
     order { 1 }
   end
+
+  factory :involvement do
+    project_activity
+    user
+    kind { "attendee" }
+  end
 end
