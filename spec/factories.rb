@@ -68,6 +68,12 @@ FactoryBot.define do
     event_class { "ActivityCompletionEvent" }
   end
 
+  factory :default_activity do
+    project_type
+    activity
+    order { 1 }
+  end
+
   factory :default_question do
     activity
     question
