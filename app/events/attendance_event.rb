@@ -23,7 +23,7 @@ class AttendanceEvent
       project: response.project,
       activity: follow_on_activity,
       state: "not_started",
-      order: 1, # TODO
+      order: order_specified_by_project_type,
     )
   end
 
@@ -35,5 +35,12 @@ class AttendanceEvent
         order: default.order,
       )
     end
+  end
+
+  def order_specified_by_project_type
+    DefaultActivity.find_by!(
+      project_type: response.project_type,
+      activity: follow_on_activity,
+    ).order
   end
 end
