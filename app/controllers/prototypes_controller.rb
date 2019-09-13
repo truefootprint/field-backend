@@ -20,20 +20,11 @@ class PrototypesController < ApplicationController
     project_activity = project_activities.where(state: "not_started").first unless project_activity
 
     project_questions = project_activity.project_questions.visible
-
-    chunks = project_questions
-      .order(:order)
-      .includes(question: :topic)
-      .chunk { |pq| pq.question.topic }
+    chunks = project_questions.chunk { |pq| pq.question.topic }
 
     presented = chunks.map do |topic, project_questions|
-      inner = project_questions.map do |pq|
-        {
-          id: pq.id,
-          text: pq.question.text,
-          order: pq.order,
-        }
-      end
+      project_questions = ProjectQuestion.where(id: project_questions.map(&:id))
+      inner = ProjectQuestionPresenter.present(project_questions).as_json
 
       {
         topic_name: topic.name,

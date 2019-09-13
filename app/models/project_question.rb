@@ -4,6 +4,7 @@ class ProjectQuestion < ApplicationRecord
   has_many :responses
 
   delegate :project_type, to: :project
+  delegate :text, to: :question
 
   scope :visible, -> {
     Viewpoint.current.scope(self).or(where(question_id: Question.visible))
