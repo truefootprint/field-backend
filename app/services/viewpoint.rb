@@ -10,14 +10,10 @@ class Viewpoint
   end
 
   def scope(klass)
-    visibles(klass)
+    klass.where(id: visibilities.where(subject_type: klass.name).pluck(:subject_id))
   end
 
   private
-
-  def visibles(klass)
-    klass.where(id: visibilities.where(subject_type: klass.name).pluck(:subject_id))
-  end
 
   def visibilities
     @visibilities ||= Visibility.union(user: user, role: role, user_roles: user_roles)

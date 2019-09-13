@@ -1,12 +1,10 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
-    user = User.find_by_name!(params[:name] || "Suleman")
-    role = Role.find_by_name!(params[:role] || "monitor")
-
-    viewpoint = Viewpoint.new(user: user, role: role)
-    project = viewpoint.projects.first
-
+    project = Project.visible.first
     project_activities = project.project_activities.order(:order)
+
+    user = User.find_by!(name: params.fetch(:name))
+    role = Role.find_by!(name: params.fetch(:role))
 
     project_activity = project_activities.detect do |pa|
       project_questions = pa.project_questions
