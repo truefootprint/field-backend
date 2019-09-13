@@ -24,4 +24,15 @@ RSpec.describe Question do
       expect(question).to be_valid
     end
   end
+
+  describe ".visible" do
+    it "returns questions visible from the current viewpoint" do
+      question1, _question2 = FactoryBot.create_list(:question, 2)
+      visibility = FactoryBot.create(:visibility, subject: question1)
+
+      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+
+      expect(Question.visible).to eq [question1]
+    end
+  end
 end

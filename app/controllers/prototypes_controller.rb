@@ -4,14 +4,10 @@ class PrototypesController < ApplicationController
     project_activities = project.project_activities.order(:order)
 
     user = User.find_by!(name: params.fetch(:name))
-    role = Role.find_by!(name: params.fetch(:role))
 
     project_activity = project_activities.detect do |pa|
-      project_questions = pa.project_questions
-
-      next unless project_questions.any? do |pq|
-        Visibility.find_by(subject: pq.question, visible_to: role)
-      end
+      project_questions = pa.project_questions.visible
+      next if project_questions.empty?
 
       responses = project_questions.flat_map { |pq| pq.responses.where(user: user) }
 
@@ -23,12 +19,7 @@ class PrototypesController < ApplicationController
     end
     project_activity = project_activities.where(state: "not_started").first unless project_activity
 
-    project_questions = project_activity .project_questions
-
-    project_questions = project_questions.select do |project_question|
-      Visibility.find_by(subject: project_question.question, visible_to: role)
-    end
-    project_questions = ProjectQuestion.where(id: project_questions.map(&:id))
+    project_questions = project_activity.project_questions.visible
 
     chunks = project_questions
       .order(:order)

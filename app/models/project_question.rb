@@ -5,6 +5,10 @@ class ProjectQuestion < ApplicationRecord
 
   delegate :project_type, to: :project
 
+  scope :visible, -> {
+    Viewpoint.current.scope(self).or(where(question_id: Question.visible))
+  }
+
   validates :order, presence: true
 
   def project

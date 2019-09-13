@@ -30,7 +30,7 @@ RSpec.describe AttendanceEvent do
       expect(project_activity.order).to eq(default_activity.order)
     end
 
-    it "makes the project activity visible to user from the response" do
+    it "makes the project activity visible to the user from the response" do
       expect { event.process }.to change(Visibility, :count).by(1)
 
       project_activity = ProjectActivity.last

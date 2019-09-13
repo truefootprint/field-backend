@@ -13,7 +13,7 @@ RSpec.describe Project do
   end
 
   describe ".visible" do
-    it "returns projects visible to the current viewpoint" do
+    it "returns projects visible from the current viewpoint" do
       project1, _project2 = FactoryBot.create_list(:project, 2)
       visibility = FactoryBot.create(:visibility, subject: project1)
 
