@@ -3,11 +3,8 @@ class PrototypesController < ApplicationController
     user = User.find_by_name!(params[:name] || "Suleman")
     role = Role.find_by_name!(params[:role] || "monitor")
 
-    user_role = UserRole.find_by!(user: user, role: role)
-    projects = Visibility.where(visible_to: user_role, subject_type: "Project").map(&:subject)
-
-    project_id = params[:project_id] || 1
-    project = projects.detect { |p| p.id == Integer(project_id) }
+    viewpoint = Viewpoint.new(user: user, role: role)
+    project = viewpoint.projects.first
 
     project_activities = project.project_activities.order(:order)
 
