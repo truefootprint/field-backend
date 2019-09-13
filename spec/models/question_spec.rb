@@ -34,5 +34,14 @@ RSpec.describe Question do
 
       expect(Question.visible).to eq [question1]
     end
+
+    it "includes questions whose topic is visible" do
+      question1, _question2 = FactoryBot.create_list(:question, 2)
+      visibility = FactoryBot.create(:visibility, subject: question1.topic)
+
+      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+
+      expect(Question.visible).to eq [question1]
+    end
   end
 end

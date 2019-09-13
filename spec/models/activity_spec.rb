@@ -12,6 +12,17 @@ RSpec.describe Activity do
     end
   end
 
+  describe ".visible" do
+    it "returns activities visible from the current viewpoint" do
+      activity1, _activity2 = FactoryBot.create_list(:activity, 2)
+      visibility = FactoryBot.create(:visibility, subject: activity1)
+
+      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+
+      expect(Activity.visible).to eq [activity1]
+    end
+  end
+
   describe "#default_questions" do
     it "returns the default question join records for the activity" do
       activity = FactoryBot.create(:activity)

@@ -11,4 +11,15 @@ RSpec.describe ProjectType do
       expect(project_type).to be_invalid
     end
   end
+
+  describe ".visible" do
+    it "returns project_types visible from the current viewpoint" do
+      pt1, _pt2 = FactoryBot.create_list(:project_type, 2)
+      visibility = FactoryBot.create(:visibility, subject: pt1)
+
+      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+
+      expect(ProjectType.visible).to eq [pt1]
+    end
+  end
 end
