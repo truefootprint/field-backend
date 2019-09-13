@@ -30,6 +30,16 @@ RSpec.describe AttendanceEvent do
       expect(project_activity.order).to eq(default_activity.order)
     end
 
+    it "makes the project activity visible to user from the response" do
+      expect { event.process }.to change(Visibility, :count).by(1)
+
+      project_activity = ProjectActivity.last
+      visibility = Visibility.last
+
+      expect(visibility.subject).to eq(project_activity)
+      expect(visibility.visible_to).to eq(response.user)
+    end
+
     it "creates project questions based on the defaults for that activity" do
       FactoryBot.create(:default_question, activity: activity)
       FactoryBot.create(:default_question, activity: activity)

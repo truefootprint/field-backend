@@ -15,6 +15,7 @@ class AttendanceEvent
 
     create_project_questions(project_activity)
     create_involvement(project_activity)
+    make_visible_to_user(project_activity)
   end
 
   private
@@ -44,6 +45,10 @@ class AttendanceEvent
       user: response.user,
       kind: "attendee",
     )
+  end
+
+  def make_visible_to_user(project_activity)
+    Visibility.create!(subject: project_activity, visible_to: response.user)
   end
 
   def order_specified_by_project_type
