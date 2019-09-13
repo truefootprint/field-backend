@@ -1,6 +1,6 @@
 class ProjectQuestionPresenter
-  def self.present(project_questions)
-    project_questions.order(:order).includes(:question).map { |pq| new(pq).as_json }
+  def self.present(scope)
+    scope.order(:order).includes(:question).map { |pq| new(pq).as_json }
   end
 
   attr_accessor :project_question
