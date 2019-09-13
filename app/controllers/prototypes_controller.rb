@@ -1,19 +1,41 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
     user = User.find_by_name!(params[:name] || "Suleman")
-    user_roles = user.user_roles.joins(:role).where(roles: { name: params[:role] || "monitor" })
-    projects = Visibility.where(visible_to: user_roles, subject_type: "Project").map(&:subject)
+    role = Role.find_by_name!(params[:role] || "monitor")
+
+    user_role = UserRole.find_by!(user: user, role: role)
+    projects = Visibility.where(visible_to: user_role, subject_type: "Project").map(&:subject)
 
     project_id = params[:project_id] || 1
     project = projects.detect { |p| p.id == Integer(project_id) }
 
     project_activities = project.project_activities.order(:order)
 
-    project_activity = project_activities.where(state: "in_progress").first
+    project_activity = project_activities.detect do |pa|
+      project_questions = pa.project_questions
+
+      next unless project_questions.any? do |pq|
+        Visibility.find_by(subject: pq.question, visible_to: role)
+      end
+
+      responses = project_questions.flat_map { |pq| pq.responses.where(user: user) }
+
+      if responses.empty?
+        true
+      else
+        pa.state == "in_progress"
+      end
+    end
     project_activity = project_activities.where(state: "not_started").first unless project_activity
 
-    chunks = project_activity
-      .project_questions
+    project_questions = project_activity .project_questions
+
+    project_questions = project_questions.select do |project_question|
+      Visibility.find_by(subject: project_question.question, visible_to: role)
+    end
+    project_questions = ProjectQuestion.where(id: project_questions.map(&:id))
+
+    chunks = project_questions
       .order(:order)
       .includes(question: :topic)
       .chunk { |pq| pq.question.topic }
