@@ -8,6 +8,11 @@ class ProjectQuestion < ApplicationRecord
   validates :order, presence: true
 
   def project
-    { "Project" => subject, "ProjectActivity" => subject.project }.fetch(subject_type)
+    case subject_type
+    when "Project"
+      subject
+    when "ProjectActivity"
+      subject.project
+    end
   end
 end
