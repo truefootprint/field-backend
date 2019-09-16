@@ -1,23 +1,9 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
-    project = Project.visible.first
-    project_activities = project.project_activities.order(:order)
-
     user = User.find_by!(name: params.fetch(:name))
+    project_activities = ActiveActivities.for(user)
 
-    project_activity = project_activities.detect do |pa|
-      project_questions = pa.project_questions.visible
-      next if project_questions.empty?
-
-      responses = project_questions.flat_map { |pq| pq.responses.where(user: user) }
-
-      if responses.empty?
-        true
-      else
-        pa.state == "in_progress"
-      end
-    end
-    project_activity = project_activities.where(state: "not_started").first unless project_activity
+    project_activity = project_activities.first
 
     project_questions = project_activity.project_questions.visible
     chunks = project_questions.chunk { |pq| pq.question.topic }
