@@ -1,24 +1,11 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
     user = User.find_by!(name: params.fetch(:name))
+
     project_activities = ActiveActivities.for(user)
+    project_questions = project_activities.first.project_questions.visible
 
-    project_activity = project_activities.first
-
-    project_questions = project_activity.project_questions.visible
-    chunks = project_questions.chunk { |pq| pq.question.topic }
-
-    presented = chunks.map do |topic, project_questions|
-      project_questions = ProjectQuestion.where(id: project_questions.map(&:id))
-      inner = ProjectQuestionPresenter.present(project_questions).as_json
-
-      {
-        topic_name: topic.name,
-        project_questions: inner,
-      }
-    end
-
-    render json: presented
+    render json: ProjectQuestionPresenter::ByTopic.present(project_questions)
   end
 
   def mark_workshop_as_finished

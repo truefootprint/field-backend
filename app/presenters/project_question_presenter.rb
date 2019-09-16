@@ -15,4 +15,20 @@ class ProjectQuestionPresenter
       text: project_question.text,
     }
   end
+
+  class ByTopic
+    def self.present(scope)
+      chunks = scope.order(:order)
+        .includes(question: :topic)
+        .chunk { |pq| pq.question.topic }
+
+      chunks.map do |topic, pqs|
+        presented = TopicPresenter.new(topic).as_json
+
+        presented.merge(project_questions: pqs.map { |pq|
+          ProjectQuestionPresenter.new(pq).as_json
+        })
+      end
+    end
+  end
 end
