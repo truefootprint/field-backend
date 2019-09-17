@@ -16,38 +16,32 @@ RSpec.describe ProjectActivityPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [333, 111, 222]
   end
 
-  describe described_class::WithProjectQuestions do
+  describe "variants" do
     subject(:project_activity) { FactoryBot.create(:project_activity) }
+    let(:question) { FactoryBot.create(:question, text: "Question text") }
 
-    it "includes presented project questions" do
-      question = FactoryBot.create(:question, text: "Question text")
-      FactoryBot.create(:project_question, id: 555, subject: subject, question: question)
+    before do
+      FactoryBot.create(
+        :project_question,
+        id: 555,
+        subject: project_activity,
+        question: question,
+      )
+    end
 
-      expect(described_class.present(subject)).to include(
+    it "can present project activities with project questions" do
+      presenter = described_class::WithProjectQuestions
+
+      expect(presenter.present(project_activity)).to include(
         project_questions: [{ id: 555, text: "Question text" }]
       )
     end
 
-    describe described_class::ByTopic do
-      subject(:project_activity) { FactoryBot.create(:project_activity) }
+    it "can present project activities with project questions by topic" do
+      presenter = described_class::WithProjectQuestions::ByTopic
+      presented = presenter.present(project_activity)
 
-      it "includes presented project questions" do
-        topic = FactoryBot.create(:topic, name: "Topic name")
-        question = FactoryBot.create(:question, text: "Question text", topic: topic)
-
-        FactoryBot.create(:project_question, id: 555, subject: subject, question: question)
-
-        expect(described_class.present(subject)).to include(
-          project_questions: {
-            by_topic: [
-              {
-                topic: { name: "Topic name" },
-                project_questions: [{ id: 555, text: "Question text" }]
-              }
-            ]
-          }
-        )
-      end
+      expect(presented.dig(:project_questions, :by_topic)).not_to be_nil
     end
   end
 end
