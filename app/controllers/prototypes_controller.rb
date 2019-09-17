@@ -1,9 +1,11 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
-    project_activities = ActiveActivities.for(current_user)
+    project = Project.visible.first
+
+    project_activities = ActiveActivities.for(current_user, project)
     project_questions = project_activities.first.project_questions.visible
 
-    render json: ProjectQuestionPresenter::ByTopic.present(project_questions)
+    render json: ProjectPresenter::WithEverything.present(project)
   end
 
   def mark_workshop_as_finished

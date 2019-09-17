@@ -25,4 +25,6 @@ class ProjectPresenter < ApplicationPresenter
       end
     end
   end
+
+  WithEverything = WithProjectActivities::WithProjectQuestions::ByTopic
 end

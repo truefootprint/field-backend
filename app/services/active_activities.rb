@@ -1,6 +1,5 @@
 module ActiveActivities
-  def self.for(user)
-    project = Project.visible.first
+  def self.for(user, project)
     scope = project.project_activities.order(:order)
 
     project_activities = scope.select do |pa|
