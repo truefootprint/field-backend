@@ -27,4 +27,31 @@ RSpec.describe ProjectActivityPresenter do
       expect(presenter.as_json).to eq(id: 111, name: "Activity name", state: "not_started")
     end
   end
+
+  describe described_class::WithProjectQuestions::ByTopic do
+    it "includes project questions chunked by topic" do
+      project_question = FactoryBot.create(:project_question, id: 555, subject: project_activity)
+
+      question = project_question.question
+      question.topic.update!(name: "Topic")
+      question.update!(text: "Question text")
+
+      presented = described_class.present(ProjectActivity.all)
+
+      expect(presented).to eq [
+        {
+          id: 111,
+          name: "Activity name",
+          state: "not_started",
+          project_questions: [
+            name: "Topic",
+            project_questions: [
+              id: 555,
+              text: "Question text",
+            ]
+          ]
+        }
+      ]
+    end
+  end
 end

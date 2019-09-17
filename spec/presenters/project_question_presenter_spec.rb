@@ -28,7 +28,7 @@ RSpec.describe ProjectQuestionPresenter do
     end
   end
 
-  describe ProjectQuestionPresenter::ByTopic do
+  describe described_class::ByTopic do
     it "chunks project questions by topic" do
       old_topic = Topic.last.tap {|t| t.update!(name: "Old topic") }
       new_topic = FactoryBot.create(:topic, name: "New topic")
