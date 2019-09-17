@@ -1,57 +1,74 @@
 RSpec.describe ProjectActivityPresenter do
-  let(:activity) { FactoryBot.create(:activity, name: "Activity name") }
-
-  let!(:project_activity) do
+  it "presents the project activity" do
+    activity = FactoryBot.create(:activity, name: "Activity name")
     FactoryBot.create(:project_activity, id: 111, activity: activity, order: 5, state: "not_started")
+
+    presented = described_class.present(ProjectActivity.last)
+    expect(presented).to eq(id: 111, name: "Activity name", state: "not_started")
   end
 
-  describe ".present" do
-    it "presents a scope of project activities" do
-      presented = described_class.present(ProjectActivity.all)
-      expect(presented).to eq [{ id: 111, name: "Activity name", state: "not_started" }]
-    end
+  it "orders by the order column" do
+    FactoryBot.create(:project_activity, id: 111, order: 5)
+    FactoryBot.create(:project_activity, id: 222, order: 6)
+    FactoryBot.create(:project_activity, id: 333, order: 4)
 
-    it "orders by the order column" do
-      FactoryBot.create(:project_activity, id: 222, activity: activity, order: 4)
-      FactoryBot.create(:project_activity, id: 333, activity: activity, order: 6)
-
-      presented = described_class.present(ProjectActivity.all)
-      expect(presented.map { |h| h.fetch(:id) }).to eq [222, 111, 333]
-    end
+    presented = described_class.present(ProjectActivity.all)
+    expect(presented.map { |h| h.fetch(:id) }).to eq [333, 111, 222]
   end
 
-  describe "#as_json" do
-    subject(:presenter) { described_class.new(project_activity) }
+  describe described_class::WithProjectQuestions do
+    subject(:project_activity) { FactoryBot.create(:project_activity) }
 
-    it "presents the project activity" do
-      expect(presenter.as_json).to eq(id: 111, name: "Activity name", state: "not_started")
+    it "includes presented project questions" do
+      question = FactoryBot.create(:question, text: "Question text")
+      FactoryBot.create(:project_question, id: 555, subject: subject, question: question)
+
+      expect(described_class.present(subject)).to include(
+        project_questions: [{ id: 555, text: "Question text" }]
+      )
+    end
+
+    describe described_class::ByTopic do
+      subject(:project_activity) { FactoryBot.create(:project_activity) }
+
+      it "includes presented project questions" do
+        topic = FactoryBot.create(:topic, name: "Topic name")
+        question = FactoryBot.create(:question, text: "Question text", topic: topic)
+
+        FactoryBot.create(:project_question, id: 555, subject: subject, question: question)
+
+        expect(described_class.present(subject)).to include(
+          project_questions_by_topic: [{
+            topic: { name: "Topic name" },
+            project_questions: [{ id: 555, text: "Question text" }],
+          }]
+        )
+      end
     end
   end
-
-  describe described_class::WithProjectQuestions::ByTopic do
-    it "includes project questions chunked by topic" do
-      project_question = FactoryBot.create(:project_question, id: 555, subject: project_activity)
-
-      question = project_question.question
-      question.topic.update!(name: "Topic")
-      question.update!(text: "Question text")
-
-      presented = described_class.present(ProjectActivity.all)
-
-      expect(presented).to eq [
-        {
-          id: 111,
-          name: "Activity name",
-          state: "not_started",
-          project_questions: [
-            name: "Topic",
-            project_questions: [
-              id: 555,
-              text: "Question text",
-            ]
-          ]
-        }
-      ]
-    end
-  end
+#    it "includes project questions chunked by topic" do
+#      project_question = FactoryBot.create(:project_question, id: 555, subject: project_activity)
+#
+#      question = project_question.question
+#      question.topic.update!(name: "Topic")
+#      question.update!(text: "Question text")
+#
+#      presented = described_class.present(ProjectActivity.all)
+#
+#      expect(presented).to eq [
+#        {
+#          id: 111,
+#          name: "Activity name",
+#          state: "not_started",
+#          project_questions: [
+#            topic: { name: "Topic" },
+#            project_questions: [
+#              id: 555,
+#              text: "Question text",
+#            ]
+#          ]
+#        }
+#      ]
+#    end
+  #end
 end

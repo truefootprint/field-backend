@@ -1,35 +1,23 @@
-class ProjectActivityPresenter
-  def self.present(scope)
-    scope.order(:order).includes(:activity).map { |pa| new(pa).as_json }
+class ProjectActivityPresenter < ApplicationPresenter
+  def self.order
+    :order
   end
 
-  attr_accessor :project_activity
-
-  def initialize(project_activity)
-    self.project_activity = project_activity
+  def present
+    { id: record.id, name: record.name, state: record.state }
   end
 
-  def as_json(_options = {})
-    {
-      id: project_activity.id,
-      name: project_activity.name,
-      state: project_activity.state,
-    }
+  class WithProjectQuestions < self
+    def present
+      presented = ProjectQuestionPresenter.present(record.project_questions)
+      super.merge(project_questions: presented)
+    end
   end
 
-  class WithProjectQuestions
-    class ByTopic
-      def self.present(scope)
-        scope.includes(:activity, :project_questions).map do |pa|
-          presented = ProjectActivityPresenter.new(pa).as_json
-
-          # TODO: re-work the presenter methods
-          project_questions = ProjectQuestion.where(id: pa.project_questions)
-          presented_questions = ProjectQuestionPresenter::ByTopic.present(project_questions)
-
-          presented.merge(project_questions: presented_questions)
-        end
-      end
+  class WithProjectQuestions::ByTopic < self
+    def present
+      presented = ProjectQuestionPresenter::ByTopic.present(record.project_questions)
+      super.merge(project_questions_by_topic: presented)
     end
   end
 end
