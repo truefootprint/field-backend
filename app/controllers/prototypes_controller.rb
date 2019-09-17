@@ -1,8 +1,6 @@
 class PrototypesController < ApplicationController
   def topic_and_question_listing
-    user = User.find_by!(name: params.fetch(:name))
-
-    project_activities = ActiveActivities.for(user)
+    project_activities = ActiveActivities.for(current_user)
     project_questions = project_activities.first.project_questions.visible
 
     render json: ProjectQuestionPresenter::ByTopic.present(project_questions)
@@ -16,9 +14,7 @@ class PrototypesController < ApplicationController
       pq.question.text == "Is the workshop finished?"
     end
 
-    user = User.find_by_name!(params.fetch(:name))
-
-    params = { project_question: trigger_question, user: user, value: "yes" }
+    params = { project_question: trigger_question, user: current_user, value: "yes" }
 
     Response.find_by(params)&.destroy
     response = Response.create!(params)
