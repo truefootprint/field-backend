@@ -1,4 +1,4 @@
-RSpec.describe "Creating responses on behalf of a user" do
+RSpec.describe "Answering questions" do
   let(:project_question) { FactoryBot.create(:project_question) }
 
   before do
@@ -8,14 +8,12 @@ RSpec.describe "Creating responses on behalf of a user" do
 
   let(:auth) { { name: "Test", role: "Test" } }
 
-  scenario "" do
-    params = {
-      responses: [
-        { question_id: project_question.id, value: "yes" },
-      ]
-    }
+  scenario "creating responses to questions that have been answered" do
+    actions = [
+      { action: "AnswerQuestion", question_id: project_question.id, value: "yes" },
+    ]
 
-    post "/responses/batch", params.merge(auth)
+    post "/actions/batch", { actions: actions }.merge(auth)
 
     expect(response.status).to eq(201)
   end
