@@ -32,7 +32,7 @@ RSpec.describe ProjectQuestionPresenter do
       FactoryBot.create(:project_question, id: 444, question: question4, order: 4)
 
       presented = described_class.present(ProjectQuestion.all)
-      first, second, third = presented
+      first, second, third = presented.fetch(:by_topic)
 
       expect(first.dig(:topic, :name)).to eq("Topic 2")
       expect(second.dig(:topic, :name)).to eq("Topic 1")

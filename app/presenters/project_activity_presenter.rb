@@ -9,15 +9,18 @@ class ProjectActivityPresenter < ApplicationPresenter
 
   class WithProjectQuestions < self
     def present
-      presented = ProjectQuestionPresenter.present(record.project_questions)
+      presented = presenter_variant.present(record.project_questions)
       super.merge(project_questions: presented)
     end
-  end
 
-  class WithProjectQuestions::ByTopic < self
-    def present
-      presented = ProjectQuestionPresenter::ByTopic.present(record.project_questions)
-      super.merge(project_questions_by_topic: presented)
+    def presenter_variant
+      ProjectQuestionPresenter
+    end
+
+    class ByTopic < self
+      def presenter_variant
+        ProjectQuestionPresenter::ByTopic
+      end
     end
   end
 end

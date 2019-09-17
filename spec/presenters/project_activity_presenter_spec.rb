@@ -38,37 +38,16 @@ RSpec.describe ProjectActivityPresenter do
         FactoryBot.create(:project_question, id: 555, subject: subject, question: question)
 
         expect(described_class.present(subject)).to include(
-          project_questions_by_topic: [{
-            topic: { name: "Topic name" },
-            project_questions: [{ id: 555, text: "Question text" }],
-          }]
+          project_questions: {
+            by_topic: [
+              {
+                topic: { name: "Topic name" },
+                project_questions: [{ id: 555, text: "Question text" }]
+              }
+            ]
+          }
         )
       end
     end
   end
-#    it "includes project questions chunked by topic" do
-#      project_question = FactoryBot.create(:project_question, id: 555, subject: project_activity)
-#
-#      question = project_question.question
-#      question.topic.update!(name: "Topic")
-#      question.update!(text: "Question text")
-#
-#      presented = described_class.present(ProjectActivity.all)
-#
-#      expect(presented).to eq [
-#        {
-#          id: 111,
-#          name: "Activity name",
-#          state: "not_started",
-#          project_questions: [
-#            topic: { name: "Topic" },
-#            project_questions: [
-#              id: 555,
-#              text: "Question text",
-#            ]
-#          ]
-#        }
-#      ]
-#    end
-  #end
 end
