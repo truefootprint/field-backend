@@ -10,6 +10,14 @@ class Project < ApplicationRecord
     ProjectQuestion.where(id: ids)
   end
 
+  # Note: this scope doesn't filter project_activity_questions correctly (see the test)
+  scope :visible_tree, -> {
+    visible
+      .merge(with_visible_project_activities)
+      .merge(with_visible_direct_project_questions)
+      .merge(with_visible_project_activity_questions)
+  }
+
   scope :visible, -> {
     Viewpoint.current.scope(self).or(where(project_type_id: ProjectType.visible))
   }
