@@ -1,43 +1,41 @@
 class ApplicationPresenter
-  def self.present(presentable)
-    if presentable.is_a?(ActiveRecord::Relation)
-      present_scope(presentable)
-    elsif presentable.respond_to?(:map)
-      present_collection(presentable)
-    else
-      present_element(presentable)
-    end
+  def self.present(object, *options)
+    new(object, *options).as_json
   end
 
-  def self.present_scope(scope)
-    scope = scope.order(order) if order
+  attr_accessor :object, :options
 
-    present_collection(scope)
-  end
+  def initialize(object, options = {})
+    options = {} if options == true
 
-  def self.present_collection(collection)
-    collection.map { |e| present_element(e) }
-  end
-
-  def self.present_element(element)
-    new(element).as_json
-  end
-
-  def self.order
-    nil
-  end
-
-  attr_accessor :record
-
-  def initialize(record)
-    self.record = record
+    self.object = object
+    self.options = options
   end
 
   def as_json(_options = {})
-    present
+    if object.is_a?(ActiveRecord::Relation)
+      present_scope(object)
+    elsif object.respond_to?(:map)
+      present_collection(object)
+    else
+      present(object)
+    end
   end
 
-  def present
+  def present_scope(scope)
+    scope = modify_scope(scope)
+    present_collection(scope)
+  end
+
+  def present_collection(collection)
+    collection.map { |r| present(r) }
+  end
+
+  def present(record)
     raise NotImplementedError, "Implement me"
+  end
+
+  def modify_scope(scope)
+    scope # override me
   end
 end

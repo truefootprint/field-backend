@@ -1,5 +1,5 @@
 RSpec.describe ProjectActivityPresenter do
-  it "presents the project activity" do
+  it "presents a project activity" do
     activity = FactoryBot.create(:activity, name: "Activity name")
     FactoryBot.create(:project_activity, id: 111, activity: activity, order: 5, state: "not_started")
 
@@ -16,32 +16,32 @@ RSpec.describe ProjectActivityPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [333, 111, 222]
   end
 
-  describe "variants" do
-    subject(:project_activity) { FactoryBot.create(:project_activity) }
-    let(:question) { FactoryBot.create(:question, text: "Question text") }
+  it "can present visible project activities only" do
+    pa1  = FactoryBot.create(:project_activity, id: 111)
+    _pa2 = FactoryBot.create(:project_activity, id: 222)
 
-    before do
-      FactoryBot.create(
-        :project_question,
-        id: 555,
-        subject: project_activity,
-        question: question,
-      )
-    end
+    visibility = FactoryBot.create(:visibility, subject: pa1)
+    Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
 
-    it "can present project activities with project questions" do
-      presenter = described_class::WithProjectQuestions
+    presented = described_class.present(ProjectActivity.all, visible: true)
+    expect(presented.map { |h| h.fetch(:id) }).to eq [111]
+  end
 
-      expect(presenter.present(project_activity)).to include(
-        project_questions: [{ id: 555, text: "Question text" }]
-      )
-    end
+  it "can present with project questions" do
+    project_activity = FactoryBot.create(:project_activity)
+    question = FactoryBot.create(:question, text: "Question text")
+    FactoryBot.create(:project_question, id: 555, subject: project_activity, question: question)
 
-    it "can present project activities with project questions by topic" do
-      presenter = described_class::WithProjectQuestions::ByTopic
-      presented = presenter.present(project_activity)
+    presented = described_class.present(project_activity, project_questions: true)
+    expect(presented).to include(project_questions: [{ id: 555, text: "Question text" }])
+  end
 
-      expect(presented.dig(:project_questions, :by_topic)).not_to be_nil
-    end
+  it "passes options through when presenting project questions" do
+    project_activity = FactoryBot.create(:project_activity)
+    question = FactoryBot.create(:question, text: "Question text")
+    FactoryBot.create(:project_question, id: 555, subject: project_activity, question: question)
+
+    presented = described_class.present(project_activity, project_questions: { by_topic: true })
+    expect(presented.dig(:project_questions, :by_topic)).to be_present
   end
 end

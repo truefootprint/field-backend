@@ -10,8 +10,6 @@ RSpec.describe "Listing projects" do
     get "/projects", auth
 
     expect(response.status).to eq(200)
-    expect(parsed_json).to eq(
-      hello: "world"
-    )
+    expect(parsed_json).to eq []
   end
 end

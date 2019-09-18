@@ -56,6 +56,9 @@ test_user_role = UserRole.create!(user: test_user, role: test_role)
 
 Visibility.create!(subject: project, visible_to: test_user_role)
 
+Visibility.create!(subject: activity1, visible_to: test_user_role)
+Visibility.create!(subject: activity2, visible_to: test_user_role)
+
 Visibility.create!(subject: topic1, visible_to: test_role)
 Visibility.create!(subject: topic2, visible_to: test_role)
 Visibility.create!(subject: topic3, visible_to: test_role)

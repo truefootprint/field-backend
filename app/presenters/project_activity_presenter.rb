@@ -1,26 +1,18 @@
 class ProjectActivityPresenter < ApplicationPresenter
-  def self.order
-    :order
+  def present(record)
+    { id: record.id, name: record.name, state: record.state }.merge(present_questions(record))
   end
 
-  def present
-    { id: record.id, name: record.name, state: record.state }
+  def modify_scope(scope)
+    scope = scope.order(:order)
+    scope = scope.visible if options[:visible]
+
+    scope
   end
 
-  class WithProjectQuestions < self
-    def present
-      presented = presenter_variant.present(record.project_questions)
-      super.merge(project_questions: presented)
-    end
+  def present_questions(record)
+    o = options[:project_questions] or return {}
 
-    def presenter_variant
-      ProjectQuestionPresenter
-    end
-
-    class ByTopic < self
-      def presenter_variant
-        ProjectQuestionPresenter::ByTopic
-      end
-    end
+    { project_questions: ProjectQuestionPresenter.present(record.project_questions, o) }
   end
 end

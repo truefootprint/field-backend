@@ -1,5 +1,5 @@
 class TopicPresenter < ApplicationPresenter
-  def present
+  def present(record)
     { name: record.name }
   end
 end

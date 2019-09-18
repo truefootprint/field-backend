@@ -1,12 +1,12 @@
 class ApplicationPresenter::Test < ApplicationPresenter
-  def present
+  def present(record)
     { name: record.name }
   end
 end
 
 class ApplicationPresenter::Test::Reverse < ApplicationPresenter::Test
-  def self.order
-    { name: :desc }
+  def modify_scope(scope)
+    scope.order(name: :desc)
   end
 end
 
