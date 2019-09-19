@@ -11,6 +11,8 @@ class ProjectActivityPresenter < ApplicationPresenter
   end
 
   def present_questions(record)
-    present_nested(:project_questions, record.project_questions, ProjectQuestionPresenter)
+    present_nested(:project_questions, ProjectQuestionPresenter) do
+      record.project_questions
+    end
   end
 end

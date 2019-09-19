@@ -12,7 +12,7 @@ end
 
 class ApplicationPresenter::Test::Nested < ApplicationPresenter
   def present_scope(scope)
-    present_nested(:test, scope, Test)
+    present_nested(:test, Test) { scope }
   end
 end
 
