@@ -26,47 +26,51 @@ RSpec.describe CurrentProjectActivity do
     end
   end
 
+  subject(:current_project_activity) do
+    described_class.for(viewpoint: viewpoint, project: project)
+  end
+
   it "returns the first project activity by order" do
     project_activities.first.update!(order: 5)
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.second)
+    expect(current_project_activity).to eq(project_activities.second)
   end
 
   it "advances to the next activity when the completion question is answered" do
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.second)
+    expect(current_project_activity).to eq(project_activities.second)
   end
 
   it "does not advance to project activities that have no project questions" do
     project_questions.second.destroy
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.third)
+    expect(current_project_activity).to eq(project_activities.third)
   end
 
   it "does not advance if the response value does not match the completion value" do
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "no")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.first)
+    expect(current_project_activity).to eq(project_activities.first)
   end
 
   it "does not advance if there is a newer response that does not match the compeltion value" do
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "no")
 
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.first)
+    expect(current_project_activity).to eq(project_activities.first)
   end
 
   it "does not advance to project activities that are not visible" do
     Visibility.find_by!(subject: project_activities.second).destroy
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.third)
+    expect(current_project_activity).to eq(project_activities.third)
   end
 
   it "does not advance to project activities that have no visible project questions" do
     Visibility.find_by!(subject: project_questions.second).destroy
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.third)
+    expect(current_project_activity).to eq(project_activities.third)
   end
 
   it "returns nil if there are no more project activities to advance to" do
@@ -74,7 +78,7 @@ RSpec.describe CurrentProjectActivity do
     project_activities.third.destroy
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to be_nil
+    expect(current_project_activity).to be_nil
   end
 
   it "advances correctly when there are other (non-completion) questions for the project activity" do
@@ -82,6 +86,6 @@ RSpec.describe CurrentProjectActivity do
     FactoryBot.create(:visibility, subject: project_question, visible_to: user)
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")
-    expect(described_class.for(viewpoint, project)).to eq(project_activities.second)
+    expect(current_project_activity).to eq(project_activities.second)
   end
 end

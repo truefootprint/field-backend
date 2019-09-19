@@ -28,7 +28,8 @@ RSpec.describe ProjectPresenter do
     viewpoint = Viewpoint.new
     project = FactoryBot.create(:project)
 
-    expect(CurrentProjectActivity).to receive(:for).with(viewpoint, project)
+    expect(CurrentProjectActivity).to receive(:for)
+      .with(viewpoint: viewpoint, project: project)
 
     described_class.present(project, current_project_activity: { for_viewpoint: viewpoint })
   end
