@@ -13,7 +13,7 @@ RSpec.describe "Answering questions" do
       { action: "AnswerQuestion", question_id: project_question.id, value: "yes" },
     ]
 
-    post "/actions/batch", { actions: actions }.merge(auth)
+    post "/my_updates", { actions: actions }.merge(auth)
 
     expect(response.status).to eq(201)
   end
