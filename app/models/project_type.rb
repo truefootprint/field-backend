@@ -1,7 +1,8 @@
 class ProjectType < ApplicationRecord
   has_many :projects
 
-  scope :visible, -> { Viewpoint.current.scope(self) }
+  scope :visible, -> { visible_to(Viewpoint.current) }
+  scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
   validates :name, presence: true
 end

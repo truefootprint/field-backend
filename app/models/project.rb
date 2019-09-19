@@ -4,8 +4,9 @@ class Project < ApplicationRecord
 
   has_many :project_questions, class_name: :ProjectQuestion, as: :subject, inverse_of: :subject
 
-  scope :visible, -> {
-    Viewpoint.current.scope(self).or(where(project_type_id: ProjectType.visible))
+  scope :visible, -> { visible_to(Viewpoint.current) }
+  scope :visible_to, -> (viewpoint) {
+    viewpoint.scope(self).or(where(project_type_id: ProjectType.visible_to(viewpoint)))
   }
 
   validates :name, presence: true

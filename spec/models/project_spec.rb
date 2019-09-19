@@ -12,23 +12,23 @@ RSpec.describe Project do
     end
   end
 
-  describe ".visible" do
-    it "returns projects visible from the current viewpoint" do
+  describe ".visible_to" do
+    it "returns projects visible to the viewpoint" do
       project1, _project2 = FactoryBot.create_list(:project, 2)
       visibility = FactoryBot.create(:visibility, subject: project1)
 
-      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(user: visibility.visible_to)
 
-      expect(Project.visible).to eq [project1]
+      expect(Project.visible_to(viewpoint)).to eq [project1]
     end
 
     it "includes projects whose project_type is visible" do
       project1, _project2 = FactoryBot.create_list(:project, 2)
       visibility = FactoryBot.create(:visibility, subject: project1.project_type)
 
-      Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(user: visibility.visible_to)
 
-      expect(Project.visible).to eq [project1]
+      expect(Project.visible_to(viewpoint)).to eq [project1]
     end
   end
 end
