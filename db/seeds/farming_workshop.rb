@@ -171,3 +171,7 @@ Visibility.create!(subject: outputs, visible_to: farmer)
 Visibility.create!(subject: air_quality, visible_to: monitor)
 Visibility.create!(subject: water_quality, visible_to: monitor)
 Visibility.create!(subject: farm, visible_to: monitor)
+
+Visibility.create!(subject: attending_workshop, visible_to: farmer)
+Visibility.create!(subject: applying_knowledge, visible_to: farmer)
+Visibility.create!(subject: applying_knowledge, visible_to: monitor)

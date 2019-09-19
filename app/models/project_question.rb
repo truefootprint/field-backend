@@ -2,6 +2,7 @@ class ProjectQuestion < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :question
   has_many :responses
+  has_one :completion_question, through: :question
 
   delegate :project_type, to: :project
   delegate :text, to: :question

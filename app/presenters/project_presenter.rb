@@ -12,19 +12,4 @@ class ProjectPresenter < ApplicationPresenter
 
     { project_activities: ProjectActivityPresenter.present(record.project_activities, o) }
   end
-
-  class WithEverything < self
-    def options
-      {
-        visible: true,
-        project_activities: {
-          visible: true,
-          project_questions: {
-            visible: true,
-            by_topic: true,
-          }
-        }
-      }
-    end
-  end
 end

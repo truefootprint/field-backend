@@ -15,6 +15,8 @@ class ApplicationPresenter
   def as_json(_options = {})
     if object.is_a?(ActiveRecord::Relation)
       present_scope(object)
+    elsif object.is_a?(Hash)
+      present_hash(object)
     elsif object.respond_to?(:map)
       present_collection(object)
     else
@@ -25,6 +27,10 @@ class ApplicationPresenter
   def present_scope(scope)
     scope = modify_scope(scope)
     present_collection(scope)
+  end
+
+  def present_hash(hash)
+    raise NotImplementedError, "Implement me"
   end
 
   def present_collection(collection)
