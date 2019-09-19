@@ -21,10 +21,7 @@ RSpec.describe ProjectPresenter do
     FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
 
     presented = described_class.present(project, project_activities: true)
-
-    expect(presented).to include(project_activities: [
-      { id: 555, name: "Activity name", state: "not_started" }
-    ])
+    expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
   end
 
   it "passes options through when presenting project activities" do

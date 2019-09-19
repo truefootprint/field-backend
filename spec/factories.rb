@@ -24,7 +24,6 @@ FactoryBot.define do
   factory :project_activity do
     project
     activity
-    state { "not_started" }
     order { 1 }
   end
 

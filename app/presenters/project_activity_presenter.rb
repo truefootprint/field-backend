@@ -1,6 +1,6 @@
 class ProjectActivityPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, name: record.name, state: record.state }.merge(present_questions(record))
+    { id: record.id, name: record.name }.merge(present_questions(record))
   end
 
   def modify_scope(scope)

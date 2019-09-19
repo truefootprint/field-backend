@@ -24,7 +24,6 @@ class AttendanceEvent
     ProjectActivity.create!(
       project: response.project,
       activity: follow_on_activity,
-      state: "not_started",
       order: order_specified_by_project_type,
     )
   end

@@ -6,11 +6,6 @@ RSpec.describe ProjectActivity do
       expect(project_activity).to be_valid
     end
 
-    it "requires one of the states" do
-      project_activity.state = "invalid"
-      expect(project_activity).to be_invalid
-    end
-
     it "requires an order" do
       project_activity.order = nil
       expect(project_activity).to be_invalid

@@ -1,10 +1,10 @@
 RSpec.describe ProjectActivityPresenter do
   it "presents a project activity" do
     activity = FactoryBot.create(:activity, name: "Activity name")
-    FactoryBot.create(:project_activity, id: 111, activity: activity, order: 5, state: "not_started")
+    FactoryBot.create(:project_activity, id: 111, activity: activity, order: 5)
 
     presented = described_class.present(ProjectActivity.last)
-    expect(presented).to eq(id: 111, name: "Activity name", state: "not_started")
+    expect(presented).to eq(id: 111, name: "Activity name")
   end
 
   it "orders by the order column" do
