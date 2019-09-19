@@ -16,6 +16,11 @@ FactoryBot.define do
     sequence(:text) { |n| "Question #{n}" }
   end
 
+  factory :completion_question do
+    question
+    completion_value { "yes" }
+  end
+
   factory :project do
     project_type
     sequence(:name) { |n| "Project #{n}" }
