@@ -43,7 +43,8 @@ class ApplicationPresenter
     nested_options = options[key] or return {}
 
     object = block.call(nested_options)
+    presented = presenter.present(object, nested_options) if object
 
-    { key => presenter.present(object, nested_options) }
+    { key => presented }
   end
 end

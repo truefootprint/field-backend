@@ -31,4 +31,18 @@ RSpec.describe ProjectActivity do
       expect(ProjectActivity.visible).to eq [pa1]
     end
   end
+
+  describe ".with_visible_project_questions" do
+    it "filters the scope of project_activities and project_questions" do
+      pa1, _pa2 = FactoryBot.create(:project_activity)
+      pq1, _pq2 = FactoryBot.create(:project_question, subject: pa1)
+      visibility = FactoryBot.create(:visibility, subject: pq1)
+
+      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      scope = ProjectActivity.with_visible_project_questions(viewpoint)
+
+      expect(scope).to eq [pa1]
+      expect(scope.flat_map(&:project_questions)).to eq [pq1]
+    end
+  end
 end

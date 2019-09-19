@@ -17,8 +17,8 @@ class ProjectPresenter < ApplicationPresenter
 
   def present_current_activity(record)
     present_nested(:current_project_activity, ProjectActivityPresenter) do |options|
-      user = options.fetch(:for_user)
-      CurrentProjectActivity.for(user, record)
+      viewpoint = options.fetch(:for_viewpoint)
+      CurrentProjectActivity.for(viewpoint, record)
     end
   end
 end

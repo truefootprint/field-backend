@@ -7,8 +7,9 @@ class ProjectQuestion < ApplicationRecord
   delegate :project_type, to: :project
   delegate :text, to: :question
 
-  scope :visible, -> {
-    Viewpoint.current.scope(self).or(where(question_id: Question.visible))
+  scope :visible, -> { visible_to(Viewpoint.current) }
+  scope :visible_to, -> (viewpoint) {
+    viewpoint.scope(self).or(where(question_id: Question.visible_to(viewpoint)))
   }
 
   validates :order, presence: true

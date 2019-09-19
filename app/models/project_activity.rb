@@ -5,8 +5,14 @@ class ProjectActivity < ApplicationRecord
 
   delegate :name, to: :activity
 
-  scope :visible, -> {
-    Viewpoint.current.scope(self).or(where(activity_id: Activity.visible))
+  scope :visible, -> { visible_to(Viewpoint.current) }
+
+  scope :visible_to, -> (viewpoint) {
+    viewpoint.scope(self).or(where(activity_id: Activity.visible_to(viewpoint)))
+  }
+
+  scope :with_visible_project_questions, -> (viewpoint) {
+    joins(:project_questions).merge(ProjectQuestion.visible_to(viewpoint))
   }
 
   validates :order, presence: true

@@ -1,24 +1,36 @@
 module CurrentProjectActivity
-  def self.for(user, project)
-    scope = project.project_activities.order(:order)
+  class << self
+    def for(viewpoint, project)
+      user = viewpoint.user
+      project_activities = project.project_activities
 
-    project_activities = scope.select do |pa|
-      project_questions = pa.project_questions.visible
-      next if project_questions.empty?
+      newest_responses = user.responses.newest_per_project_question
 
-      responses = project_questions.flat_map { |pq| pq.responses.where(user: user) }
+      completion_responses = newest_responses
+        .joins(project_question: { question: :completion_question })
+        .where(response_value.eq(completion_value))
 
-      if responses.empty?
-        true
-      else
-        pa.state == "in_progress"
-      end
+      project_question_ids = completion_responses.pluck(:"project_questions.id")
+
+      finished_activities = project_activities.joins(:project_questions)
+        .where(project_questions: { id: project_question_ids })
+        .distinct
+
+      unfinished_activities = project_activities
+        .where.not(id: finished_activities)
+
+      unfinished_activities.visible_to(viewpoint)
+        .with_visible_project_questions(viewpoint)
+        .order(:order)
+        .first
     end
 
-    if project_activities.empty?
-      scope.first
-    else
-      project_activities.first
+    def response_value
+      Response.arel_table[:value]
+    end
+
+    def completion_value
+      CompletionQuestion.arel_table[:completion_value]
     end
   end
 end

@@ -5,6 +5,6 @@ class MyDataController < ApplicationController
       completion_questions: ProjectQuestion.visible.completion_questions,
     }
 
-    render json: MyDataPresenter::WithEverything.present(presentable, user: current_user)
+    render json: MyDataPresenter::WithEverything.present(presentable, viewpoint: Viewpoint.current)
   end
 end

@@ -9,14 +9,14 @@ class MyDataPresenter < ApplicationPresenter
 
   class WithEverything < self
     def initialize(object, options = {})
-      user = options.fetch(:user)
+      viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
         completion_questions: true,
         projects: {
           visible: true,
           current_project_activity: {
-            for_user: user,
+            for_viewpoint: viewpoint,
           },
           project_activities: {
             visible: true,

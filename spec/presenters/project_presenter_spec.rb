@@ -25,13 +25,11 @@ RSpec.describe ProjectPresenter do
   end
 
   it "can present with the current project activity for a user" do
+    viewpoint = Viewpoint.new
     project = FactoryBot.create(:project)
-    activity = FactoryBot.create(:activity, name: "Activity name")
-    FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
 
-    user = FactoryBot.create(:user)
+    expect(CurrentProjectActivity).to receive(:for).with(viewpoint, project)
 
-    presented = described_class.present(project, current_project_activity: { for_user: user })
-    expect(presented).to include(current_project_activity: { id: 555, name: "Activity name" })
+    described_class.present(project, current_project_activity: { for_viewpoint: viewpoint })
   end
 end

@@ -115,3 +115,14 @@ Response.create!(project_question: ProjectQuestion.first, user: suleman, value: 
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "3")
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4")
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2")
+
+Visibility.create!(subject: clearing_space, visible_to: monitor)
+Visibility.create!(subject: digging_the_hole, visible_to: monitor)
+Visibility.create!(subject: installing_pump, visible_to: monitor)
+Visibility.create!(subject: installing_platform, visible_to: monitor)
+Visibility.create!(subject: using_the_pump, visible_to: monitor)
+
+Visibility.create(subject: hole, visible_to: monitor)
+Visibility.create(subject: pump, visible_to: monitor)
+Visibility.create(subject: platform, visible_to: monitor)
+Visibility.create(subject: water, visible_to: monitor)

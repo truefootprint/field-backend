@@ -7,6 +7,7 @@ RSpec.describe "Listing projects" do
   let(:auth) { { name: "Test", role: "Test" } }
 
   scenario "listing all the projects, activities, questions, etc for a user" do
+    pending
     get "/my_data", auth
 
     expect(response.status).to eq(200)
