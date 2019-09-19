@@ -1,10 +1,6 @@
 class MyDataPresenter < ApplicationPresenter
-  def present(projects:, completion_questions:)
-    presented = present_nested(:projects, ProjectPresenter) { projects }
-
-    presented.merge(
-      present_nested(:completion_questions, CompletionQuestionPresenter) { completion_questions }
-    )
+  def present_collection(projects)
+    present_nested(:projects, ProjectPresenter) { projects }
   end
 
   class WithEverything < self
@@ -12,10 +8,12 @@ class MyDataPresenter < ApplicationPresenter
       viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
-        completion_questions: true,
         projects: {
           visible: true,
           current_project_activity: {
+            for_viewpoint: viewpoint,
+          },
+          completion_questions: {
             for_viewpoint: viewpoint,
           },
           project_activities: {

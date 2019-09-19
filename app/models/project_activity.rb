@@ -16,4 +16,8 @@ class ProjectActivity < ApplicationRecord
   }
 
   validates :order, presence: true
+
+  def self.project_questions
+    ProjectQuestion.where(subject_id: pluck(:id), subject_type: name)
+  end
 end

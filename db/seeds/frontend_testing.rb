@@ -23,6 +23,9 @@ question_6 = Question.create!(text: "Question 6", topic: topic3)
 question_7 = Question.create!(text: "Question 7", topic: topic4)
 question_8 = Question.create!(text: "Question 8", topic: topic4)
 
+CompletionQuestion.create!(question: question_4, completion_value: "yes")
+CompletionQuestion.create!(question: question_8, completion_value: "yes")
+
 # Projects
 
 project = Project.create!(name: "Test Project", project_type: project_type)

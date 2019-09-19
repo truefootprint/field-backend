@@ -45,4 +45,16 @@ RSpec.describe ProjectActivity do
       expect(scope.flat_map(&:project_questions)).to eq [pq1]
     end
   end
+
+  describe ".project_questions" do
+    it "returns the project questions for the collection of project activities" do
+      project_activity = FactoryBot.create(:project_activity)
+
+      pq1  = FactoryBot.create(:project_question, subject: project_activity)
+      _pq2 = FactoryBot.create(:project_question)
+
+      scope = ProjectActivity.where(id: project_activity.id)
+      expect(scope.project_questions).to eq [pq1]
+    end
+  end
 end
