@@ -1,4 +1,4 @@
-module ActiveActivities
+module CurrentProjectActivity
   def self.for(user, project)
     scope = project.project_activities.order(:order)
 
@@ -16,9 +16,9 @@ module ActiveActivities
     end
 
     if project_activities.empty?
-      scope
+      scope.first
     else
-      project_activities
+      project_activities.first
     end
   end
 end

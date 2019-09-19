@@ -23,4 +23,15 @@ RSpec.describe ProjectPresenter do
     presented = described_class.present(project, project_activities: true)
     expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
   end
+
+  it "can present with the current project activity for a user" do
+    project = FactoryBot.create(:project)
+    activity = FactoryBot.create(:activity, name: "Activity name")
+    FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
+
+    user = FactoryBot.create(:user)
+
+    presented = described_class.present(project, current_project_activity: { for_user: user })
+    expect(presented).to include(current_project_activity: { id: 555, name: "Activity name" })
+  end
 end

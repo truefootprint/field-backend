@@ -42,6 +42,8 @@ class ApplicationPresenter
   def present_nested(key, presenter, &block)
     nested_options = options[key] or return {}
 
-    { key => presenter.present(block.call, nested_options) }
+    object = block.call(nested_options)
+
+    { key => presenter.present(object, nested_options) }
   end
 end

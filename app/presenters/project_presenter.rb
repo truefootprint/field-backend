@@ -1,6 +1,8 @@
 class ProjectPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, name: record.name }.merge(present_activities(record))
+    { id: record.id, name: record.name }
+      .merge(present_current_activity(record))
+      .merge(present_activities(record))
   end
 
   def modify_scope(scope)
@@ -12,5 +14,11 @@ class ProjectPresenter < ApplicationPresenter
       record.project_activities
     end
   end
+
+  def present_current_activity(record)
+    present_nested(:current_project_activity, ProjectActivityPresenter) do |options|
+      user = options.fetch(:for_user)
+      CurrentProjectActivity.for(user, record)
+    end
   end
 end
