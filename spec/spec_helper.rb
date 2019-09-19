@@ -30,3 +30,5 @@ RSpec.configure do |config|
 
   config.include ApiHelper, type: :feature
 end
+
+Viewpoint.current = Viewpoint.new

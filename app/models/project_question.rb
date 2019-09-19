@@ -13,6 +13,11 @@ class ProjectQuestion < ApplicationRecord
 
   validates :order, presence: true
 
+  def self.completion_questions
+    scope = includes(:completion_question).where.not(completion_questions: { id: nil })
+    CompletionQuestion.where(id: scope.pluck(:"completion_questions.id"))
+  end
+
   def project
     case subject_type
     when "Project"

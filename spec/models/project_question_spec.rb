@@ -32,6 +32,16 @@ RSpec.describe ProjectQuestion do
     end
   end
 
+  describe ".completion_questions" do
+    it "returns completion questions for the current scope of project questions" do
+      project_question = FactoryBot.create(:project_question)
+      completion_question = FactoryBot.create(:completion_question, question: project_question.question)
+
+      expect(ProjectQuestion.all.completion_questions).to eq [completion_question]
+      expect(ProjectQuestion.visible.completion_questions).to eq []
+    end
+  end
+
   describe "#project" do
     it "returns the subject when the question is about a project" do
       project = FactoryBot.create(:project)
