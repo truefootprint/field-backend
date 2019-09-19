@@ -10,6 +10,13 @@ RSpec.describe ProjectType do
       project_type.name = " "
       expect(project_type).to be_invalid
     end
+
+    it "requires a unique name" do
+      FactoryBot.create(:project_type, name: "Name")
+
+      project_type.name = "name"
+      expect(project_type).to be_invalid
+    end
   end
 
   describe ".visible_to" do

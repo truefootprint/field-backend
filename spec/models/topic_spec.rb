@@ -10,6 +10,13 @@ RSpec.describe Topic do
       topic.name = " "
       expect(topic).to be_invalid
     end
+
+    it "requires a unique name" do
+      FactoryBot.create(:topic, name: "Name")
+
+      topic.name = "name"
+      expect(topic).to be_invalid
+    end
   end
 
   describe ".visible_to" do

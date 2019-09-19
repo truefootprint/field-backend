@@ -10,5 +10,12 @@ RSpec.describe Role do
       role.name = " "
       expect(role).to be_invalid
     end
+
+    it "requires a unique name" do
+      FactoryBot.create(:role, name: "Name")
+
+      role.name = "name"
+      expect(role).to be_invalid
+    end
   end
 end

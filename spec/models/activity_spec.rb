@@ -10,6 +10,13 @@ RSpec.describe Activity do
       activity.name = " "
       expect(activity).to be_invalid
     end
+
+    it "requires a unique name" do
+      FactoryBot.create(:activity, name: "Name")
+
+      activity.name = "name"
+      expect(activity).to be_invalid
+    end
   end
 
   describe ".visible_to" do

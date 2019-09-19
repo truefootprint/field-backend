@@ -4,5 +4,5 @@ class ProjectType < ApplicationRecord
   scope :visible, -> { visible_to(Viewpoint.current) }
   scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 end

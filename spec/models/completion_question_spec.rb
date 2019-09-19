@@ -10,5 +10,12 @@ RSpec.describe CompletionQuestion do
       completion_question.completion_value = " "
       expect(completion_question).to be_invalid
     end
+
+    it "requires a unique question" do
+      existing = FactoryBot.create(:completion_question)
+
+      completion_question.question = existing.question
+      expect(completion_question).to be_invalid
+    end
   end
 end
