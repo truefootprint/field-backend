@@ -46,10 +46,7 @@ question_24 = Question.create!(text: "How much grade 4?", topic: outputs)
 question_25 = Question.create!(text: "Total amount sold?", topic: outputs)
 question_26 = Question.create!(text: "Any other comments?", topic: outputs)
 
-
-ResponseTrigger.create!(
-  question: question_11, value: "yes", event_class: "ActivityCompletionEvent"
-)
+CompletionQuestion.create!(question: question_11, completion_value: "yes")
 
 # Projects
 
@@ -61,7 +58,6 @@ ololu_workshop = Project.create!(
 attending_workshop_pa = ProjectActivity.create!(
   activity: attending_workshop,
   project: ololu_workshop,
-  state: "not_started",
   order: 1,
 )
 

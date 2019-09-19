@@ -27,13 +27,8 @@ question_8 = Question.create!(text: "Question 8", topic: topic4)
 
 project = Project.create!(name: "Test Project", project_type: project_type)
 
-project_activity1 = ProjectActivity.create!(
-  activity: activity1, project: project, state: "not_started", order: 1
-)
-
-project_activity2 = ProjectActivity.create!(
-  activity: activity2, project: project, state: "not_started", order: 2
-)
+project_activity1 = ProjectActivity.create!(activity: activity1, project: project, order: 1)
+project_activity2 = ProjectActivity.create!(activity: activity2, project: project, order: 2)
 
 ProjectQuestion.create!(subject: project_activity1, question: question_1, order: 1)
 ProjectQuestion.create!(subject: project_activity1, question: question_2, order: 2)

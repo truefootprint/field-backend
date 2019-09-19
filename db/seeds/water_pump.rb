@@ -16,9 +16,7 @@ question_3 = Question.create!(text: "Photo", topic: hole)
 question_4 = Question.create!(text: "Any other comments", topic: hole)
 question_5 = Question.create!(text: "Has the hole been dug?", topic: hole)
 
-ResponseTrigger.create!(
-  question: question_5, value: "yes", event_class: "ActivityCompletionEvent"
-)
+CompletionQuestion.create!(question: question_5, completion_value: "yes")
 
 pump = Topic.create!(name: "Pump")
 
@@ -28,9 +26,7 @@ question_8 = Question.create!(text: "Photo", topic: pump)
 question_9 = Question.create!(text: "Any other comments", topic: pump)
 question_10 = Question.create!(text: "Is the pump installed?", topic: pump)
 
-ResponseTrigger.create!(
-  question: question_10, value: "yes", event_class: "ActivityCompletionEvent"
-)
+CompletionQuestion.create!(question: question_10, completion_value: "yes")
 
 platform = Topic.create!(name: "Platform")
 
@@ -40,9 +36,7 @@ question_13 = Question.create!(text: "Photo", topic: platform)
 question_14 = Question.create!(text: "Any other comments", topic: platform)
 question_15 = Question.create!(text: "Is the platform built?", topic: platform)
 
-ResponseTrigger.create!(
-  question: question_15, value: "yes", event_class: "ActivityCompletionEvent"
-)
+CompletionQuestion.create!(question: question_15, completion_value: "yes")
 
 water = Topic.create!(name: "Water")
 
@@ -62,28 +56,24 @@ rusinda_hand_pump = Project.create!(
 digging_the_hole_pa = ProjectActivity.create!(
   activity: digging_the_hole,
   project: rusinda_hand_pump,
-  state: "finished",
   order: 1,
 )
 
 installing_pump_pa = ProjectActivity.create!(
   activity: installing_pump,
   project: rusinda_hand_pump,
-  state: "not_started",
   order: 2,
 )
 
 installing_platform_pa = ProjectActivity.create!(
   activity: installing_platform,
   project: rusinda_hand_pump,
-  state: "not_started",
   order: 3,
 )
 
 using_the_pump_pa = ProjectActivity.create!(
   activity: using_the_pump,
   project: rusinda_hand_pump,
-  state: "not_started",
   order: 4,
 )
 

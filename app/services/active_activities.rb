@@ -16,7 +16,7 @@ module ActiveActivities
     end
 
     if project_activities.empty?
-      scope.where(state: "not_started")
+      scope
     else
       project_activities
     end

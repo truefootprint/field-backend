@@ -32,17 +32,9 @@ question_14 = Question.create!(text: "Are the foundations laid?", topic: progres
 question_15 = Question.create!(text: "Are the walls built?", topic: progress)
 question_16 = Question.create!(text: "Is the roof complete?", topic: progress)
 
-ResponseTrigger.create!(
-  question: question_14, value: "yes", event_class: "ActivityCompletionEvent"
-)
-
-ResponseTrigger.create!(
-  question: question_15, value: "yes", event_class: "ActivityCompletionEvent"
-)
-
-ResponseTrigger.create!(
-  question: question_16, value: "yes", event_class: "ActivityCompletionEvent"
-)
+CompletionQuestion.create!(question: question_14, completion_value: "yes")
+CompletionQuestion.create!(question: question_15, completion_value: "yes")
+CompletionQuestion.create!(question: question_16, completion_value: "yes")
 
 teaching = Topic.create!(name: "Teaching")
 
@@ -69,28 +61,24 @@ bilobilo_school = Project.create!(
 lay_foundations_pa = ProjectActivity.create!(
   activity: lay_foundations,
   project: bilobilo_school,
-  state: "not_started",
   order: 1,
 )
 
 build_walls_pa = ProjectActivity.create!(
   activity: build_walls,
   project: bilobilo_school,
-  state: "not_started",
   order: 2,
 )
 
 put_roof_on_pa = ProjectActivity.create!(
   activity: put_roof_on,
   project: bilobilo_school,
-  state: "not_started",
   order: 3,
 )
 
 educate_children_pa = ProjectActivity.create!(
   activity: educate_children,
   project: bilobilo_school,
-  state: "not_started",
   order: 4,
 )
 
