@@ -23,15 +23,4 @@ RSpec.describe ProjectPresenter do
     presented = described_class.present(project, project_activities: true)
     expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
   end
-
-  it "passes options through when presenting project activities" do
-    project = FactoryBot.create(:project)
-    project_activity = FactoryBot.create(:project_activity, project: project)
-    FactoryBot.create(:project_question, subject: project_activity)
-
-    presented = described_class.present(project, project_activities: { project_questions: true })
-    presented_activity = presented.fetch(:project_activities).first
-
-    expect(presented_activity).to have_key(:project_questions)
-  end
 end

@@ -35,13 +35,4 @@ RSpec.describe ProjectActivityPresenter do
     presented = described_class.present(project_activity, project_questions: true)
     expect(presented).to include(project_questions: [{ id: 555, text: "Question text" }])
   end
-
-  it "passes options through when presenting project questions" do
-    project_activity = FactoryBot.create(:project_activity)
-    question = FactoryBot.create(:question, text: "Question text")
-    FactoryBot.create(:project_question, id: 555, subject: project_activity, question: question)
-
-    presented = described_class.present(project_activity, project_questions: { by_topic: true })
-    expect(presented.dig(:project_questions, :by_topic)).to be_present
-  end
 end

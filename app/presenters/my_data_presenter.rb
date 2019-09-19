@@ -1,16 +1,8 @@
 class MyDataPresenter < ApplicationPresenter
   def present(projects:, completion_questions:)
-    present_projects(projects).merge(present_completion_questions(completion_questions))
-  end
-
-  def present_projects(projects)
-    o = options[:projects] or return {}
-    { projects: ProjectPresenter.present(projects, o) }
-  end
-
-  def present_completion_questions(completion_questions)
-    o = options[:completion_questions] or return {}
-    { completion_questions: CompletionQuestionPresenter.present(completion_questions, o) }
+    present_nested(:projects, projects, ProjectPresenter).merge(
+      present_nested(:completion_questions, completion_questions, CompletionQuestionPresenter)
+    )
   end
 
   class WithEverything < self

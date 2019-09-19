@@ -38,4 +38,10 @@ class ApplicationPresenter
   def modify_scope(scope)
     scope # override me
   end
+
+  def present_nested(key, object, presenter)
+    nested_options = options[key] or return {}
+
+    { key => presenter.present(object, nested_options) }
+  end
 end
