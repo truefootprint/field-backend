@@ -1,5 +1,5 @@
 class MyDataPresenter < ApplicationPresenter
-  def present_hash(projects:, completion_questions:)
+  def present(projects:, completion_questions:)
     present_projects(projects).merge(present_completion_questions(completion_questions))
   end
 
