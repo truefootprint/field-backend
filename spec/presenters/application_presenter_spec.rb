@@ -14,6 +14,9 @@ class ApplicationPresenter::Test::Nested < ApplicationPresenter
   def present_scope(scope)
     present_nested(:test, Test) { scope }
   end
+
+  def present(*)
+  end
 end
 
 RSpec.describe ApplicationPresenter do
@@ -50,5 +53,10 @@ RSpec.describe ApplicationPresenter do
   it "passes relevant options through when presenting nested objects" do
     expect(described_class::Test).to receive(:present).with(scope, foo: 123)
     described_class::Test::Nested.present(scope, test: { foo: 123 })
+  end
+
+  it "skips presenting nested objects if the block evaluates to nil" do
+    expect(described_class::Test).not_to receive(:present)
+    described_class::Test::Nested.present(nil, test: { foo: 123 })
   end
 end
