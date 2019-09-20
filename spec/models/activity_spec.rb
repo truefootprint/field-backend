@@ -1,4 +1,13 @@
 RSpec.describe Activity do
+  describe "associations" do
+    it "has many follow up activities" do
+      follow_up = FactoryBot.create(:activity)
+      activity = FactoryBot.create(:activity, follow_up_activities: [follow_up])
+
+      expect(activity.follow_up_activities).to eq [follow_up]
+    end
+  end
+
   describe "validations" do
     subject(:activity) { FactoryBot.build(:activity) }
 
