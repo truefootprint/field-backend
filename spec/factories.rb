@@ -7,6 +7,11 @@ FactoryBot.define do
     sequence(:name) { |n| "Activity #{n}" }
   end
 
+  factory :follow_up_activity do
+    activity
+    follow_up_activity factory: :activity
+  end
+
   factory :topic do
     sequence(:name) { |n| "Topic #{n}" }
   end

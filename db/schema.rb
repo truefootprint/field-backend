@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_19_091415) do
+ActiveRecord::Schema.define(version: 2019_09_20_151232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 2019_09_19_091415) do
     t.index ["activity_id"], name: "index_default_questions_on_activity_id"
     t.index ["order"], name: "index_default_questions_on_order"
     t.index ["question_id"], name: "index_default_questions_on_question_id"
+  end
+
+  create_table "follow_up_activities", force: :cascade do |t|
+    t.bigint "activity_id"
+    t.bigint "follow_up_activity_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_follow_up_activities_on_activity_id"
+    t.index ["follow_up_activity_id"], name: "index_follow_up_activities_on_follow_up_activity_id"
   end
 
   create_table "involvements", force: :cascade do |t|
