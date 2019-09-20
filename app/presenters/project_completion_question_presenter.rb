@@ -6,6 +6,10 @@ class ProjectCompletionQuestionPresenter < ApplicationPresenter
     }
   end
 
+  def modify_scope(scope)
+    scope.order(:id)
+  end
+
   def completion_value(project_question)
     project_question.question.completion_question.completion_value
   end
