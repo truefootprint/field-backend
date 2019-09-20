@@ -1,5 +1,7 @@
 class MyDataController < ApplicationController
   def index
-    render json: MyDataPresenter::WithEverything.present(Project.all, viewpoint: Viewpoint.current)
+    presentable = { projects: Project.all, responses: current_user.responses }
+
+    render json: MyDataPresenter::WithEverything.present(presentable, viewpoint: Viewpoint.current)
   end
 end

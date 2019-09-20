@@ -1,6 +1,9 @@
 class MyDataPresenter < ApplicationPresenter
-  def present_collection(projects)
-    present_nested(:projects, ProjectPresenter) { projects }
+  def present(projects:, responses:)
+    presented_projects = present_nested(:projects, ProjectPresenter) { projects }
+    presented_responses = present_nested(:responses, ResponsePresenter) { responses }
+
+    presented_projects.merge(presented_responses)
   end
 
   class WithEverything < self
@@ -23,7 +26,8 @@ class MyDataPresenter < ApplicationPresenter
               by_topic: true,
             }
           }
-        }
+        },
+        responses: true,
       )
 
       super(object, options)

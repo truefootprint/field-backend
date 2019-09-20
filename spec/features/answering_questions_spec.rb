@@ -32,6 +32,10 @@ RSpec.describe "Answering questions" do
     parsed_json.fetch(:projects).first.fetch(:completion_questions)
   end
 
+  def question_responses
+    parsed_json.fetch(:responses)
+  end
+
   def post_action(action)
     post "/my_updates", auth.merge(actions: [action])
   end
@@ -40,23 +44,29 @@ RSpec.describe "Answering questions" do
     get "/my_data", auth
     expect(response.status).to eq(200)
     expect(current_project_activity).to eq(id: pa1.id, name: pa1.activity.name)
-
     expect(completion_questions).to eq [
       { id: pq2.id, completion_value: "yes" },
       { id: pq4.id, completion_value: "yes" },
     ]
 
-    post_action(action: "AnswerQuestion", id: pq2.id, value: "yes")
+    post_action(action: "AnswerQuestion", project_question_id: pq2.id, value: "yes")
     expect(response.status).to eq(201)
 
     get "/my_data", auth
     expect(response.status).to eq(200)
     expect(current_project_activity).to eq(id: pa2.id, name: pa2.activity.name)
+    expect(question_responses).to eq [
+      { project_question_id: pq2.id, value: "yes" },
+    ]
 
-    post_action(action: "AnswerQuestion", id: pq4.id, value: "yes")
+    post_action(action: "AnswerQuestion", project_question_id: pq4.id, value: "yes")
     expect(response.status).to eq(201)
 
     get "/my_data", auth
     expect(current_project_activity).to be_nil
+    expect(question_responses).to eq [
+      { project_question_id: pq4.id, value: "yes" },
+      { project_question_id: pq2.id, value: "yes" },
+    ]
   end
 end
