@@ -45,8 +45,8 @@ RSpec.describe "Answering questions" do
     expect(response.status).to eq(200)
     expect(current_project_activity).to eq(id: pa1.id, name: pa1.activity.name)
     expect(completion_questions).to eq [
-      { id: pq2.id, completion_value: "yes" },
-      { id: pq4.id, completion_value: "yes" },
+      { project_question_id: pq2.id, completion_value: "yes" },
+      { project_question_id: pq4.id, completion_value: "yes" },
     ]
 
     post_action(action: "AnswerQuestion", project_question_id: pq2.id, value: "yes")

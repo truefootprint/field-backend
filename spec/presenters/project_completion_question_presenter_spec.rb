@@ -9,6 +9,6 @@ RSpec.describe ProjectCompletionQuestionPresenter do
     )
 
     presented = described_class.present(project_question)
-    expect(presented).to eq(id: 111, completion_value: "yes")
+    expect(presented).to eq(project_question_id: 111, completion_value: "yes")
   end
 end
