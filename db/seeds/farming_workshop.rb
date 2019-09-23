@@ -2,7 +2,7 @@
 
 farming_workshop = ProjectType.create!(name: "Farming workshop")
 
-applying_knowledge = Activity.create!(name: "Applying knowledge from the workshop")
+applying_knowledge = Activity.create!(name: "%{farmer} applying knowledge from the workshop")
 attending_workshop = Activity.create!(name: "Attending the workshop", follow_up_activities: [applying_knowledge])
 
 group = Topic.create!(name: "Group")
@@ -126,9 +126,9 @@ question_34 = Question.create!(text: "Are there many dead fish in the stream?", 
 question_35 = Question.create!(text: "Photo", topic: water_quality)
 question_36 = Question.create!(text: "Any other comments", topic: water_quality)
 
-farm = Topic.create!(name: "On %{name}'s farm")
+farm = Topic.create!(name: "On %{farmer}'s farm")
 
-question_37 = Question.create!(text: "Any signs of soil pollution?", topic: farm)
+question_37 = Question.create!(text: "Is there soil pollution on %{farmer}'s farm?", topic: farm)
 question_38 = Question.create!(text: "Any signs of water pollution?", topic: farm)
 question_39 = Question.create!(text: "Any signs of air pollution?", topic: farm)
 question_40 = Question.create!(text: "Are there children working?", topic: farm)
