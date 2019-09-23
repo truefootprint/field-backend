@@ -14,6 +14,10 @@ class ProjectQuestion < ApplicationRecord
 
   validates :order, presence: true
 
+  def self.topics
+    Topic.where(id: joins(:question).pluck(:"questions.topic_id"))
+  end
+
   def self.completion_questions
     scope = includes(:completion_question).where.not(completion_questions: { id: nil })
     CompletionQuestion.where(id: scope.pluck(:"completion_questions.id"))

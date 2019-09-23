@@ -32,6 +32,17 @@ RSpec.describe ProjectQuestion do
     end
   end
 
+  describe ".topics" do
+    it "returns topics for the current scope of project questions" do
+      topic = FactoryBot.create(:topic, name: "Topic name")
+      question = FactoryBot.create(:question, topic: topic)
+
+      FactoryBot.create(:project_question, question: question)
+
+      expect(ProjectQuestion.all.topics).to eq [topic]
+    end
+  end
+
   describe ".completion_questions" do
     it "returns completion questions for the current scope of project questions" do
       project_question = FactoryBot.create(:project_question)
