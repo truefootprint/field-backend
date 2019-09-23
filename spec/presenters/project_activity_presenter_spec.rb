@@ -35,4 +35,27 @@ RSpec.describe ProjectActivityPresenter do
     presented = described_class.present(project_activity, project_questions: true)
     expect(presented).to include(project_questions: [{ id: 555, text: "Question text" }])
   end
+
+  it "can interpolate user names into project activity name" do
+    activity = FactoryBot.create(:activity, name: "Activity about %{Role name}")
+    project_activity = FactoryBot.create(:project_activity, activity: activity)
+
+    user = FactoryBot.create(:user, name: "User name")
+    role = FactoryBot.create(:role, name: "Role name")
+
+    user_role = FactoryBot.create(:user_role, user: user, role: role)
+    FactoryBot.create(:visibility, subject: project_activity, visible_to: user_role)
+
+    presented = described_class.present(project_activity)
+    expect(presented).to include(name: "Activity about User name")
+  end
+
+  it "passes the interpolation context down to other presenters" do
+    allow(ProjectQuestionPresenter).to receive(:present) do |_, options|
+      expect(options.fetch(:interpolation_context)).to be_present
+    end
+
+    project_activity = FactoryBot.create(:project_activity)
+    described_class.present(project_activity, project_questions: true)
+  end
 end

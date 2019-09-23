@@ -52,4 +52,35 @@ RSpec.describe ProjectQuestionPresenter do
     expect(second.fetch(:project_questions).map { |h| h.fetch(:id) }).to eq [111, 222]
     expect(third.fetch(:project_questions).map { |h| h.fetch(:id) }).to eq [333]
   end
+
+  it "can interpolate user names into project question text" do
+    context = double(:interpolation_context)
+    expect(context).to receive(:apply).with("Question about %{Role name}").and_return("fake")
+
+    question = FactoryBot.create(:question, text: "Question about %{Role name}")
+    project_question = FactoryBot.create(:project_question, question: question)
+
+    presented = described_class.present(project_question, interpolation_context: context)
+    expect(presented).to include(text: "fake")
+  end
+
+  it "can interpolate user names when chunking by topics" do
+    context = double(:interpolation_context)
+
+    expect(context).to receive(:apply).with("Topic about %{Role name}").and_return("fake topic")
+    expect(context).to receive(:apply).with("Question about %{Role name}").and_return("fake question")
+
+    topic = FactoryBot.create(:topic, name: "Topic about %{Role name}")
+    question = FactoryBot.create(:question, topic: topic, text: "Question about %{Role name}")
+
+    FactoryBot.create(:project_question, question: question)
+
+    presented = described_class.present(ProjectQuestion.all, interpolation_context: context, by_topic: true)
+    first = presented.fetch(:by_topic).first
+
+    presented_question = first.fetch(:project_questions).first
+
+    expect(first.dig(:topic, :name)).to eq("fake topic")
+    expect(presented_question.fetch(:text)).to eq("fake question")
+  end
 end

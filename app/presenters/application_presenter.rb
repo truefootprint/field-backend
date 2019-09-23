@@ -6,8 +6,6 @@ class ApplicationPresenter
   attr_accessor :object, :options
 
   def initialize(object, options = {})
-    options = {} if options == true
-
     self.object = object
     self.options = options
   end
@@ -41,6 +39,7 @@ class ApplicationPresenter
 
   def present_nested(key, presenter, &block)
     nested_options = options[key] or return {}
+    nested_options = {} if nested_options == true
 
     object = block.call(nested_options)
     presented = presenter.present(object, nested_options) if object

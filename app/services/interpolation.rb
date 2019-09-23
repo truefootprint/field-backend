@@ -7,7 +7,7 @@ module Interpolation
   end
 
   def self.args_string(string)
-    string.match(PATTERN)[1..].map(&:strip).uniq
+    string.match(PATTERN).to_a.tap(&:shift).map(&:strip).uniq
   end
 
   def self.interpolate(string, &block)

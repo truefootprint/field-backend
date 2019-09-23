@@ -1,6 +1,9 @@
 class ProjectActivityPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, name: record.name }.merge(present_questions(record))
+    context = Interpolation::Context.new(record)
+    name = context.apply(record.name)
+
+    { id: record.id, name: name }.merge(present_questions(record, context))
   end
 
   def modify_scope(scope)
@@ -10,8 +13,10 @@ class ProjectActivityPresenter < ApplicationPresenter
     scope
   end
 
-  def present_questions(record)
-    present_nested(:project_questions, ProjectQuestionPresenter) do
+  def present_questions(record, context)
+    present_nested(:project_questions, ProjectQuestionPresenter) do |options|
+      options.merge!(interpolation_context: context)
+
       record.project_questions
     end
   end

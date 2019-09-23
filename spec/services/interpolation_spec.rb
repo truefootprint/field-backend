@@ -24,6 +24,10 @@ RSpec.describe Interpolation do
     it "extracts interpolation arguments from a string" do
       expect(described_class.args_string("foo %{ bar }")).to eq %w[bar]
     end
+
+    it "returns an empty array for no args" do
+      expect(described_class.args_string("foo bar")).to eq []
+    end
   end
 
   describe ".interpolate" do
