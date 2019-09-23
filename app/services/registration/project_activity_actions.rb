@@ -40,7 +40,7 @@ class Registration
     end
 
     def order_specified_by_project_type(follow_up)
-      DefaultActivity.find_by!(project_type: project_type, activity: follow_up).order
+      DefaultActivity.find_by(project_type: project_type, activity: follow_up)&.order || 1
     end
 
     def make_visible(subject)

@@ -28,6 +28,14 @@ RSpec.describe Registration::ProjectActivityActions do
     expect(ProjectActivity.last.order).to eq(5)
   end
 
+  it "sets the project activity's order to 1 if there is no default" do
+    default_activity.destroy
+
+    described_class.run(project_activity, viewpoint)
+
+    expect(ProjectActivity.last.order).to eq(1)
+  end
+
   it "grants visibility of the follow up project activity" do
     expect { described_class.run(project_activity, viewpoint) }
       .to change(Visibility, :count).by(1)
