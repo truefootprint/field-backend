@@ -2,8 +2,8 @@
 
 farming_workshop = ProjectType.create!(name: "Farming workshop")
 
-attending_workshop = Activity.create!(name: "Attending the workshop")
 applying_knowledge = Activity.create!(name: "Applying knowledge from the workshop")
+attending_workshop = Activity.create!(name: "Attending the workshop", follow_up_activities: [applying_knowledge])
 
 group = Topic.create!(name: "Group")
 
@@ -72,15 +72,6 @@ ProjectQuestion.create!(subject: attending_workshop_pa, question: question_8, or
 ProjectQuestion.create!(subject: attending_workshop_pa, question: question_9, order: 9)
 ProjectQuestion.create!(subject: attending_workshop_pa, question: question_10, order: 10)
 ProjectQuestion.create!(subject: attending_workshop_pa, question: question_11, order: 11)
-
-ResponseTrigger.create!(
-  question: question_11,
-  value: "yes",
-  event_class: "AttendanceEvent",
-  event_params: {
-    follow_on_activity_id: applying_knowledge.id
-  },
-)
 
 DefaultActivity.create!(project_type: farming_workshop, activity: applying_knowledge, order: 2)
 
@@ -172,6 +163,14 @@ Visibility.create!(subject: air_quality, visible_to: monitor)
 Visibility.create!(subject: water_quality, visible_to: monitor)
 Visibility.create!(subject: farm, visible_to: monitor)
 
-Visibility.create!(subject: attending_workshop, visible_to: farmer)
-Visibility.create!(subject: applying_knowledge, visible_to: farmer)
 Visibility.create!(subject: applying_knowledge, visible_to: monitor)
+
+Registration.process(
+  viewpoint: Viewpoint.new(user: azizi, role: farmer),
+  subject: attending_workshop_pa,
+)
+
+Registration.process(
+  viewpoint: Viewpoint.new(user: nyah, role: farmer),
+  subject: attending_workshop_pa,
+)
