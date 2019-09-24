@@ -36,16 +36,6 @@ RSpec.describe Registration::ProjectActivityActions do
     expect(ProjectActivity.last.order).to eq(1)
   end
 
-  it "grants visibility of the follow up project activity" do
-    expect { described_class.run(project_activity, viewpoint) }
-      .to change(Visibility, :count).by(1)
-
-    visibility = Visibility.last
-
-    expect(visibility.subject).to eq(ProjectActivity.last)
-    expect(visibility.visible_to).to eq(user)
-  end
-
   it "creates project questions based on the defaults for the follow up activity" do
     FactoryBot.create(:default_question, activity: follow_up)
     FactoryBot.create(:default_question, activity: follow_up)
@@ -57,5 +47,18 @@ RSpec.describe Registration::ProjectActivityActions do
     project_question = ProjectQuestion.last
 
     expect(project_question.subject).to eq(project_activity)
+  end
+
+  it "creates an involvement for the main activity and each follow up activity" do
+    expect { described_class.run(project_activity, viewpoint) }
+      .to change(Involvement, :count).by(2)
+
+    first, second = Involvement.last(2)
+
+    expect(first.user).to eq(user)
+    expect(second.user).to eq(user)
+
+    expect(first.project_activity).to eq(project_activity)
+    expect(second.project_activity).to eq(ProjectActivity.last)
   end
 end

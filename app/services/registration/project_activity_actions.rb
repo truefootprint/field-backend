@@ -12,10 +12,15 @@ class Registration
     end
 
     def run
+      create_involvement(project_activity)
       create_follow_up_project_activities
     end
 
     private
+
+    def create_involvement(project_activity)
+      Involvement.create!(user: user, project_activity: project_activity)
+    end
 
     def create_follow_up_project_activities
       follow_up_activities.each do |follow_up|
@@ -27,7 +32,7 @@ class Registration
           order: default_order,
         )
 
-        make_visible(project_activity)
+        create_involvement(project_activity)
 
         follow_up.default_questions.each do |default|
           ProjectQuestion.create!(
@@ -41,10 +46,6 @@ class Registration
 
     def order_specified_by_project_type(follow_up)
       DefaultActivity.find_by(project_type: project_type, activity: follow_up)&.order || 1
-    end
-
-    def make_visible(subject)
-      Visibility.create!(subject: subject, visible_to: user_role || user)
     end
 
     def follow_up_activities
