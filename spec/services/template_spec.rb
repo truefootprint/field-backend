@@ -96,6 +96,36 @@ RSpec.describe Template do
       expect(project_question.project_activity).to eq(project_activity)
     end
 
+    it "creates expected values for the project questions" do
+      default = FactoryBot.create(:default_question, activity: activity)
+      FactoryBot.create(:default_expected_value, question: default.question, value: "yes")
+
+      expect { subject.create_records(project) }
+        .to change(ExpectedValue, :count).by(1)
+
+      project_question = ProjectQuestion.last
+      expected_value = ExpectedValue.last
+
+      expect(expected_value.value).to eq("yes")
+      expect(expected_value.project_question).to eq(project_question)
+    end
+
+    it "uses the default expected value specialised to the activity if it exists" do
+      default = FactoryBot.create(:default_question, activity: activity)
+
+      FactoryBot.create(:default_expected_value, question: default.question, value: "yes")
+      FactoryBot.create(:default_expected_value, question: default.question, activity: activity, value: "no")
+
+      expect { subject.create_records(project) }
+        .to change(ExpectedValue, :count).by(1)
+
+      project_question = ProjectQuestion.last
+      expected_value = ExpectedValue.last
+
+      expect(expected_value.value).to eq("no")
+      expect(expected_value.project_question).to eq(project_question)
+    end
+
     it "returns the created project activity" do
       project_activity = subject.create_records(project)
       expect(project_activity).to eq(ProjectActivity.last)
