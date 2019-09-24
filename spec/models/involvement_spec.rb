@@ -48,4 +48,40 @@ RSpec.describe Involvement do
       expect(Involvement.for_role(user_role.role)).to be_empty
     end
   end
+
+  describe ".find_by_role!" do
+    it "finds the involvement associated with the given role" do
+      involvement = FactoryBot.create(:involvement)
+      user_role = FactoryBot.create(:user_role, user: involvement.user)
+
+      FactoryBot.create(
+        :visibility,
+        subject: involvement.project_activity,
+        visible_to: user_role,
+      )
+
+      expect(Involvement.find_by_role!(user_role.role)).to eq(involvement)
+    end
+
+    it "errors if no involvements are found" do
+      role = FactoryBot.create(:role)
+
+      expect { Involvement.find_by_role!(role) }
+        .to raise_error(ActiveRecord::RecordNotFound, /couldn't find involvement/i)
+    end
+
+    it "errors if more than one involvement is found" do
+      role = FactoryBot.create(:role)
+      project_activity = FactoryBot.create(:project_activity)
+
+      2.times do
+        user_role = FactoryBot.create(:user_role, role: role)
+        FactoryBot.create(:involvement, project_activity: project_activity, user: user_role.user)
+        FactoryBot.create(:visibility, subject: project_activity, visible_to: user_role)
+      end
+
+      expect { Involvement.find_by_role!(role) }
+        .to raise_error(AmbiguousInvolvementError, /more than one involvement/i)
+    end
+  end
 end

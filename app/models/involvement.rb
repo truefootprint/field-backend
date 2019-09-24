@@ -17,4 +17,16 @@ class Involvement < ApplicationRecord
 
     scope1.or(scope2)
   end
+
+  def self.find_by_role!(role)
+    scope = for_role(role)
+    count = scope.count
+
+    raise ActiveRecord::RecordNotFound, "Couldn't find involvement for role '#{role.name}'" if count.zero?
+    raise AmbiguousInvolvementError, "More than one involvement for role '#{role.name}'" if count > 1
+
+    scope.first
+  end
+
+  class ::AmbiguousInvolvementError < StandardError; end
 end
