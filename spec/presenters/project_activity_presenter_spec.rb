@@ -44,7 +44,8 @@ RSpec.describe ProjectActivityPresenter do
     role = FactoryBot.create(:role, name: "Role name")
 
     user_role = FactoryBot.create(:user_role, user: user, role: role)
-    FactoryBot.create(:visibility, subject: project_activity, visible_to: user_role)
+    FactoryBot.create(:involvement, user: user, project_activity: project_activity)
+    FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
 
     presented = described_class.present(project_activity)
     expect(presented).to include(name: "Activity about User name")

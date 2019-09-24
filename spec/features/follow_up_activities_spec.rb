@@ -65,7 +65,7 @@ RSpec.describe "Follow up activities" do
     register_for_workshop("Azizi", "farmer")
 
     get_my_data("Azizi", "farmer")
-    expect(project_activities.size).to eq(2) # TODO: this should be 1 since Azizi cannot see applying knowledge
+    expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
     get_my_data("Nyah", "farmer")
@@ -78,7 +78,7 @@ RSpec.describe "Follow up activities" do
     register_for_workshop("Nyah", "farmer")
 
     get_my_data("Nyah", "farmer")
-    expect(project_activities.size).to eq(2) # TODO: this should be 1 since Nyah cannot see applying knowledge
+    expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
     get_my_data("Tefo", "monitor")

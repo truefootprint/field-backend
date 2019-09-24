@@ -54,10 +54,12 @@ RSpec.describe Interpolation do
       monitor = FactoryBot.create(:role, name: "monitor")
 
       user_role = FactoryBot.create(:user_role, user: azizi, role: farmer)
-      FactoryBot.create(:visibility, subject: project_activity, visible_to: user_role)
+      FactoryBot.create(:involvement, user: azizi, project_activity: project_activity)
+      FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
 
       user_role = FactoryBot.create(:user_role, user: tefo, role: monitor)
-      FactoryBot.create(:visibility, subject: project_activity, visible_to: user_role)
+      FactoryBot.create(:involvement, user: tefo, project_activity: project_activity)
+      FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
     end
 
     subject(:context) { described_class.new(project_activity) }
