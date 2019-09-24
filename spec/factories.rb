@@ -94,6 +94,11 @@ FactoryBot.define do
     order { 1 }
   end
 
+  factory :default_expected_value do
+    question
+    value { "yes" }
+  end
+
   factory :involvement do
     project_activity
     user

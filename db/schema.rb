@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_140921) do
+ActiveRecord::Schema.define(version: 2019_09_24_141408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 2019_09_24_140921) do
     t.index ["activity_id"], name: "index_default_activities_on_activity_id"
     t.index ["order"], name: "index_default_activities_on_order"
     t.index ["project_type_id"], name: "index_default_activities_on_project_type_id"
+  end
+
+  create_table "default_expected_values", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "activity_id"
+    t.text "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_default_expected_values_on_activity_id"
+    t.index ["question_id"], name: "index_default_expected_values_on_question_id"
   end
 
   create_table "default_questions", force: :cascade do |t|
