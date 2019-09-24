@@ -25,7 +25,7 @@ class CurrentProjectActivity
   end
 
   def finished_activities
-    project_question_ids = completion_responses.pluck(:"project_questions.id")
+    project_question_ids = completion_responses.select(:"project_questions.id")
 
     project_activities.joins(:project_questions)
       .where(project_questions: { id: project_question_ids })

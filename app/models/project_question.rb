@@ -16,11 +16,11 @@ class ProjectQuestion < ApplicationRecord
   validates :order, presence: true
 
   def self.topics
-    Topic.where(id: joins(:question).pluck(:"questions.topic_id"))
+    Topic.where(id: joins(:question).select(:"questions.topic_id"))
   end
 
   def self.completion_questions
     scope = includes(:completion_question).where.not(completion_questions: { id: nil })
-    CompletionQuestion.where(id: scope.pluck(:"completion_questions.id"))
+    CompletionQuestion.where(id: scope.select(:"completion_questions.id"))
   end
 end

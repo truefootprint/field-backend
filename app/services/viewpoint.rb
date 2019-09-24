@@ -10,7 +10,7 @@ class Viewpoint
   end
 
   def scope(klass)
-    klass.where(id: visibilities.where(subject_type: klass.name).pluck(:subject_id))
+    klass.where(id: visibilities.subject_ids(klass.name))
   end
 
   private
