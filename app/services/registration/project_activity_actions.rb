@@ -13,67 +13,25 @@ class Registration
 
     def run
       create_involvement(project_activity)
-      create_follow_up_project_activities
+
+      follow_up_activities.each do |follow_up|
+        project_activity = create_records_from_template(follow_up)
+        create_involvement(project_activity)
+      end
     end
 
     private
 
-    def create_involvement(project_activity)
-      Involvement.create!(user: user, project_activity: project_activity)
-    end
-
-    def create_follow_up_project_activities
-      follow_up_activities.each do |follow_up|
-        default_order = order_specified_by_project_type(follow_up)
-
-        project_activity = ProjectActivity.create!(
-          project: project,
-          activity: follow_up,
-          order: default_order,
-        )
-
-        create_involvement(project_activity)
-
-        follow_up.default_questions.each do |default|
-          ProjectQuestion.create!(
-            project_activity: project_activity,
-            question: default.question,
-            order: default.order,
-          )
-        end
-      end
-    end
-
-    def order_specified_by_project_type(follow_up)
-      DefaultActivity.find_by(project_type: project_type, activity: follow_up)&.order || 1
-    end
-
     def follow_up_activities
-      activity.follow_up_activities
+      project_activity.activity.follow_up_activities
     end
 
-    def project
-      project_activity.project
+    def create_involvement(project_activity)
+      Involvement.create!(user: viewpoint.user, project_activity: project_activity)
     end
 
-    def activity
-      project_activity.activity
-    end
-
-    def project_type
-      project.project_type
-    end
-
-    def user_role
-      UserRole.find_or_create_by!(user: user, role: role) if role
-    end
-
-    def user
-      viewpoint.user
-    end
-
-    def role
-      viewpoint.role
+    def create_records_from_template(activity)
+      Template.for(activity).create_records(project_activity.project)
     end
   end
 end
