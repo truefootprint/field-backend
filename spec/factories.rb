@@ -92,7 +92,6 @@ FactoryBot.define do
   factory :involvement do
     project_activity
     user
-    kind { "attendee" }
   end
 
   factory :visibility do
