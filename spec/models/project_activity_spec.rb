@@ -35,7 +35,7 @@ RSpec.describe ProjectActivity do
   describe ".with_visible_project_questions" do
     it "filters the scope of project_activities and project_questions" do
       pa1, _pa2 = FactoryBot.create(:project_activity)
-      pq1, _pq2 = FactoryBot.create(:project_question, subject: pa1)
+      pq1, _pq2 = FactoryBot.create(:project_question, project_activity: pa1)
       visibility = FactoryBot.create(:visibility, subject: pq1)
 
       viewpoint = Viewpoint.new(user: visibility.visible_to)
@@ -50,7 +50,7 @@ RSpec.describe ProjectActivity do
     it "returns the project questions for the collection of project activities" do
       project_activity = FactoryBot.create(:project_activity)
 
-      pq1  = FactoryBot.create(:project_question, subject: project_activity)
+      pq1  = FactoryBot.create(:project_question, project_activity: project_activity)
       _pq2 = FactoryBot.create(:project_question)
 
       scope = ProjectActivity.where(id: project_activity.id)

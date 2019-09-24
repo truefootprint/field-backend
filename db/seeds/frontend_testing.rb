@@ -33,15 +33,15 @@ project = Project.create!(name: "Test Project", project_type: project_type)
 project_activity1 = ProjectActivity.create!(activity: activity1, project: project, order: 1)
 project_activity2 = ProjectActivity.create!(activity: activity2, project: project, order: 2)
 
-ProjectQuestion.create!(subject: project_activity1, question: question_1, order: 1)
-ProjectQuestion.create!(subject: project_activity1, question: question_2, order: 2)
-ProjectQuestion.create!(subject: project_activity1, question: question_3, order: 3)
-ProjectQuestion.create!(subject: project_activity1, question: question_4, order: 4)
+ProjectQuestion.create!(project_activity: project_activity1, question: question_1, order: 1)
+ProjectQuestion.create!(project_activity: project_activity1, question: question_2, order: 2)
+ProjectQuestion.create!(project_activity: project_activity1, question: question_3, order: 3)
+ProjectQuestion.create!(project_activity: project_activity1, question: question_4, order: 4)
 
-ProjectQuestion.create!(subject: project_activity2, question: question_5, order: 1)
-ProjectQuestion.create!(subject: project_activity2, question: question_6, order: 2)
-ProjectQuestion.create!(subject: project_activity2, question: question_7, order: 3)
-ProjectQuestion.create!(subject: project_activity2, question: question_8, order: 4)
+ProjectQuestion.create!(project_activity: project_activity2, question: question_5, order: 1)
+ProjectQuestion.create!(project_activity: project_activity2, question: question_6, order: 2)
+ProjectQuestion.create!(project_activity: project_activity2, question: question_7, order: 3)
+ProjectQuestion.create!(project_activity: project_activity2, question: question_8, order: 4)
 
 # Users
 

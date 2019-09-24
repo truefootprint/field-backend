@@ -1,7 +1,7 @@
 class ProjectActivity < ApplicationRecord
   belongs_to :project
   belongs_to :activity
-  has_many :project_questions, as: :subject, inverse_of: :subject
+  has_many :project_questions
 
   delegate :name, to: :activity
 
@@ -18,6 +18,6 @@ class ProjectActivity < ApplicationRecord
   validates :order, presence: true
 
   def self.project_questions
-    ProjectQuestion.where(subject_id: pluck(:id), subject_type: name)
+    ProjectQuestion.where(project_activity_id: select(:id))
   end
 end

@@ -11,10 +11,10 @@ RSpec.describe "Answering questions" do
 
   let(:question) { FactoryBot.create(:question, text: "Is this activity finished?") }
 
-  let(:pq1) { FactoryBot.create(:project_question, subject: pa1) }
-  let(:pq2) { FactoryBot.create(:project_question, subject: pa1, question: question) }
-  let(:pq3) { FactoryBot.create(:project_question, subject: pa2) }
-  let(:pq4) { FactoryBot.create(:project_question, subject: pa2, question: question) }
+  let(:pq1) { FactoryBot.create(:project_question, project_activity: pa1) }
+  let(:pq2) { FactoryBot.create(:project_question, project_activity: pa1, question: question) }
+  let(:pq3) { FactoryBot.create(:project_question, project_activity: pa2) }
+  let(:pq4) { FactoryBot.create(:project_question, project_activity: pa2, question: question) }
 
   before do
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")

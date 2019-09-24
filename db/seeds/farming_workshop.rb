@@ -61,17 +61,17 @@ attending_workshop_pa = ProjectActivity.create!(
   order: 1,
 )
 
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_1, order: 1)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_2, order: 2)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_3, order: 3)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_4, order: 4)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_5, order: 5)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_6, order: 6)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_7, order: 7)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_8, order: 8)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_9, order: 9)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_10, order: 10)
-ProjectQuestion.create!(subject: attending_workshop_pa, question: question_11, order: 11)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_1, order: 1)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_2, order: 2)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_3, order: 3)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_4, order: 4)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_5, order: 5)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_6, order: 6)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_7, order: 7)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_8, order: 8)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_9, order: 9)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_10, order: 10)
+ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_11, order: 11)
 
 DefaultActivity.create!(project_type: farming_workshop, activity: applying_knowledge, order: 2)
 

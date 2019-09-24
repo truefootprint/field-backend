@@ -46,7 +46,7 @@ RSpec.describe Registration::ProjectActivityActions do
     project_activity = ProjectActivity.last
     project_question = ProjectQuestion.last
 
-    expect(project_question.subject).to eq(project_activity)
+    expect(project_question.project_activity).to eq(project_activity)
   end
 
   it "creates an involvement for the main activity and each follow up activity" do

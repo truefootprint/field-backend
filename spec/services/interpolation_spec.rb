@@ -45,7 +45,7 @@ RSpec.describe Interpolation do
     let(:question) { FactoryBot.create(:question, topic: topic, text: "%{farmer}'s use of pesticide") }
 
     before do
-      FactoryBot.create(:project_question, question: question, subject: project_activity)
+      FactoryBot.create(:project_question, question: question, project_activity: project_activity)
 
       azizi = FactoryBot.create(:user, name: "Azizi")
       farmer = FactoryBot.create(:role, name: "farmer")

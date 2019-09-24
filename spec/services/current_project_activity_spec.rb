@@ -8,9 +8,9 @@ RSpec.describe CurrentProjectActivity do
   ] }
 
   let!(:project_questions) { [
-    FactoryBot.create(:project_question, question: question, subject: project_activities.first),
-    FactoryBot.create(:project_question, question: question, subject: project_activities.second),
-    FactoryBot.create(:project_question, question: question, subject: project_activities.third),
+    FactoryBot.create(:project_question, question: question, project_activity: project_activities.first),
+    FactoryBot.create(:project_question, question: question, project_activity: project_activities.second),
+    FactoryBot.create(:project_question, question: question, project_activity: project_activities.third),
   ] }
 
   let(:user) { FactoryBot.create(:user) }
@@ -82,7 +82,7 @@ RSpec.describe CurrentProjectActivity do
   end
 
   it "advances correctly when there are other (non-completion) questions for the project activity" do
-    project_question = FactoryBot.create(:project_question, subject: project_activities.first)
+    project_question = FactoryBot.create(:project_question, project_activity: project_activities.first)
     FactoryBot.create(:visibility, subject: project_question, visible_to: user)
 
     FactoryBot.create(:response, user: user, project_question: project_questions.first, value: "yes")

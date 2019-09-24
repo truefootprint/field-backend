@@ -2,7 +2,9 @@ RSpec.describe ProjectCompletionQuestions do
   let(:project) { FactoryBot.create(:project) }
   let(:project_activity) { FactoryBot.create(:project_activity, project: project) }
   let(:question) { FactoryBot.create(:question) }
-  let(:project_question) { FactoryBot.create(:project_question, subject: project_activity, question: question) }
+  let(:project_question) do
+    FactoryBot.create(:project_question, project_activity: project_activity, question: question)
+  end
 
   let(:user) { FactoryBot.create(:user) }
   let(:viewpoint) { Viewpoint.new(user: user) }

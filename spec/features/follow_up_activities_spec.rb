@@ -20,7 +20,7 @@ RSpec.describe "Follow up activities" do
     q1 = FactoryBot.create(:question, text: "How would you rate the workshop?")
     q2 = FactoryBot.create(:question, text: "Rate %{farmer}'s use of pesticide", topic: topic)
 
-    FactoryBot.create(:project_question, subject: workshop, question: q1)
+    FactoryBot.create(:project_question, project_activity: workshop, question: q1)
     FactoryBot.create(:default_question, activity: follow_up, question: q2)
 
     FactoryBot.create(:visibility, subject: follow_up, visible_to: monitor)

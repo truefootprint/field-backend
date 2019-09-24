@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_092522) do
+ActiveRecord::Schema.define(version: 2019_09_24_122153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,15 +103,14 @@ ActiveRecord::Schema.define(version: 2019_09_24_092522) do
   end
 
   create_table "project_questions", force: :cascade do |t|
-    t.string "subject_type"
-    t.bigint "subject_id"
     t.bigint "question_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "order"
+    t.bigint "project_activity_id"
     t.index ["order"], name: "index_project_questions_on_order"
+    t.index ["project_activity_id"], name: "index_project_questions_on_project_activity_id"
     t.index ["question_id"], name: "index_project_questions_on_question_id"
-    t.index ["subject_type", "subject_id"], name: "index_project_questions_on_subject_type_and_subject_id"
   end
 
   create_table "project_types", force: :cascade do |t|

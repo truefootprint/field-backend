@@ -36,7 +36,7 @@ class Registration
 
         follow_up.default_questions.each do |default|
           ProjectQuestion.create!(
-            subject: project_activity,
+            project_activity: project_activity,
             question: default.question,
             order: default.order,
           )

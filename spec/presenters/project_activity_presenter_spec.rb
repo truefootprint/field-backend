@@ -30,7 +30,7 @@ RSpec.describe ProjectActivityPresenter do
   it "can present with project questions" do
     project_activity = FactoryBot.create(:project_activity)
     question = FactoryBot.create(:question, text: "Question text")
-    FactoryBot.create(:project_question, id: 555, subject: project_activity, question: question)
+    FactoryBot.create(:project_question, id: 555, project_activity: project_activity, question: question)
 
     presented = described_class.present(project_activity, project_questions: true)
     expect(presented).to include(project_questions: [{ id: 555, text: "Question text" }])
