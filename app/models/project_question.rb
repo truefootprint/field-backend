@@ -3,6 +3,7 @@ class ProjectQuestion < ApplicationRecord
   belongs_to :question
   has_many :responses
   has_one :completion_question, through: :question
+  has_one :expected_value
 
   delegate :project, to: :project_activity
   delegate :project_type, to: :project

@@ -1,6 +1,6 @@
 class ProjectQuestionPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, text: interpolate(record.text) }
+    { id: record.id, text: interpolate(record.text) }.merge(present_expected_value(record))
   end
 
   def modify_scope(scope)
@@ -41,5 +41,11 @@ class ProjectQuestionPresenter < ApplicationPresenter
 
   def topic_presenter_options
     { interpolation_context: context }
+  end
+
+  def present_expected_value(record)
+    present_nested(:expected_value, ExpectedValuePresenter) do
+      record.expected_value
+    end
   end
 end

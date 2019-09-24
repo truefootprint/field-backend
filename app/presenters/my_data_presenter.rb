@@ -24,6 +24,7 @@ class MyDataPresenter < ApplicationPresenter
             project_questions: {
               visible: true,
               by_topic: true,
+              expected_value: true,
             }
           }
         },

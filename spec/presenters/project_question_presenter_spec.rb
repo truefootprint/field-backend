@@ -27,6 +27,14 @@ RSpec.describe ProjectQuestionPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]
   end
 
+  it "can present with expected values" do
+    project_question = FactoryBot.create(:project_question)
+    FactoryBot.create(:expected_value, project_question: project_question, value: "yes")
+
+    presented = described_class.present(project_question, expected_value: true)
+    expect(presented).to include(expected_value: { value: "yes" })
+  end
+
   it "can chunk project questions by topic" do
     topic1 = FactoryBot.create(:topic, name: "Topic 1")
     topic2 = FactoryBot.create(:topic, name: "Topic 2")
