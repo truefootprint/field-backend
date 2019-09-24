@@ -43,6 +43,11 @@ FactoryBot.define do
     order { 1 }
   end
 
+  factory :expected_value do
+    project_question
+    value { "yes" }
+  end
+
   factory :user do
     sequence(:name) { |n| "User #{n}" }
   end
@@ -59,7 +64,7 @@ FactoryBot.define do
   factory :response do
     project_question
     user
-    sequence(:value) { |n| "Value #{n}" }
+    value { "yes" }
   end
 
   factory :location do
