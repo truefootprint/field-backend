@@ -7,6 +7,25 @@ RSpec.describe Visibility do
     end
   end
 
+  describe ".subject_ids" do
+    it "returns a select of the subject_ids for a given subject_type" do
+      project = FactoryBot.create(:project)
+      project_activity = FactoryBot.create(:project_activity)
+
+      FactoryBot.create(:visibility, subject: project)
+      FactoryBot.create(:visibility, subject: project_activity)
+
+      selected = Visibility.subject_ids(Project)
+      expect(selected.map(&:subject_id)).to eq [project.id]
+
+      selected = Visibility.subject_ids(ProjectActivity)
+      expect(selected.map(&:subject_id)).to eq [project_activity.id]
+
+      selected = Visibility.none.subject_ids(Project)
+      expect(selected.map(&:subject_id)).to eq []
+    end
+  end
+
   describe ".union" do
     let!(:users) { FactoryBot.create_list(:user, 2) }
     let!(:roles) { FactoryBot.create_list(:role, 2) }
