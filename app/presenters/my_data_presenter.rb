@@ -30,16 +30,28 @@ class MyDataPresenter < ApplicationPresenter
               issues: {
                 user: true,
                 photos: true,
+                resolution: {
+                  user: true,
+                  photos: true,
+                },
               },
             },
             issues: {
               user: true,
               photos: true,
+              resolution: {
+                user: true,
+                photos: true,
+              },
             },
           },
           issues: {
             user: true,
             photos: true,
+            resolution: {
+              user: true,
+              photos: true,
+            },
           },
         },
       )

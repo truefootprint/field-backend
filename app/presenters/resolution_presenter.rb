@@ -1,9 +1,8 @@
-class IssuePresenter < ApplicationPresenter
+class ResolutionPresenter < ApplicationPresenter
   def present(record)
-    { description: record.description, critical: record.critical }
+    { description: record.description }
       .merge(present_user(record))
       .merge(present_photos(record))
-      .merge(present_resolution(record))
   end
 
   def present_user(record)
@@ -12,9 +11,5 @@ class IssuePresenter < ApplicationPresenter
 
   def present_photos(record)
     present_nested(:photos, AttachmentPresenter) { record.photos }
-  end
-
-  def present_resolution(record)
-    present_nested(:resolution, ResolutionPresenter) { record.resolution }
   end
 end
