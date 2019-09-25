@@ -27,6 +27,23 @@ RSpec.describe ProjectActivityPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]
   end
 
+  it "can present with source materials" do
+    stub_const("DOCUMENTS_PATH", "/some/path")
+
+    project_activity = FactoryBot.create(:project_activity)
+    document = FactoryBot.create(:document, filename: "contract.pdf")
+
+    FactoryBot.create(:source_material, subject: project_activity, document: document, page: 50)
+
+    presented = described_class.present(project_activity, source_materials: true)
+    expect(presented).to include(source_materials: [{
+      page: 50,
+      document: {
+        path: "/some/path/contract.pdf",
+      }
+    }])
+  end
+
   it "can present with project questions" do
     project_activity = FactoryBot.create(:project_activity)
     question = FactoryBot.create(:question, text: "Question text")

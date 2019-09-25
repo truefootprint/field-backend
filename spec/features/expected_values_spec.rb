@@ -33,6 +33,7 @@ RSpec.describe "Expected values" do
       text: "How much pesticide was used?",
       expected_value: {
         value: "10 liters",
+        source_materials: [],
       },
     )
   end

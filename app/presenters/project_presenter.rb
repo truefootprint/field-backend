@@ -1,6 +1,7 @@
 class ProjectPresenter < ApplicationPresenter
   def present(record)
     { id: record.id, name: record.name }
+      .merge(present_source_materials(record))
       .merge(present_current_activity(record))
       .merge(present_completion_questions(record))
       .merge(present_activities(record))
@@ -10,9 +11,9 @@ class ProjectPresenter < ApplicationPresenter
     options[:visible] ? scope.visible : scope
   end
 
-  def present_activities(record)
-    present_nested(:project_activities,  ProjectActivityPresenter) do
-      record.project_activities
+  def present_source_materials(record)
+    present_nested(:source_materials, SourceMaterialPresenter) do
+      record.source_materials
     end
   end
 
@@ -29,6 +30,12 @@ class ProjectPresenter < ApplicationPresenter
       viewpoint = options.fetch(:for_viewpoint)
 
       ProjectCompletionQuestions.for(viewpoint: viewpoint, project: record)
+    end
+  end
+
+  def present_activities(record)
+    present_nested(:project_activities,  ProjectActivityPresenter) do
+      record.project_activities
     end
   end
 end

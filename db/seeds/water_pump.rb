@@ -53,6 +53,9 @@ rusinda_hand_pump = Project.create!(
   project_type: water_pump,
 )
 
+document = Document.create!(filename: "water-pump-contract.pdf")
+SourceMaterial.create!(subject: rusinda_hand_pump, document: document)
+
 digging_the_hole_pa = ProjectActivity.create!(
   activity: digging_the_hole,
   project: rusinda_hand_pump,

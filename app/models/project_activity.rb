@@ -1,7 +1,9 @@
 class ProjectActivity < ApplicationRecord
   belongs_to :project
   belongs_to :activity
+
   has_many :project_questions
+  has_many :source_materials, class_name: :SourceMaterial, as: :subject, inverse_of: :subject
 
   delegate :name, to: :activity
 

@@ -15,13 +15,21 @@ RSpec.describe ProjectPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]
   end
 
-  it "can present with project activities" do
-    project = FactoryBot.create(:project)
-    activity = FactoryBot.create(:activity, name: "Activity name")
-    FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
+  it "can present with source materials" do
+    stub_const("DOCUMENTS_PATH", "/some/path")
 
-    presented = described_class.present(project, project_activities: true)
-    expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
+    project = FactoryBot.create(:project)
+    document = FactoryBot.create(:document, filename: "contract.pdf")
+
+    FactoryBot.create(:source_material, subject: project, document: document, page: 50)
+
+    presented = described_class.present(project, source_materials: true)
+    expect(presented).to include(source_materials: [{
+      page: 50,
+      document: {
+        path: "/some/path/contract.pdf",
+      }
+    }])
   end
 
   it "can present with the current project activity for a user" do
@@ -32,5 +40,14 @@ RSpec.describe ProjectPresenter do
       .with(viewpoint: viewpoint, project: project)
 
     described_class.present(project, current_project_activity: { for_viewpoint: viewpoint })
+  end
+
+  it "can present with project activities" do
+    project = FactoryBot.create(:project)
+    activity = FactoryBot.create(:activity, name: "Activity name")
+    FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
+
+    presented = described_class.present(project, project_activities: true)
+    expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
   end
 end
