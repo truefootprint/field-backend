@@ -124,4 +124,10 @@ FactoryBot.define do
     description { "The water pump has been stolen" }
     critical { true }
   end
+
+  factory :resolution do
+    issue
+    user
+    description { "The contractor has returned and fitted the water pump" }
+  end
 end
