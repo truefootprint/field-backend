@@ -1,6 +1,7 @@
 class ProjectQuestionPresenter < ApplicationPresenter
   def present(record)
     { id: record.id, text: interpolate(record.text) }
+      .merge(present_completion_question(record))
       .merge(present_expected_value(record))
       .merge(present_responses(record))
   end
@@ -43,6 +44,12 @@ class ProjectQuestionPresenter < ApplicationPresenter
 
   def topic_presenter_options
     { interpolation_context: context }
+  end
+
+  def present_completion_question(record)
+    present_nested(:completion_question, CompletionQuestionPresenter) do
+      record.completion_question
+    end
   end
 
   def present_expected_value(record)

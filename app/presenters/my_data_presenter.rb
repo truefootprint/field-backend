@@ -14,15 +14,13 @@ class MyDataPresenter < ApplicationPresenter
           current_project_activity: {
             for_viewpoint: viewpoint,
           },
-          completion_questions: {
-            for_viewpoint: viewpoint,
-          },
           project_activities: {
             visible: true,
             source_materials: true,
             project_questions: {
               visible: true,
               by_topic: true,
+              completion_question: true,
               expected_value: {
                 source_materials: true,
               },

@@ -3,7 +3,6 @@ class ProjectPresenter < ApplicationPresenter
     { id: record.id, name: record.name }
       .merge(present_source_materials(record))
       .merge(present_current_activity(record))
-      .merge(present_completion_questions(record))
       .merge(present_activities(record))
   end
 
@@ -22,14 +21,6 @@ class ProjectPresenter < ApplicationPresenter
       viewpoint = options.fetch(:for_viewpoint)
 
       CurrentProjectActivity.for(viewpoint: viewpoint, project: record)
-    end
-  end
-
-  def present_completion_questions(record)
-    present_nested(:completion_questions, ProjectCompletionQuestionPresenter) do |options|
-      viewpoint = options.fetch(:for_viewpoint)
-
-      ProjectCompletionQuestions.for(viewpoint: viewpoint, project: record)
     end
   end
 

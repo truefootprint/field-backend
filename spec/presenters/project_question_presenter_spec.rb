@@ -27,6 +27,15 @@ RSpec.describe ProjectQuestionPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]
   end
 
+  it "can present with completion questions" do
+    question = FactoryBot.create(:question)
+    project_question = FactoryBot.create(:project_question, question: question)
+    FactoryBot.create(:completion_question, question: question, completion_value: "yes")
+
+    presented = described_class.present(project_question, completion_question: true)
+    expect(presented).to include(completion_question: { completion_value: "yes" })
+  end
+
   it "can present with expected values" do
     project_question = FactoryBot.create(:project_question)
     FactoryBot.create(:expected_value, project_question: project_question, value: "yes")
