@@ -4,6 +4,7 @@ class ProjectQuestionPresenter < ApplicationPresenter
       .merge(present_completion_question(record))
       .merge(present_expected_value(record))
       .merge(present_responses(record))
+      .merge(present_issues(record))
   end
 
   def modify_scope(scope)
@@ -64,5 +65,9 @@ class ProjectQuestionPresenter < ApplicationPresenter
 
       record.responses.where(user: user)
     end
+  end
+
+  def present_issues(record)
+    present_nested(:issues, IssuePresenter) { record.issues }
   end
 end

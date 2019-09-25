@@ -1,9 +1,12 @@
 class ProjectQuestion < ApplicationRecord
   belongs_to :project_activity
   belongs_to :question
-  has_many :responses
+
   has_one :completion_question, through: :question
   has_one :expected_value
+
+  has_many :responses
+  has_many :issues, class_name: :Issue, as: :subject, inverse_of: :subject
 
   delegate :project, to: :project_activity
   delegate :project_type, to: :project

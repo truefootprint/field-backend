@@ -50,4 +50,14 @@ RSpec.describe ProjectPresenter do
     presented = described_class.present(project, project_activities: true)
     expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
   end
+
+  it "can present with issues" do
+    project = FactoryBot.create(:project)
+    FactoryBot.create(:issue, subject: project, description: "Issue description", critical: true)
+
+    presented = described_class.present(project, issues: true)
+    expect(presented).to include(issues: [
+      { description: "Issue description", critical: true }
+    ])
+  end
 end

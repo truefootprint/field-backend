@@ -55,6 +55,22 @@ RSpec.describe ProjectQuestionPresenter do
     expect(presented).to include(responses: [{ value: "yes" }])
   end
 
+  it "can present with issues" do
+    project_question = FactoryBot.create(:project_question)
+
+    FactoryBot.create(
+      :issue,
+      subject: project_question,
+      description: "Issue description",
+      critical: true,
+    )
+
+    presented = described_class.present(project_question, issues: true)
+    expect(presented).to include(issues: [
+      { description: "Issue description", critical: true }
+    ])
+  end
+
   it "can chunk project questions by topic" do
     topic1 = FactoryBot.create(:topic, name: "Topic 1")
     topic2 = FactoryBot.create(:topic, name: "Topic 2")

@@ -4,6 +4,7 @@ class ProjectActivity < ApplicationRecord
 
   has_many :project_questions
   has_many :source_materials, class_name: :SourceMaterial, as: :subject, inverse_of: :subject
+  has_many :issues, class_name: :Issue, as: :subject, inverse_of: :subject
 
   delegate :name, to: :activity
 

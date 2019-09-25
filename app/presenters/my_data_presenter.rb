@@ -27,8 +27,20 @@ class MyDataPresenter < ApplicationPresenter
               responses: {
                 for_user: viewpoint.user,
               },
-            }
-          }
+              issues: {
+                user: true,
+                photos: true,
+              },
+            },
+            issues: {
+              user: true,
+              photos: true,
+            },
+          },
+          issues: {
+            user: true,
+            photos: true,
+          },
         },
       )
 

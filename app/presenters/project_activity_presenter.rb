@@ -6,6 +6,7 @@ class ProjectActivityPresenter < ApplicationPresenter
     { id: record.id, name: name }
       .merge(present_source_materials(record))
       .merge(present_questions(record, context))
+      .merge(present_issues(record))
   end
 
   def modify_scope(scope)
@@ -27,5 +28,9 @@ class ProjectActivityPresenter < ApplicationPresenter
 
       record.project_questions
     end
+  end
+
+  def present_issues(record)
+    present_nested(:issues, IssuePresenter) { record.issues }
   end
 end

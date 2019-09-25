@@ -53,6 +53,22 @@ RSpec.describe ProjectActivityPresenter do
     expect(presented).to include(project_questions: [{ id: 555, text: "Question text" }])
   end
 
+  it "can present with issues" do
+    project_activity = FactoryBot.create(:project_activity)
+
+    FactoryBot.create(
+      :issue,
+      subject: project_activity,
+      description: "Issue description",
+      critical: true,
+    )
+
+    presented = described_class.present(project_activity, issues: true)
+    expect(presented).to include(issues: [
+      { description: "Issue description", critical: true }
+    ])
+  end
+
   it "can interpolate user names into project activity name" do
     activity = FactoryBot.create(:activity, name: "Activity about %{Role name}")
     project_activity = FactoryBot.create(:project_activity, activity: activity)

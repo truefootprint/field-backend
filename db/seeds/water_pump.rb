@@ -129,3 +129,14 @@ Visibility.create(subject: hole, visible_to: monitor)
 Visibility.create(subject: pump, visible_to: monitor)
 Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
+
+Issue.create!(
+  subject: rusinda_hand_pump,
+  user: suleman,
+  description: "The water pump was stolen by the contractor",
+  critical: true,
+  photos: [{
+    io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
+    filename: "water-pump-stolen.png",
+  }]
+)
