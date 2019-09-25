@@ -1,6 +1,8 @@
 class ProjectQuestionPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, text: interpolate(record.text) }.merge(present_expected_value(record))
+    { id: record.id, text: interpolate(record.text) }
+      .merge(present_expected_value(record))
+      .merge(present_responses(record))
   end
 
   def modify_scope(scope)
@@ -46,6 +48,14 @@ class ProjectQuestionPresenter < ApplicationPresenter
   def present_expected_value(record)
     present_nested(:expected_value, ExpectedValuePresenter) do
       record.expected_value
+    end
+  end
+
+  def present_responses(record)
+    present_nested(:responses, ResponsePresenter) do |options|
+      user = options.fetch(:for_user)
+
+      record.responses.where(user: user)
     end
   end
 end

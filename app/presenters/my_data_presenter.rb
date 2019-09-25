@@ -1,9 +1,6 @@
 class MyDataPresenter < ApplicationPresenter
-  def present(projects:, responses:)
-    presented_projects = present_nested(:projects, ProjectPresenter) { projects }
-    presented_responses = present_nested(:responses, ResponsePresenter) { responses }
-
-    presented_projects.merge(presented_responses)
+  def present_scope(projects)
+    present_nested(:projects, ProjectPresenter) { projects }
   end
 
   class WithEverything < self
@@ -29,10 +26,12 @@ class MyDataPresenter < ApplicationPresenter
               expected_value: {
                 source_materials: true,
               },
+              responses: {
+                for_user: viewpoint.user,
+              },
             }
           }
         },
-        responses: true,
       )
 
       super(object, options)

@@ -35,6 +35,17 @@ RSpec.describe ProjectQuestionPresenter do
     expect(presented).to include(expected_value: { value: "yes" })
   end
 
+  it "can present with responses for a user" do
+    user1, user2 = FactoryBot.create_list(:user, 2)
+    project_question = FactoryBot.create(:project_question)
+
+    FactoryBot.create(:response, user: user1, project_question: project_question, value: "yes")
+    FactoryBot.create(:response, user: user2, project_question: project_question, value: "no")
+
+    presented = described_class.present(project_question, responses: { for_user: user1 })
+    expect(presented).to include(responses: [{ value: "yes" }])
+  end
+
   it "can chunk project questions by topic" do
     topic1 = FactoryBot.create(:topic, name: "Topic 1")
     topic2 = FactoryBot.create(:topic, name: "Topic 2")

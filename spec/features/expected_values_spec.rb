@@ -24,12 +24,7 @@ RSpec.describe "Expected values" do
   scenario "presenting the expected value for a question" do
     get "/my_data", auth
 
-    first_project          = parsed_json.fetch(:projects).first
-    first_project_activity = first_project.fetch(:project_activities).first
-    first_topic            = first_project_activity.dig(:project_questions, :by_topic).first
-    first_project_question = first_topic.fetch(:project_questions).first
-
-    expect(first_project_question).to include(
+    expect(all_project_questions.first).to include(
       text: "How much pesticide was used?",
       expected_value: {
         value: "10 liters",

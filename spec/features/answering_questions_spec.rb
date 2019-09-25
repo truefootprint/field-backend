@@ -25,15 +25,11 @@ RSpec.describe "Answering questions" do
   end
 
   def current_project_activity
-    parsed_json.fetch(:projects).first.fetch(:current_project_activity)
+    all_projects.first.fetch(:current_project_activity)
   end
 
   def completion_questions
-    parsed_json.fetch(:projects).first.fetch(:completion_questions)
-  end
-
-  def question_responses
-    parsed_json.fetch(:responses)
+    all_projects.first.fetch(:completion_questions)
   end
 
   def post_action(action)
@@ -55,18 +51,13 @@ RSpec.describe "Answering questions" do
     get "/my_data", auth
     expect(response.status).to eq(200)
     expect(current_project_activity).to eq(id: pa2.id, name: pa2.activity.name)
-    expect(question_responses).to eq [
-      { project_question_id: pq2.id, value: "yes" },
-    ]
+    expect(find_project_question(pq2.id).fetch(:responses)).to eq [{ value: "yes" }]
 
     post_action(action: "AnswerQuestion", project_question_id: pq4.id, value: "yes")
     expect(response.status).to eq(201)
 
     get "/my_data", auth
     expect(current_project_activity).to be_nil
-    expect(question_responses).to eq [
-      { project_question_id: pq4.id, value: "yes" },
-      { project_question_id: pq2.id, value: "yes" },
-    ]
+    expect(find_project_question(pq4.id).fetch(:responses)).to eq [{ value: "yes" }]
   end
 end
