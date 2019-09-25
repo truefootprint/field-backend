@@ -112,4 +112,9 @@ FactoryBot.define do
   factory :document do
     filename { "water-pump-contract.pdf" }
   end
+
+  factory :source_material do
+    association :subject, factory: :expected_value
+    document
+  end
 end
