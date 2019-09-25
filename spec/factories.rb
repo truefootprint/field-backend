@@ -117,4 +117,11 @@ FactoryBot.define do
     association :subject, factory: :expected_value
     document
   end
+
+  factory :issue do
+    association :subject, factory: :project_activity
+    user
+    description { "The water pump has been stolen" }
+    critical { true }
+  end
 end

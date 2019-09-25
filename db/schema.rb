@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_25_103634) do
+ActiveRecord::Schema.define(version: 2019_09_25_140209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,19 @@ ActiveRecord::Schema.define(version: 2019_09_25_103634) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_activity_id"], name: "index_involvements_on_project_activity_id"
     t.index ["user_id"], name: "index_involvements_on_user_id"
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.bigint "user_id"
+    t.text "description"
+    t.boolean "critical", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["critical"], name: "index_issues_on_critical"
+    t.index ["subject_type", "subject_id"], name: "index_issues_on_subject_type_and_subject_id"
+    t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
   create_table "locations", force: :cascade do |t|
