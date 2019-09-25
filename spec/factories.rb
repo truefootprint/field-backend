@@ -108,4 +108,8 @@ FactoryBot.define do
     association :subject, factory: :question
     association :visible_to, factory: :role
   end
+
+  factory :document do
+    filename { "water-pump-contract.pdf" }
+  end
 end
