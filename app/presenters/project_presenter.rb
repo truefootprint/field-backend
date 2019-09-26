@@ -1,6 +1,7 @@
 class ProjectPresenter < ApplicationPresenter
   def present(record)
     { id: record.id, name: record.name }
+      .merge(present_project_summary(record))
       .merge(present_source_materials(record))
       .merge(present_current_activity(record))
       .merge(present_activities(record))
@@ -9,6 +10,10 @@ class ProjectPresenter < ApplicationPresenter
 
   def modify_scope(scope)
     options[:visible] ? scope.visible : scope
+  end
+
+  def present_project_summary(record)
+    present_nested(:project_summary, ProjectSummaryPresenter) { record.project_summary }
   end
 
   def present_source_materials(record)

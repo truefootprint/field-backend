@@ -55,6 +55,16 @@ ololu_workshop = Project.create!(
   project_type: farming_workshop,
 )
 
+ProjectSummary.create!(
+  project: ololu_workshop,
+  text: <<~TEXT
+    This project is about teaching farmers good practices to produce better
+    yields and be more environmentally friendly. There will be a workshop and
+    then some follow up activities where a monitor will visit each individual
+    farm and see how well each farmer is applying the lessons of the workshop.
+  TEXT
+)
+
 attending_workshop_pa = ProjectActivity.create!(
   activity: attending_workshop,
   project: ololu_workshop,

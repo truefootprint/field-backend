@@ -10,6 +10,7 @@ class MyDataPresenter < ApplicationPresenter
       options = options.merge(
         projects: {
           visible: true,
+          project_summary: true,
           source_materials: true,
           current_project_activity: {
             for_viewpoint: viewpoint,

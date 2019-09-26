@@ -43,6 +43,11 @@ FactoryBot.define do
     order { 1 }
   end
 
+  factory :project_summary do
+    project
+    text { "Project summary text" }
+  end
+
   factory :expected_value do
     project_question
     value { "yes" }
