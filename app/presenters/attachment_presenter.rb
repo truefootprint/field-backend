@@ -10,11 +10,6 @@ class AttachmentPresenter < ApplicationPresenter
   end
 
   def present(record)
-    Rails.application.routes.default_url_options = {
-      host: "localhost", # TODO: set dynamically for application
-      port: 3000,
-    }
-
     { url: url_for(record) }
   end
 end
