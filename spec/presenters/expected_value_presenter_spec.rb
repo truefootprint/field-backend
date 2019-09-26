@@ -5,8 +5,6 @@ RSpec.describe ExpectedValuePresenter do
   end
 
   it "can present with source materials" do
-    stub_const("DOCUMENTS_PATH", "/some/path")
-
     expected_value = FactoryBot.create(:expected_value)
     document = FactoryBot.create(:document, filename: "contract.pdf")
 
@@ -16,8 +14,10 @@ RSpec.describe ExpectedValuePresenter do
     expect(presented).to include(source_materials: [{
       page: 50,
       document: {
-        path: "/some/path/contract.pdf",
-      }
+        file: {
+          url: a_string_matching("/contract.pdf"),
+        },
+      },
     }])
   end
 end

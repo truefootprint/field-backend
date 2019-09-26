@@ -1,7 +1,5 @@
 class Document < ApplicationRecord
-  validates :filename, presence: true
+  has_one_attached :file
 
-  def path
-    File.join(DOCUMENTS_PATH, filename)
-  end
+  validates :file, presence: true
 end

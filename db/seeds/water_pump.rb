@@ -53,7 +53,9 @@ rusinda_hand_pump = Project.create!(
   project_type: water_pump,
 )
 
-document = Document.create!(filename: "water-pump-contract.pdf")
+contract = Rails.root.join("spec/fixtures/files/water-pump-contract.pdf").open
+document = Document.create!(file: { io: contract, filename: "contract.pdf" })
+
 SourceMaterial.create!(subject: rusinda_hand_pump, document: document)
 
 digging_the_hole_pa = ProjectActivity.create!(

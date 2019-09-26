@@ -110,7 +110,14 @@ FactoryBot.define do
   end
 
   factory :document do
-    filename { "water-pump-contract.pdf" }
+    transient do
+      filename { "contract.pdf" }
+    end
+
+    after(:build) do |document, evaluator|
+      contract = Rails.root.join("spec/fixtures/files/water-pump-contract.pdf").open
+      document.file.attach(io: contract, filename: evaluator.filename)
+    end
   end
 
   factory :source_material do
