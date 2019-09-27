@@ -1,7 +1,13 @@
 class ProjectQuestionPresenter < ApplicationPresenter
   def present(record)
-    { type: record.type, id: record.id, text: interpolate(record.text) }
-      .merge(present_type_specific_fields(record))
+    presented = {
+      type: record.type,
+      data_type: record.data_type,
+      id: record.id,
+      text: interpolate(record.text),
+    }
+
+    presented.merge(present_type_specific_fields(record))
       .merge(present_completion_question(record))
       .merge(present_expected_value(record))
       .merge(present_responses(record))

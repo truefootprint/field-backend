@@ -9,4 +9,5 @@ class Question < ApplicationRecord
 
   validates :text, presence: true, uniqueness: { scope: :topic_id }
   validates :type, presence: true
+  validates :data_type, inclusion: { in: %w[boolean number photo string] }
 end

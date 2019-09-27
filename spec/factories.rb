@@ -18,6 +18,7 @@ FactoryBot.define do
 
   factory :question, class: "FreeTextQuestion" do
     topic
+    data_type { "string" }
     sequence(:text) { |n| "Question #{n}" }
   end
 

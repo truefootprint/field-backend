@@ -16,6 +16,11 @@ RSpec.describe Question do
       expect(question).to be_invalid
     end
 
+    it "requires a known data type" do
+      question.data_type = "unknown"
+      expect(question).to be_invalid
+    end
+
     it "must be unique per topic/text" do
       existing = FactoryBot.create(:question)
 

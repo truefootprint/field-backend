@@ -1,10 +1,10 @@
 RSpec.describe ProjectQuestionPresenter do
   it "presents a project question" do
-    question = FactoryBot.create(:question, text: "Question text")
+    question = FactoryBot.create(:question, data_type: "string", text: "Question text")
     FactoryBot.create(:project_question, id: 111, question: question, order: 5)
 
     presented = described_class.present(ProjectQuestion.last)
-    expect(presented).to include(id: 111, text: "Question text")
+    expect(presented).to include(id: 111, data_type: "string", text: "Question text")
   end
 
   it "orders by the order column" do

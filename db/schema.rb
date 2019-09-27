@@ -207,11 +207,13 @@ ActiveRecord::Schema.define(version: 2019_09_27_100803) do
   create_table "questions", force: :cascade do |t|
     t.bigint "topic_id"
     t.string "type"
+    t.string "data_type"
     t.text "text"
     t.integer "expected_length"
     t.boolean "multiple_answers", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["data_type"], name: "index_questions_on_data_type"
     t.index ["topic_id", "text"], name: "index_questions_on_topic_id_and_text", unique: true
     t.index ["topic_id"], name: "index_questions_on_topic_id"
     t.index ["type"], name: "index_questions_on_type"

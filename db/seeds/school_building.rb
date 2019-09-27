@@ -9,28 +9,28 @@ educate_children = Activity.create!(name: "Educate the children")
 
 cement = Topic.create!(name: "Cement")
 
-question_1 = FreeTextQuestion.create!(text: "Floats in water", topic: cement)
-question_2 = FreeTextQuestion.create!(text: "Contains lumps", topic: cement)
-question_3 = FreeTextQuestion.create!(text: "Strength test", topic: cement)
-question_4 = FreeTextQuestion.create!(text: "Pack date", topic: cement)
-question_5 = FreeTextQuestion.create!(text: "Photo", topic: cement)
-question_6 = FreeTextQuestion.create!(text: "Any other comments", topic: cement)
+question_1 = FreeTextQuestion.create!(text: "Floats in water", data_type: "boolean", topic: cement)
+question_2 = FreeTextQuestion.create!(text: "Contains lumps", data_type: "boolean", topic: cement)
+question_3 = FreeTextQuestion.create!(text: "Strength test", data_type: "boolean", topic: cement)
+question_4 = FreeTextQuestion.create!(text: "Pack date", data_type: "string", topic: cement)
+question_5 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: cement)
+question_6 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: cement)
 
 bricks = Topic.create!(name: "Bricks")
 
-question_7 = FreeTextQuestion.create!(text: "Shape is uniform", topic: bricks)
-question_8 = FreeTextQuestion.create!(text: "Hardness test", topic: bricks)
-question_9 = FreeTextQuestion.create!(text: "Sound test", topic: bricks)
-question_10 = FreeTextQuestion.create!(text: "Structure test", topic: bricks)
-question_11 = FreeTextQuestion.create!(text: "Water test", topic: bricks)
-question_12 = FreeTextQuestion.create!(text: "Photo", topic: bricks)
-question_13 = FreeTextQuestion.create!(text: "Any other comments", topic: bricks)
+question_7 = FreeTextQuestion.create!(text: "Shape is uniform", data_type: "boolean", topic: bricks)
+question_8 = FreeTextQuestion.create!(text: "Hardness test", data_type: "boolean", topic: bricks)
+question_9 = FreeTextQuestion.create!(text: "Sound test", data_type: "boolean", topic: bricks)
+question_10 = FreeTextQuestion.create!(text: "Structure test", data_type: "boolean", topic: bricks)
+question_11 = FreeTextQuestion.create!(text: "Water test", data_type: "boolean", topic: bricks)
+question_12 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: bricks)
+question_13 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: bricks)
 
 progress = Topic.create!(name: "Progress")
 
-question_14 = FreeTextQuestion.create!(text: "Are the foundations laid?", topic: progress)
-question_15 = FreeTextQuestion.create!(text: "Are the walls built?", topic: progress)
-question_16 = FreeTextQuestion.create!(text: "Is the roof complete?", topic: progress)
+question_14 = FreeTextQuestion.create!(text: "Are the foundations laid?", data_type: "boolean", topic: progress)
+question_15 = FreeTextQuestion.create!(text: "Are the walls built?", data_type: "boolean", topic: progress)
+question_16 = FreeTextQuestion.create!(text: "Is the roof complete?", data_type: "boolean", topic: progress)
 
 CompletionQuestion.create!(question: question_14, completion_value: "yes")
 CompletionQuestion.create!(question: question_15, completion_value: "yes")
@@ -38,18 +38,18 @@ CompletionQuestion.create!(question: question_16, completion_value: "yes")
 
 teaching = Topic.create!(name: "Teaching")
 
-question_17 = FreeTextQuestion.create!(text: "Nr of textbooks", topic: teaching)
-question_18 = FreeTextQuestion.create!(text: "Nr of desks", topic: teaching)
-question_19 = FreeTextQuestion.create!(text: "Nr of chairs", topic: teaching)
-question_20 = FreeTextQuestion.create!(text: "Qualified teacher", topic: teaching)
-question_21 = FreeTextQuestion.create!(text: "Photo", topic: teaching)
-question_22 = FreeTextQuestion.create!(text: "Any other comments", topic: teaching)
+question_17 = FreeTextQuestion.create!(text: "Nr of textbooks", data_type: "number", topic: teaching)
+question_18 = FreeTextQuestion.create!(text: "Nr of desks", data_type: "number", topic: teaching)
+question_19 = FreeTextQuestion.create!(text: "Nr of chairs", data_type: "number", topic: teaching)
+question_20 = FreeTextQuestion.create!(text: "Qualified teacher", data_type: "boolean", topic: teaching)
+question_21 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: teaching)
+question_22 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: teaching)
 
 building = Topic.create!(name: "Building")
 
-question_23 = FreeTextQuestion.create!(text: "Serious damage", topic: building)
-question_24 = FreeTextQuestion.create!(text: "Working electricity", topic: building)
-question_25 = FreeTextQuestion.create!(text: "Running water", topic: building)
+question_23 = FreeTextQuestion.create!(text: "Serious damage", data_type: "boolean", topic: building)
+question_24 = FreeTextQuestion.create!(text: "Working electricity", data_type: "boolean", topic: building)
+question_25 = FreeTextQuestion.create!(text: "Running water", data_type: "boolean", topic: building)
 
 # Projects
 
