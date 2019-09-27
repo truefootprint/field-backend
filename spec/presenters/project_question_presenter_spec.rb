@@ -4,7 +4,7 @@ RSpec.describe ProjectQuestionPresenter do
     FactoryBot.create(:project_question, id: 111, question: question, order: 5)
 
     presented = described_class.present(ProjectQuestion.last)
-    expect(presented).to eq(id: 111, text: "Question text")
+    expect(presented).to include(id: 111, text: "Question text")
   end
 
   it "orders by the order column" do
@@ -14,6 +14,28 @@ RSpec.describe ProjectQuestionPresenter do
 
     presented = described_class.present(ProjectQuestion.all)
     expect(presented.map { |h| h.fetch(:id) }).to eq [333, 111, 222]
+  end
+
+  it "presents type specific fields for free text questions" do
+    question = FactoryBot.create(:free_text_question, expected_length: 10)
+    project_question = FactoryBot.create(:project_question, question: question)
+
+    presented = described_class.present(project_question)
+    expect(presented).to include(type: "FreeTextQuestion", expected_length: 10)
+  end
+
+  it "presents type specific fields for multi-choice questions" do
+    question = FactoryBot.create(:multi_choice_question, multiple_answers: true)
+    project_question = FactoryBot.create(:project_question, question: question)
+
+    FactoryBot.create(:multi_choice_option, question: question, text: "Second", order: 2)
+    FactoryBot.create(:multi_choice_option, question: question, text: "First", order: 1)
+
+    expect(described_class.present(project_question)).to include(
+      type: "MultiChoiceQuestion",
+      multiple_answers: true,
+      multi_choice_options: [{ text: "First" }, { text: "Second" }],
+    )
   end
 
   it "can present visible project questions only" do

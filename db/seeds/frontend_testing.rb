@@ -12,7 +12,11 @@ topic3 = Topic.create!(name: "Topic 3")
 topic4 = Topic.create!(name: "Topic 4")
 
 question_1 = FreeTextQuestion.create!(text: "Question 1", topic: topic1)
-question_2 = FreeTextQuestion.create!(text: "Question 2", topic: topic1)
+question_2 = MultiChoiceQuestion.create!(text: "Question 2", topic: topic1)
+
+MultiChoiceOption.create!(question: question_2, text: "Second", order: 2)
+MultiChoiceOption.create!(question: question_2, text: "First", order: 1)
+MultiChoiceOption.create!(question: question_2, text: "Third", order: 3)
 
 question_3 = FreeTextQuestion.create!(text: "Question 3", topic: topic2)
 question_4 = FreeTextQuestion.create!(text: "Question 4", topic: topic2)

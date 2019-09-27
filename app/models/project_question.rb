@@ -10,7 +10,7 @@ class ProjectQuestion < ApplicationRecord
 
   delegate :project, to: :project_activity
   delegate :project_type, to: :project
-  delegate :text, to: :question
+  delegate :text, :type, to: :question
 
   scope :visible, -> { visible_to(Viewpoint.current) }
   scope :visible_to, -> (viewpoint) {

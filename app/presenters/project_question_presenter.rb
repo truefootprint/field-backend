@@ -1,6 +1,7 @@
 class ProjectQuestionPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, text: interpolate(record.text) }
+    { type: record.type, id: record.id, text: interpolate(record.text) }
+      .merge(present_type_specific_fields(record))
       .merge(present_completion_question(record))
       .merge(present_expected_value(record))
       .merge(present_responses(record))
@@ -33,6 +34,10 @@ class ProjectQuestionPresenter < ApplicationPresenter
     { by_topic: presented }
   end
 
+  def options
+    super.merge(multi_choice_options: true)
+  end
+
   private
 
   def interpolate(string)
@@ -45,6 +50,23 @@ class ProjectQuestionPresenter < ApplicationPresenter
 
   def topic_presenter_options
     { interpolation_context: context }
+  end
+
+  def present_type_specific_fields(record)
+    question = record.question
+
+    case question
+    when FreeTextQuestion
+      { expected_length: question.expected_length }
+    when MultiChoiceQuestion
+      { multiple_answers: question.multiple_answers }.merge(present_options(record))
+    end
+  end
+
+  def present_options(record)
+    present_nested(:multi_choice_options, MultiChoiceOptionPresenter) do
+      record.question.multi_choice_options
+    end
   end
 
   def present_completion_question(record)
