@@ -127,17 +127,6 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string "subject_type"
-    t.bigint "subject_id"
-    t.text "name"
-    t.string "latitude"
-    t.string "longitude"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["subject_type", "subject_id"], name: "index_locations_on_subject_type_and_subject_id"
-  end
-
   create_table "multi_choice_options", force: :cascade do |t|
     t.bigint "question_id"
     t.text "text"
@@ -153,16 +142,6 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["response_id"], name: "index_photo_uploads_on_response_id"
-  end
-
-  create_table "problems", force: :cascade do |t|
-    t.string "subject_type"
-    t.bigint "subject_id"
-    t.string "state"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["state"], name: "index_problems_on_state"
-    t.index ["subject_type", "subject_id"], name: "index_problems_on_subject_type_and_subject_id"
   end
 
   create_table "project_activities", force: :cascade do |t|
