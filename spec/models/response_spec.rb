@@ -12,6 +12,22 @@ RSpec.describe Response do
     end
   end
 
+  describe "#parsed_value" do
+    it "parses the value according to the question's data_type" do
+      q = FactoryBot.create(:question, data_type: "boolean")
+      pq = FactoryBot.create(:project_question, question: q)
+      r = FactoryBot.build(:response, value: "yes", project_question: pq)
+
+      expect(r.parsed_value).to eq(true)
+
+      q = FactoryBot.create(:question, data_type: "number")
+      pq = FactoryBot.create(:project_question, question: q)
+      r = FactoryBot.build(:response, value: "123", project_question: pq)
+
+      expect(r.parsed_value).to eq(123)
+    end
+  end
+
   describe ".newest_per_project_question" do
     it "returns the newest response for each project question" do
       project_question = FactoryBot.create(:project_question)

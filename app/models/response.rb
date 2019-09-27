@@ -16,4 +16,8 @@ class Response < ApplicationRecord
 
     Response.where(id: ids)
   end
+
+  def parsed_value
+    DataTypeParser.parse(value, question.data_type)
+  end
 end
