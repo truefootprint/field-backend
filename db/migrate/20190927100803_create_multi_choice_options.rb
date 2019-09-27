@@ -8,5 +8,6 @@ class CreateMultiChoiceOptions < ActiveRecord::Migration[6.0]
     end
 
     add_index :multi_choice_options, [:question_id, :text], unique: true
+    add_index :multi_choice_options, :order
   end
 end

@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
     t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order"], name: "index_multi_choice_options_on_order"
     t.index ["question_id", "text"], name: "index_multi_choice_options_on_question_id_and_text", unique: true
     t.index ["question_id"], name: "index_multi_choice_options_on_question_id"
   end
