@@ -9,7 +9,7 @@ group = Topic.create!(name: "Group")
 
 question_1 = FreeTextQuestion.create!(text: "People in class", data_type: "number", topic: group)
 question_2 = FreeTextQuestion.create!(text: "Teacher present", data_type: "boolean", topic: group)
-question_3 = FreeTextQuestion.create!(text: "Group photo", data_type: "photo", topic: group)
+question_3 = PhotoUploadQuestion.create!(text: "Group photo", data_type: "photo", topic: group)
 question_4 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: group)
 
 tools = Topic.create!(name: "Tools")
@@ -17,7 +17,7 @@ tools = Topic.create!(name: "Tools")
 question_5 = FreeTextQuestion.create(text: "Secateurs", data_type: "boolean", topic: tools)
 question_6 = FreeTextQuestion.create(text: "Working", data_type: "boolean", topic: tools)
 question_7 = FreeTextQuestion.create(text: "Workshop date", data_type: "string", topic: tools)
-question_8 = FreeTextQuestion.create(text: "Photo", data_type: "photo", topic: tools)
+question_8 = PhotoUploadQuestion.create(text: "Photo", data_type: "photo", topic: tools)
 question_9 = FreeTextQuestion.create(text: "Any other comments", data_type: "string", topic: tools)
 
 overall = Topic.create!(name: "Overall")
@@ -33,7 +33,7 @@ question_14 = FreeTextQuestion.create!(text: "Pesticides?", data_type: "number",
 question_15 = FreeTextQuestion.create!(text: "Seedlings planted?", data_type: "number", topic: inputs)
 question_16 = FreeTextQuestion.create!(text: "Rainwater captured?", data_type: "number", topic: inputs)
 question_17 = FreeTextQuestion.create!(text: "Most coffee trees shaded?", data_type: "boolean", topic: inputs)
-question_18 = FreeTextQuestion.create!(text: "Take a photo", data_type: "photo", topic: inputs)
+question_18 = PhotoUploadQuestion.create!(text: "Take a photo", data_type: "photo", topic: inputs)
 question_19 = FreeTextQuestion.create!(text: "Any other comments?", data_type: "string", topic: inputs)
 
 outputs = Topic.create!(name: "Outputs")
@@ -138,7 +138,7 @@ question_31 = FreeTextQuestion.create!(text: "Is the drinking water in the villa
 question_32 = FreeTextQuestion.create!(text: "Is the stream clean?", data_type: "boolean", topic: water_quality)
 question_33 = FreeTextQuestion.create!(text: "Are there any foul odours?", data_type: "boolean", topic: water_quality)
 question_34 = FreeTextQuestion.create!(text: "Are there many dead fish in the stream?", data_type: "boolean", topic: water_quality)
-question_35 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: water_quality)
+question_35 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: water_quality)
 question_36 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: water_quality)
 
 farm = Topic.create!(name: "On %{farmer}'s farm")
@@ -147,7 +147,7 @@ question_37 = FreeTextQuestion.create!(text: "Is there soil pollution on %{farme
 question_38 = FreeTextQuestion.create!(text: "Any signs of water pollution?", data_type: "boolean", topic: farm)
 question_39 = FreeTextQuestion.create!(text: "Any signs of air pollution?", data_type: "boolean", topic: farm)
 question_40 = FreeTextQuestion.create!(text: "Are there children working?", data_type: "boolean", topic: farm)
-question_41 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: farm)
+question_41 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: farm)
 question_42 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: farm)
 
 DefaultQuestion.create!(activity: applying_knowledge, question: question_27, order: 1)

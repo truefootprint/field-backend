@@ -13,7 +13,7 @@ question_1 = FreeTextQuestion.create!(text: "Floats in water", data_type: "boole
 question_2 = FreeTextQuestion.create!(text: "Contains lumps", data_type: "boolean", topic: cement)
 question_3 = FreeTextQuestion.create!(text: "Strength test", data_type: "boolean", topic: cement)
 question_4 = FreeTextQuestion.create!(text: "Pack date", data_type: "string", topic: cement)
-question_5 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: cement)
+question_5 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: cement)
 question_6 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: cement)
 
 bricks = Topic.create!(name: "Bricks")
@@ -23,7 +23,7 @@ question_8 = FreeTextQuestion.create!(text: "Hardness test", data_type: "boolean
 question_9 = FreeTextQuestion.create!(text: "Sound test", data_type: "boolean", topic: bricks)
 question_10 = FreeTextQuestion.create!(text: "Structure test", data_type: "boolean", topic: bricks)
 question_11 = FreeTextQuestion.create!(text: "Water test", data_type: "boolean", topic: bricks)
-question_12 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: bricks)
+question_12 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: bricks)
 question_13 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: bricks)
 
 progress = Topic.create!(name: "Progress")
@@ -42,7 +42,7 @@ question_17 = FreeTextQuestion.create!(text: "Nr of textbooks", data_type: "numb
 question_18 = FreeTextQuestion.create!(text: "Nr of desks", data_type: "number", topic: teaching)
 question_19 = FreeTextQuestion.create!(text: "Nr of chairs", data_type: "number", topic: teaching)
 question_20 = FreeTextQuestion.create!(text: "Qualified teacher", data_type: "boolean", topic: teaching)
-question_21 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: teaching)
+question_21 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: teaching)
 question_22 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: teaching)
 
 building = Topic.create!(name: "Building")

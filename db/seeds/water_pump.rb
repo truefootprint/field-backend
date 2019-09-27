@@ -12,7 +12,7 @@ hole = Topic.create!(name: "Hole")
 
 question_1 = FreeTextQuestion.create!(text: "Depth in meters", data_type: "number", topic: hole)
 question_2 = FreeTextQuestion.create!(text: "Diameter in cm", data_type: "number", topic: hole)
-question_3 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: hole)
+question_3 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: hole)
 question_4 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: hole)
 question_5 = FreeTextQuestion.create!(text: "Has the hole been dug?", data_type: "string", topic: hole)
 
@@ -22,7 +22,7 @@ pump = Topic.create!(name: "Pump")
 
 question_6 = FreeTextQuestion.create!(text: "Plastic pipe", data_type: "boolean", topic: pump)
 question_7 = FreeTextQuestion.create!(text: "Handpump present", data_type: "boolean", topic: pump)
-question_8 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: pump)
+question_8 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: pump)
 question_9 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: pump)
 question_10 = FreeTextQuestion.create!(text: "Is the pump installed?", data_type: "boolean", topic: pump)
 
@@ -32,7 +32,7 @@ platform = Topic.create!(name: "Platform")
 
 question_11 = FreeTextQuestion.create!(text: "Width cement block in cm", data_type: "number", topic: platform)
 question_12 = FreeTextQuestion.create!(text: "Length cement block in cm", data_type: "number", topic: platform)
-question_13 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: platform)
+question_13 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: platform)
 question_14 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: platform)
 question_15 = FreeTextQuestion.create!(text: "Is the platform built?", data_type: "boolean", topic: platform)
 
@@ -43,7 +43,7 @@ water = Topic.create!(name: "Water")
 question_16 = FreeTextQuestion.create!(text: "Volume", data_type: "number", topic: water)
 question_17 = FreeTextQuestion.create!(text: "Clear", data_type: "boolean", topic: water)
 question_18 = FreeTextQuestion.create!(text: "Handpump working", data_type: "boolean", topic: water)
-question_19 = FreeTextQuestion.create!(text: "Photo", data_type: "photo", topic: water)
+question_19 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: water)
 question_20 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: water)
 
 # Projects
