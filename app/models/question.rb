@@ -8,4 +8,5 @@ class Question < ApplicationRecord
   }
 
   validates :text, presence: true, uniqueness: { scope: :topic_id }
+  validates :type, presence: true
 end

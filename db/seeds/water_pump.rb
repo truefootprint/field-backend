@@ -10,41 +10,41 @@ using_the_pump = Activity.create!(name: "Using the pump")
 
 hole = Topic.create!(name: "Hole")
 
-question_1 = Question.create!(text: "Depth in meters", topic: hole)
-question_2 = Question.create!(text: "Diameter in cm", topic: hole)
-question_3 = Question.create!(text: "Photo", topic: hole)
-question_4 = Question.create!(text: "Any other comments", topic: hole)
-question_5 = Question.create!(text: "Has the hole been dug?", topic: hole)
+question_1 = FreeTextQuestion.create!(text: "Depth in meters", topic: hole)
+question_2 = FreeTextQuestion.create!(text: "Diameter in cm", topic: hole)
+question_3 = FreeTextQuestion.create!(text: "Photo", topic: hole)
+question_4 = FreeTextQuestion.create!(text: "Any other comments", topic: hole)
+question_5 = FreeTextQuestion.create!(text: "Has the hole been dug?", topic: hole)
 
 CompletionQuestion.create!(question: question_5, completion_value: "yes")
 
 pump = Topic.create!(name: "Pump")
 
-question_6 = Question.create!(text: "Plastic pipe", topic: pump)
-question_7 = Question.create!(text: "Handpump present", topic: pump)
-question_8 = Question.create!(text: "Photo", topic: pump)
-question_9 = Question.create!(text: "Any other comments", topic: pump)
-question_10 = Question.create!(text: "Is the pump installed?", topic: pump)
+question_6 = FreeTextQuestion.create!(text: "Plastic pipe", topic: pump)
+question_7 = FreeTextQuestion.create!(text: "Handpump present", topic: pump)
+question_8 = FreeTextQuestion.create!(text: "Photo", topic: pump)
+question_9 = FreeTextQuestion.create!(text: "Any other comments", topic: pump)
+question_10 = FreeTextQuestion.create!(text: "Is the pump installed?", topic: pump)
 
 CompletionQuestion.create!(question: question_10, completion_value: "yes")
 
 platform = Topic.create!(name: "Platform")
 
-question_11 = Question.create!(text: "Width cement block in cm", topic: platform)
-question_12 = Question.create!(text: "Length cement block in cm", topic: platform)
-question_13 = Question.create!(text: "Photo", topic: platform)
-question_14 = Question.create!(text: "Any other comments", topic: platform)
-question_15 = Question.create!(text: "Is the platform built?", topic: platform)
+question_11 = FreeTextQuestion.create!(text: "Width cement block in cm", topic: platform)
+question_12 = FreeTextQuestion.create!(text: "Length cement block in cm", topic: platform)
+question_13 = FreeTextQuestion.create!(text: "Photo", topic: platform)
+question_14 = FreeTextQuestion.create!(text: "Any other comments", topic: platform)
+question_15 = FreeTextQuestion.create!(text: "Is the platform built?", topic: platform)
 
 CompletionQuestion.create!(question: question_15, completion_value: "yes")
 
 water = Topic.create!(name: "Water")
 
-question_16 = Question.create!(text: "Volume", topic: water)
-question_17 = Question.create!(text: "Clear", topic: water)
-question_18 = Question.create!(text: "Handpump working", topic: water)
-question_19 = Question.create!(text: "Photo", topic: water)
-question_20 = Question.create!(text: "Any other comments", topic: water)
+question_16 = FreeTextQuestion.create!(text: "Volume", topic: water)
+question_17 = FreeTextQuestion.create!(text: "Clear", topic: water)
+question_18 = FreeTextQuestion.create!(text: "Handpump working", topic: water)
+question_19 = FreeTextQuestion.create!(text: "Photo", topic: water)
+question_20 = FreeTextQuestion.create!(text: "Any other comments", topic: water)
 
 # Projects
 

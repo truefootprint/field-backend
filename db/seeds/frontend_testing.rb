@@ -11,17 +11,17 @@ topic2 = Topic.create!(name: "Topic 2")
 topic3 = Topic.create!(name: "Topic 3")
 topic4 = Topic.create!(name: "Topic 4")
 
-question_1 = Question.create!(text: "Question 1", topic: topic1)
-question_2 = Question.create!(text: "Question 2", topic: topic1)
+question_1 = FreeTextQuestion.create!(text: "Question 1", topic: topic1)
+question_2 = FreeTextQuestion.create!(text: "Question 2", topic: topic1)
 
-question_3 = Question.create!(text: "Question 3", topic: topic2)
-question_4 = Question.create!(text: "Question 4", topic: topic2)
+question_3 = FreeTextQuestion.create!(text: "Question 3", topic: topic2)
+question_4 = FreeTextQuestion.create!(text: "Question 4", topic: topic2)
 
-question_5 = Question.create!(text: "Question 5", topic: topic3)
-question_6 = Question.create!(text: "Question 6", topic: topic3)
+question_5 = FreeTextQuestion.create!(text: "Question 5", topic: topic3)
+question_6 = FreeTextQuestion.create!(text: "Question 6", topic: topic3)
 
-question_7 = Question.create!(text: "Question 7", topic: topic4)
-question_8 = Question.create!(text: "Question 8", topic: topic4)
+question_7 = FreeTextQuestion.create!(text: "Question 7", topic: topic4)
+question_8 = FreeTextQuestion.create!(text: "Question 8", topic: topic4)
 
 CompletionQuestion.create!(question: question_4, completion_value: "yes")
 CompletionQuestion.create!(question: question_8, completion_value: "yes")

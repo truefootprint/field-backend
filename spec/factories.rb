@@ -16,9 +16,15 @@ FactoryBot.define do
     sequence(:name) { |n| "Topic #{n}" }
   end
 
-  factory :question do
+  factory :question, class: "FreeTextQuestion" do
     topic
     sequence(:text) { |n| "Question #{n}" }
+  end
+
+  factory :free_text_question, class: "FreeTextQuestion", parent: :question
+
+  factory :multi_choice_question, class: "MultiChoiceQuestion", parent: :question do
+    multiple_answers { false }
   end
 
   factory :completion_question do

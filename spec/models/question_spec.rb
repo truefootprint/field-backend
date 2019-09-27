@@ -11,6 +11,11 @@ RSpec.describe Question do
       expect(question).to be_invalid
     end
 
+    it "requires a type" do
+      question.type = " "
+      expect(question).to be_invalid
+    end
+
     it "must be unique per topic/text" do
       existing = FactoryBot.create(:question)
 
