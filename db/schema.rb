@@ -168,20 +168,20 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "project_activities", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "activity_id"
+    t.integer "order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "order"
     t.index ["activity_id"], name: "index_project_activities_on_activity_id"
     t.index ["order"], name: "index_project_activities_on_order"
     t.index ["project_id"], name: "index_project_activities_on_project_id"
   end
 
   create_table "project_questions", force: :cascade do |t|
+    t.bigint "project_activity_id"
     t.bigint "question_id"
+    t.integer "order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "order"
-    t.bigint "project_activity_id"
     t.index ["order"], name: "index_project_questions_on_order"
     t.index ["project_activity_id"], name: "index_project_questions_on_project_activity_id"
     t.index ["question_id"], name: "index_project_questions_on_question_id"

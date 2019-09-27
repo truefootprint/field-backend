@@ -3,7 +3,6 @@ class CreateUserRoles < ActiveRecord::Migration[6.0]
     create_table :user_roles do |t|
       t.belongs_to :user
       t.belongs_to :role
-      t.belongs_to :scope, polymorphic: true, optional: true
       t.timestamps
     end
   end

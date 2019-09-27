@@ -3,10 +3,10 @@ class CreateProjectActivities < ActiveRecord::Migration[6.0]
     create_table :project_activities do |t|
       t.belongs_to :project
       t.belongs_to :activity
-      t.string :state
+      t.integer :order
       t.timestamps
     end
 
-    add_index :project_activities, :state
+    add_index :project_activities, :order
   end
 end
