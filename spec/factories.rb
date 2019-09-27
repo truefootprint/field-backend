@@ -28,6 +28,10 @@ FactoryBot.define do
     multiple_answers { false }
   end
 
+  factory :photo_upload_question, class: "PhotoUploadQuestion", parent: :question do
+    data_type { "photo" }
+  end
+
   factory :multi_choice_option do
     association :question, factory: :multi_choice_question
     text { "Option text" }
@@ -83,6 +87,19 @@ FactoryBot.define do
     project_question
     user
     value { "yes" }
+  end
+
+  factory :photo_upload do
+    response
+
+    after(:build) do |photo_upload|
+      photo = Rails.root.join("spec/fixtures/files/water-pump-working.png").open
+      photo_upload.photo.attach(io: photo, filename: "uploaded_photo.png")
+    end
+
+    after(:create) do |photo_upload|
+      photo_upload.response.update!(value: photo_upload.id)
+    end
   end
 
   factory :location do

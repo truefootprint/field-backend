@@ -18,6 +18,6 @@ class Response < ApplicationRecord
   end
 
   def parsed_value
-    DataTypeParser.parse(value, question.data_type)
+    DataTypeParser.parse_response(self)
   end
 end

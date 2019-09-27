@@ -66,6 +66,8 @@ class ProjectQuestionPresenter < ApplicationPresenter
       { expected_length: question.expected_length }
     when MultiChoiceQuestion
       { multiple_answers: question.multiple_answers }.merge(present_options(record))
+    else
+      {}
     end
   end
 

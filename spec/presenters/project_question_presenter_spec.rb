@@ -38,6 +38,13 @@ RSpec.describe ProjectQuestionPresenter do
     )
   end
 
+  it "presents type specific fields for photo upload questions" do
+    question = FactoryBot.create(:photo_upload_question)
+    project_question = FactoryBot.create(:project_question, question: question)
+
+    expect(described_class.present(project_question)).to include(type: "PhotoUploadQuestion")
+  end
+
   it "can present visible project questions only" do
     pq1  = FactoryBot.create(:project_question, id: 111)
     _pq2 = FactoryBot.create(:project_question, id: 222)
