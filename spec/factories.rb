@@ -27,6 +27,12 @@ FactoryBot.define do
     multiple_answers { false }
   end
 
+  factory :multi_choice_option do
+    association :question, factory: :multi_choice_question
+    text { "Option text" }
+    order { 1 }
+  end
+
   factory :completion_question do
     question
     completion_value { "yes" }
