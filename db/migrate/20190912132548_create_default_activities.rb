@@ -3,7 +3,7 @@ class CreateDefaultActivities < ActiveRecord::Migration[6.0]
     create_table :default_activities do |t|
       t.belongs_to :project_type
       t.belongs_to :activity
-      t.integer :order
+      t.integer :order, null: false
       t.timestamps
     end
 

@@ -3,7 +3,7 @@ class CreateProjectQuestions < ActiveRecord::Migration[6.0]
     create_table :project_questions do |t|
       t.belongs_to :project_activity
       t.belongs_to :question
-      t.integer :order
+      t.integer :order, null: false
       t.timestamps
     end
 

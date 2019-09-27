@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   end
 
   create_table "activities", force: :cascade do |t|
-    t.text "name"
+    t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_activities_on_name", unique: true
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "completion_questions", force: :cascade do |t|
     t.bigint "question_id"
-    t.text "completion_value"
+    t.text "completion_value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id"], name: "index_completion_questions_on_question_id", unique: true
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "default_activities", force: :cascade do |t|
     t.bigint "project_type_id"
     t.bigint "activity_id"
-    t.integer "order"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_activities_on_activity_id"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "default_expected_values", force: :cascade do |t|
     t.bigint "question_id"
     t.bigint "activity_id"
-    t.text "value"
+    t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_expected_values_on_activity_id"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "default_questions", force: :cascade do |t|
     t.bigint "activity_id"
     t.bigint "question_id"
-    t.integer "order"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_questions_on_activity_id"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "expected_values", force: :cascade do |t|
     t.bigint "project_question_id"
-    t.text "value"
+    t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_expected_values_on_project_question_id"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
     t.string "subject_type"
     t.bigint "subject_id"
     t.bigint "user_id"
-    t.text "description"
+    t.text "description", null: false
     t.boolean "critical", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "multi_choice_options", force: :cascade do |t|
     t.bigint "question_id"
-    t.text "text"
-    t.integer "order"
+    t.text "text", null: false
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id", "text"], name: "index_multi_choice_options_on_question_id_and_text", unique: true
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "project_activities", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "activity_id"
-    t.integer "order"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_project_activities_on_activity_id"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "project_questions", force: :cascade do |t|
     t.bigint "project_activity_id"
     t.bigint "question_id"
-    t.integer "order"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["order"], name: "index_project_questions_on_order"
@@ -168,14 +168,14 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "project_summaries", force: :cascade do |t|
     t.bigint "project_id"
-    t.text "text"
+    t.text "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_project_summaries_on_project_id"
   end
 
   create_table "project_types", force: :cascade do |t|
-    t.text "name"
+    t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_project_types_on_name", unique: true
@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "projects", force: :cascade do |t|
     t.bigint "project_type_id"
-    t.text "name"
+    t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_projects_on_name"
@@ -192,9 +192,9 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
 
   create_table "questions", force: :cascade do |t|
     t.bigint "topic_id"
-    t.string "type"
-    t.string "data_type"
-    t.text "text"
+    t.string "type", null: false
+    t.string "data_type", null: false
+    t.text "text", null: false
     t.integer "expected_length"
     t.boolean "multiple_answers", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -208,7 +208,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "resolutions", force: :cascade do |t|
     t.bigint "issue_id"
     t.bigint "user_id"
-    t.text "description"
+    t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["issue_id"], name: "index_resolutions_on_issue_id"
@@ -218,7 +218,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   create_table "responses", force: :cascade do |t|
     t.bigint "project_question_id"
     t.bigint "user_id"
-    t.text "value"
+    t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_responses_on_project_question_id"
@@ -226,7 +226,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_roles_on_name", unique: true
@@ -244,7 +244,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   end
 
   create_table "topics", force: :cascade do |t|
-    t.text "name"
+    t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_topics_on_name", unique: true
@@ -260,7 +260,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.text "name"
+    t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_users_on_name"

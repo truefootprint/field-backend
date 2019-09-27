@@ -1,7 +1,7 @@
 class CreateProjectTypes < ActiveRecord::Migration[6.0]
   def change
     create_table :project_types do |t|
-      t.text :name
+      t.text :name, null: false
       t.timestamps
     end
 

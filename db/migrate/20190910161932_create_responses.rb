@@ -3,7 +3,7 @@ class CreateResponses < ActiveRecord::Migration[6.0]
     create_table :responses do |t|
       t.belongs_to :project_question
       t.belongs_to :user
-      t.text :value
+      t.text :value, null: false
       t.timestamps
     end
   end

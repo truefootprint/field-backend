@@ -3,7 +3,7 @@ class CreateResolutions < ActiveRecord::Migration[6.0]
     create_table :resolutions do |t|
       t.belongs_to :issue
       t.belongs_to :user
-      t.text :description
+      t.text :description, null: false
       t.timestamps
     end
   end

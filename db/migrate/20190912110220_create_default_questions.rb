@@ -3,7 +3,7 @@ class CreateDefaultQuestions < ActiveRecord::Migration[6.0]
     create_table :default_questions do |t|
       t.belongs_to :activity
       t.belongs_to :question
-      t.integer :order
+      t.integer :order, null: false
       t.timestamps
     end
 
