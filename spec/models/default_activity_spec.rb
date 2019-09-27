@@ -10,5 +10,13 @@ RSpec.describe DefaultActivity do
       default_activity.order = nil
       expect(default_activity).to be_invalid
     end
+
+    it "requires a natural number for order" do
+      default_activity.order = 1.5
+      expect(default_activity).to be_invalid
+
+      default_activity.order = 0
+      expect(default_activity).to be_invalid
+    end
   end
 end

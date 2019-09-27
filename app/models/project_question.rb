@@ -17,7 +17,7 @@ class ProjectQuestion < ApplicationRecord
     viewpoint.scope(self).or(where(question_id: Question.visible_to(viewpoint)))
   }
 
-  validates :order, presence: true
+  validates :order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   def self.topics
     Topic.where(id: joins(:question).select(:"questions.topic_id"))

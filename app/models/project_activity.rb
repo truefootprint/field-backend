@@ -18,7 +18,7 @@ class ProjectActivity < ApplicationRecord
     joins(:project_questions).merge(ProjectQuestion.visible_to(viewpoint))
   }
 
-  validates :order, presence: true
+  validates :order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   def self.project_questions
     ProjectQuestion.where(project_activity_id: select(:id))

@@ -10,6 +10,14 @@ RSpec.describe ProjectQuestion do
       project_question.order = nil
       expect(project_question).to be_invalid
     end
+
+    it "requires a natural number for order" do
+      project_question.order = 1.5
+      expect(project_question).to be_invalid
+
+      project_question.order = 0
+      expect(project_question).to be_invalid
+    end
   end
 
   describe ".visible_to" do

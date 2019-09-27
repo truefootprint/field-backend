@@ -10,6 +10,14 @@ RSpec.describe ProjectActivity do
       project_activity.order = nil
       expect(project_activity).to be_invalid
     end
+
+    it "requires a natural number for order" do
+      project_activity.order = 1.5
+      expect(project_activity).to be_invalid
+
+      project_activity.order = 0
+      expect(project_activity).to be_invalid
+    end
   end
 
   describe ".visible_to" do

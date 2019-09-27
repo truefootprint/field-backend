@@ -28,5 +28,13 @@ RSpec.describe MultiChoiceOption do
       multi_choice_option.order = nil
       expect(multi_choice_option).to be_invalid
     end
+
+    it "requires a natural number for order" do
+      multi_choice_option.order = 1.5
+      expect(multi_choice_option).to be_invalid
+
+      multi_choice_option.order = 0
+      expect(multi_choice_option).to be_invalid
+    end
   end
 end
