@@ -1,9 +1,15 @@
 class ResponsePresenter < ApplicationPresenter
   def present(record)
-    { value: record.value }
+    { value: record.value }.merge(present_photo(record))
   end
 
   def modify_scope(scope)
     scope.order(created_at: :desc)
+  end
+
+  def present_photo(record)
+    present_nested(:photo, AttachmentPresenter) do
+      record.photo.attached? && record.photo
+    end
   end
 end

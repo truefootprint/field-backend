@@ -1,10 +1,11 @@
 module DataTypeParser
   def self.parse_response(response)
     data_type = response.question.data_type
-    parsed = parse(response.value, data_type)
 
-    check_data_integrity!(response, parsed)
-    parsed
+    photo = response.photo if data_type == "photo"
+    check_data_integrity!(response, photo)
+
+    photo || parse(response.value, data_type)
   end
 
   def self.parse(value, data_type)
@@ -15,18 +16,16 @@ module DataTypeParser
       Float(value)
     when "boolean"
       %w[true y yes pass].include?(value.strip.downcase)
-    when "photo"
-      PhotoUpload.find(Integer(value))
     else
       raise ArgumentError, "Unknown data type '#{data_type}'"
     end
   end
 
-  def self.check_data_integrity!(response, photo_upload)
-    return unless photo_upload.is_a?(PhotoUpload)
-    return if photo_upload.response_id == response.id
+  def self.check_data_integrity!(response, photo)
+    return unless photo
+    return if photo.id == Integer(response.value)
 
-    message = "Response #{response.id} and Photo upload #{photo_upload.id} are out of sync."
+    message = "Response #{response.id}'s value is #{response.value} but its photo id is #{photo.id}"
     raise DataIntegrityError, message
   end
 

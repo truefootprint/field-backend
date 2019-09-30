@@ -14,4 +14,12 @@ RSpec.describe ResponsePresenter do
     presented = described_class.present(Response.all)
     expect(presented.map { |h| h.fetch(:value) }).to eq %w[222 111 333]
   end
+
+  it "can present with the photo" do
+    attachment = { io: file_fixture("water-pump-working.png").open, filename: "upload.png" }
+    response = FactoryBot.create(:response, photo: attachment)
+
+    presented = described_class.present(response, photo: true)
+    expect(presented).to include(photo: { url: a_string_matching("/upload.png") })
+  end
 end

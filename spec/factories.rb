@@ -89,19 +89,6 @@ FactoryBot.define do
     value { "yes" }
   end
 
-  factory :photo_upload do
-    response
-
-    after(:build) do |photo_upload|
-      photo = Rails.root.join("spec/fixtures/files/water-pump-working.png").open
-      photo_upload.photo.attach(io: photo, filename: "uploaded_photo.png")
-    end
-
-    after(:create) do |photo_upload|
-      photo_upload.response.update!(value: photo_upload.id)
-    end
-  end
-
   factory :location do
     association :subject, factory: :project
   end

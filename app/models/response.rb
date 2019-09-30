@@ -2,6 +2,8 @@ class Response < ApplicationRecord
   belongs_to :project_question
   belongs_to :user
 
+  has_one_attached :photo
+
   delegate :question, :project, :project_type, to: :project_question
 
   validates :value, presence: true

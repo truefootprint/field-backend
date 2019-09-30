@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_27_123844) do
+ActiveRecord::Schema.define(version: 2019_09_27_100803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,13 +136,6 @@ ActiveRecord::Schema.define(version: 2019_09_27_123844) do
     t.index ["order"], name: "index_multi_choice_options_on_order"
     t.index ["question_id", "text"], name: "index_multi_choice_options_on_question_id_and_text", unique: true
     t.index ["question_id"], name: "index_multi_choice_options_on_question_id"
-  end
-
-  create_table "photo_uploads", force: :cascade do |t|
-    t.bigint "response_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["response_id"], name: "index_photo_uploads_on_response_id"
   end
 
   create_table "project_activities", force: :cascade do |t|
