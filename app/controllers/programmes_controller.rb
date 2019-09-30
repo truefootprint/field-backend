@@ -1,26 +1,31 @@
 class ProgrammesController < ApplicationController
   def index
-    render json: ProgrammePresenter.present(Programme.all)
+    render json: present(Programme.all)
   end
 
   def create
-    Programme.create!(programme_params)
-    render status: :created
+    programme = Programme.create!(programme_params)
+    render json: present(programme), status: :created
   end
 
   def show
-    render json: ProgrammePresenter.present(programme)
+    render json: present(programme)
   end
 
   def update
     programme.update!(programme_params)
+    render json: present(programme)
   end
 
   def destroy
-    programme.destroy
+    render json: present(programme.destroy)
   end
 
   private
+
+  def present(object)
+    ProgrammePresenter.present(object, presentation)
+  end
 
   def programme
     Programme.find(programme_id)

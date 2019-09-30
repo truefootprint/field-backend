@@ -12,28 +12,21 @@ RSpec.describe "Programme management" do
     post "/programmes", auth.merge(name: "My programme", description: "Description")
     expect(response.status).to eq(201)
 
-    post "/programmes", auth.merge(name: "Programme with no description")
+    post "/programmes", auth.merge(name: "Another programme", description: " ")
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Description can't be blank"]
 
     post "/programmes", auth.merge(name: "Another programme", description: "Description")
     expect(response.status).to eq(201)
-
-    get "/programmes", auth
-    expect(response.status).to eq(200)
-    expect(parsed_json).to match [
-      hash_including(name: "My programme", description: "Description"),
-      hash_including(name: "Another programme", description: "Description"),
-    ]
-
-    id = parsed_json.first.fetch(:id)
+    id = parsed_json.fetch(:id)
 
     get "/programmes/#{id}", auth
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(name: "My programme", description: "Description")
+    expect(parsed_json).to include(name: "Another programme")
 
     delete "/programmes/#{id}", auth
-    expect(response.status).to eq(204)
+    expect(response.status).to eq(200)
+    expect(parsed_json).to include(name: "Another programme")
 
     get "/programmes/#{id}", auth
     expect(response.status).to eq(404)
@@ -44,17 +37,14 @@ RSpec.describe "Programme management" do
     get "/programmes", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
-      hash_including(name: "Another programme", description: "Description"),
+      hash_including(name: "My programme"),
     ]
 
     id = parsed_json.first.fetch(:id)
 
-    put "/programmes/#{id}", auth.merge(description: "New description")
-    expect(response.status).to eq(204)
-
-    get "/programmes/#{id}", auth
+    put "/programmes/#{id}", auth.merge(name: "New name")
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(name: "Another programme", description: "New description")
+    expect(parsed_json).to include(name: "New name")
 
     put "/programmes/#{id}", auth.merge(name: " ")
     expect(response.status).to eq(422)

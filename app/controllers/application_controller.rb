@@ -17,6 +17,11 @@ class ApplicationController < ActionController::API
     Viewpoint.current = nil
   end
 
+  def presentation
+    return {} unless params.key?(:presentation)
+    @presentation ||= JSON.parse(params.fetch(:presentation))
+  end
+
   def record_not_found
     render status: :not_found
   end

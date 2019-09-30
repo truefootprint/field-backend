@@ -18,41 +18,31 @@ RSpec.describe "Activity management" do
 
     post "/activities", auth.merge(name: "Another activity")
     expect(response.status).to eq(201)
+    id = parsed_json.fetch(:id)
+
+    get "/activities/#{id}", auth
+    expect(response.status).to eq(200)
+    expect(parsed_json).to include(name: "Another activity")
+
+    delete "/activities/#{id}", auth
+    expect(response.status).to eq(200)
+    expect(parsed_json).to include(name: "Another activity")
+
+    get "/activities/#{id}", auth
+    expect(response.status).to eq(404)
+
+    delete "/activities/#{id}", auth
+    expect(response.status).to eq(404)
 
     get "/activities", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(name: "My activity"),
-      hash_including(name: "Another activity"),
-    ]
-
-    id = parsed_json.first.fetch(:id)
-
-    get "/activities/#{id}", auth
-    expect(response.status).to eq(200)
-    expect(parsed_json).to include(name: "My activity")
-
-    delete "/activities/#{id}", auth
-    expect(response.status).to eq(204)
-
-    get "/activities/#{id}", auth
-    expect(response.status).to eq(404)
-
-    delete "/activities/#{id}", auth
-    expect(response.status).to eq(404)
-
-    get "/activities", auth
-    expect(response.status).to eq(200)
-    expect(parsed_json).to match [
-      hash_including(name: "Another activity"),
     ]
 
     id = parsed_json.first.fetch(:id)
 
     put "/activities/#{id}", auth.merge(name: "New name")
-    expect(response.status).to eq(204)
-
-    get "/activities/#{id}", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
