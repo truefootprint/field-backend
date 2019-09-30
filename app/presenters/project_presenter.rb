@@ -1,6 +1,6 @@
 class ProjectPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, name: record.name }
+    super
       .merge(present_project_summary(record))
       .merge(present_source_materials(record))
       .merge(present_current_activity(record))

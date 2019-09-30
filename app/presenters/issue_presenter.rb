@@ -1,6 +1,6 @@
 class IssuePresenter < ApplicationPresenter
   def present(record)
-    { description: record.description, critical: record.critical }
+    super
       .merge(present_user(record))
       .merge(present_photos(record))
       .merge(present_resolution(record))

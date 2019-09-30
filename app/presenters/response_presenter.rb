@@ -1,6 +1,6 @@
 class ResponsePresenter < ApplicationPresenter
   def present(record)
-    { value: record.value }.merge(present_photo(record))
+    super.merge(present_photo(record))
   end
 
   def modify_scope(scope)

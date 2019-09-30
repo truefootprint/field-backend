@@ -1,7 +1,7 @@
 RSpec.describe ProjectPresenter do
   it "presents a project" do
     project = FactoryBot.create(:project, id: 111, name: "Project name")
-    expect(described_class.present(project)).to eq(id: 111, name: "Project name")
+    expect(described_class.present(project)).to include(id: 111, name: "Project name")
   end
 
   it "can present visible projects only" do
@@ -20,7 +20,7 @@ RSpec.describe ProjectPresenter do
     FactoryBot.create(:project_summary, project: project, text: "Project summary text")
 
     presented = described_class.present(project, project_summary: true)
-    expect(presented).to include(project_summary: { text: "Project summary text" })
+    expect(presented.dig(:project_summary, :text)).to eq("Project summary text")
   end
 
   it "can present with source materials" do
@@ -30,14 +30,14 @@ RSpec.describe ProjectPresenter do
     FactoryBot.create(:source_material, subject: project, document: document, page: 50)
 
     presented = described_class.present(project, source_materials: true)
-    expect(presented).to include(source_materials: [{
+    expect(presented).to include(source_materials: [hash_including(
       page: 50,
-      document: {
+      document: hash_including(
         file: {
           url: a_string_matching("/contract.pdf"),
         },
-      },
-    }])
+      ),
+    )])
   end
 
   it "can present with the current project activity for a user" do
@@ -56,7 +56,9 @@ RSpec.describe ProjectPresenter do
     FactoryBot.create(:project_activity, id: 555, project: project, activity: activity)
 
     presented = described_class.present(project, project_activities: true)
-    expect(presented).to include(project_activities: [{ id: 555, name: "Activity name" }])
+    expect(presented).to include(project_activities: [
+      hash_including(id: 555, name: "Activity name"),
+    ])
   end
 
   it "can present with issues" do
@@ -65,7 +67,7 @@ RSpec.describe ProjectPresenter do
 
     presented = described_class.present(project, issues: true)
     expect(presented).to include(issues: [
-      { description: "Issue description", critical: true }
+      hash_including(description: "Issue description", critical: true),
     ])
   end
 end

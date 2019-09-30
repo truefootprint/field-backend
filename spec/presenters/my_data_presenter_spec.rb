@@ -4,8 +4,10 @@ RSpec.describe MyDataPresenter do
 
     presented = described_class.present(Project.all, projects: true)
 
-    expect(presented).to eq(
-      projects: [{ id: 111, name: "Project name" }],
+    expect(presented).to include(
+      projects: [
+        hash_including(id: 111, name: "Project name"),
+      ],
     )
   end
 end

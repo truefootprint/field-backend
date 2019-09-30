@@ -3,7 +3,7 @@ RSpec.describe IssuePresenter do
     issue = FactoryBot.create(:issue, description: "Issue description", critical: true)
 
     presented = described_class.present(issue)
-    expect(presented).to eq(description: "Issue description", critical: true)
+    expect(presented).to include(description: "Issue description", critical: true)
   end
 
   it "can present with the user" do
@@ -11,7 +11,7 @@ RSpec.describe IssuePresenter do
     issue = FactoryBot.create(:issue, user: user)
 
     presented = described_class.present(issue, user: true)
-    expect(presented).to include(user: { name: "User name" })
+    expect(presented.dig(:user, :name)).to eq("User name")
   end
 
   it "can present with photos" do
@@ -27,6 +27,6 @@ RSpec.describe IssuePresenter do
     FactoryBot.create(:resolution, issue: issue, description: "Resolution description")
 
     presented = described_class.present(issue, resolution: true)
-    expect(presented).to include(resolution: { description: "Resolution description" })
+    expect(presented.dig(:resolution, :description)).to eq("Resolution description")
   end
 end

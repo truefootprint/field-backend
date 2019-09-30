@@ -30,7 +30,7 @@ class ApplicationPresenter
   end
 
   def present(record)
-    raise NotImplementedError, "Implement me"
+    record.attributes.symbolize_keys
   end
 
   def modify_scope(scope)

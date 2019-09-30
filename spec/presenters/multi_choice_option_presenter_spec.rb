@@ -3,7 +3,7 @@ RSpec.describe MultiChoiceOptionPresenter do
     option = FactoryBot.create(:multi_choice_option, text: "Option text")
 
     presented = described_class.present(option)
-    expect(presented).to eq(text: "Option text")
+    expect(presented).to include(text: "Option text")
   end
 
   it "orders by the order column" do

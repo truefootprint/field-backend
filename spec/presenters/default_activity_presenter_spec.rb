@@ -1,7 +1,7 @@
 RSpec.describe DefaultActivityPresenter do
   it "presents a default activity" do
     default_activity = FactoryBot.create(:default_activity, id: 123, order: 5)
-    expect(described_class.present(default_activity)).to eq(id: 123, order: 5)
+    expect(described_class.present(default_activity)).to include(id: 123, order: 5)
   end
 
   it "can present with project types" do

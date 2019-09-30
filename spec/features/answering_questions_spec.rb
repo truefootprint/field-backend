@@ -43,23 +43,23 @@ RSpec.describe "Answering questions" do
   scenario "creating responses to questions that have been answered" do
     get "/my_data", auth
     expect(response.status).to eq(200)
-    expect(current_project_activity).to eq(id: pa1.id, name: pa1.activity.name)
-    expect(completion_question(pq2)).to eq(completion_value: "yes")
-    expect(completion_question(pq4)).to eq(completion_value: "yes")
+    expect(current_project_activity).to include(id: pa1.id, name: pa1.activity.name)
+    expect(completion_question(pq2)).to include(completion_value: "yes")
+    expect(completion_question(pq4)).to include(completion_value: "yes")
 
     post_action(action: "AnswerQuestion", project_question_id: pq2.id, value: "yes")
     expect(response.status).to eq(201)
 
     get "/my_data", auth
     expect(response.status).to eq(200)
-    expect(current_project_activity).to eq(id: pa2.id, name: pa2.activity.name)
-    expect(responses(pq2)).to eq [{ value: "yes" }]
+    expect(current_project_activity).to include(id: pa2.id, name: pa2.activity.name)
+    expect(responses(pq2)).to match [hash_including(value: "yes")]
 
     post_action(action: "AnswerQuestion", project_question_id: pq4.id, value: "yes")
     expect(response.status).to eq(201)
 
     get "/my_data", auth
     expect(current_project_activity).to be_nil
-    expect(responses(pq4)).to eq [{ value: "yes" }]
+    expect(responses(pq4)).to match [hash_including(value: "yes")]
   end
 end

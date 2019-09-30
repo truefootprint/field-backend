@@ -1,6 +1,6 @@
 class SourceMaterialPresenter < ApplicationPresenter
   def present(record)
-    { page: record.page }.merge(present_document(record))
+    super.merge(present_document(record))
   end
 
   def present_document(record)

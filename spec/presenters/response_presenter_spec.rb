@@ -3,7 +3,7 @@ RSpec.describe ResponsePresenter do
     response = FactoryBot.create(:response, value: "yes")
 
     presented = described_class.present(response)
-    expect(presented).to eq(value: "yes")
+    expect(presented).to include(value: "yes")
   end
 
   it "orders by newest first" do

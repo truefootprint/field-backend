@@ -3,7 +3,7 @@ RSpec.describe ResolutionPresenter do
     resolution = FactoryBot.create(:resolution, description: "Resolution description")
 
     presented = described_class.present(resolution)
-    expect(presented).to eq(description: "Resolution description")
+    expect(presented).to include(description: "Resolution description")
   end
 
   it "can present with the user" do
@@ -11,7 +11,7 @@ RSpec.describe ResolutionPresenter do
     resolution = FactoryBot.create(:resolution, user: user)
 
     presented = described_class.present(resolution, user: true)
-    expect(presented).to include(user: { name: "User name" })
+    expect(presented).to include(user: hash_including(name: "User name"))
   end
 
   it "can present with photos" do

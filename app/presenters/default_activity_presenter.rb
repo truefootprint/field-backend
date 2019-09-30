@@ -1,6 +1,6 @@
 class DefaultActivityPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, order: record.order }
+    super
       .merge(present_project_type(record))
       .merge(present_activity(record))
   end

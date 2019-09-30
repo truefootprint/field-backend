@@ -4,7 +4,7 @@ RSpec.describe ProjectActivityPresenter do
     FactoryBot.create(:project_activity, id: 111, activity: activity, order: 5)
 
     presented = described_class.present(ProjectActivity.last)
-    expect(presented).to eq(id: 111, name: "Activity name")
+    expect(presented).to include(id: 111, name: "Activity name")
   end
 
   it "orders by the order column" do
@@ -34,14 +34,14 @@ RSpec.describe ProjectActivityPresenter do
     FactoryBot.create(:source_material, subject: project_activity, document: document, page: 50)
 
     presented = described_class.present(project_activity, source_materials: true)
-    expect(presented).to include(source_materials: [{
+    expect(presented).to include(source_materials: [hash_including(
       page: 50,
-      document: {
+      document: hash_including(
         file: {
           url: a_string_matching("/contract.pdf"),
         },
-      },
-    }])
+      ),
+    )])
   end
 
   it "can present with project questions" do
@@ -65,7 +65,7 @@ RSpec.describe ProjectActivityPresenter do
 
     presented = described_class.present(project_activity, issues: true)
     expect(presented).to include(issues: [
-      { description: "Issue description", critical: true }
+      hash_including(description: "Issue description", critical: true)
     ])
   end
 

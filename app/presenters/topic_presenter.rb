@@ -1,6 +1,6 @@
 class TopicPresenter < ApplicationPresenter
   def present(record)
-    { id: record.id, name: interpolate(record.name) }
+    super.merge(name: interpolate(record.name))
   end
 
   private

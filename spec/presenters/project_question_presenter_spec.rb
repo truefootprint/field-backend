@@ -34,7 +34,10 @@ RSpec.describe ProjectQuestionPresenter do
     expect(described_class.present(project_question)).to include(
       type: "MultiChoiceQuestion",
       multiple_answers: true,
-      multi_choice_options: [{ text: "First" }, { text: "Second" }],
+      multi_choice_options: [
+        hash_including(text: "First"),
+        hash_including(text: "Second"),
+      ],
     )
   end
 
@@ -62,7 +65,7 @@ RSpec.describe ProjectQuestionPresenter do
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")
 
     presented = described_class.present(project_question, completion_question: true)
-    expect(presented).to include(completion_question: { completion_value: "yes" })
+    expect(presented.dig(:completion_question, :completion_value)).to eq("yes")
   end
 
   it "can present with expected values" do
@@ -70,7 +73,7 @@ RSpec.describe ProjectQuestionPresenter do
     FactoryBot.create(:expected_value, project_question: project_question, value: "yes")
 
     presented = described_class.present(project_question, expected_value: true)
-    expect(presented).to include(expected_value: { value: "yes" })
+    expect(presented).to include(expected_value: hash_including(value: "yes"))
   end
 
   it "can present with responses for a user" do
@@ -81,7 +84,7 @@ RSpec.describe ProjectQuestionPresenter do
     FactoryBot.create(:response, user: user2, project_question: project_question, value: "no")
 
     presented = described_class.present(project_question, responses: { for_user: user1 })
-    expect(presented).to include(responses: [{ value: "yes" }])
+    expect(presented).to include(responses: [hash_including(value: "yes")])
   end
 
   it "can present with issues" do
@@ -96,7 +99,7 @@ RSpec.describe ProjectQuestionPresenter do
 
     presented = described_class.present(project_question, issues: true)
     expect(presented).to include(issues: [
-      { description: "Issue description", critical: true }
+      hash_including(description: "Issue description", critical: true),
     ])
   end
 

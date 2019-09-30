@@ -1,9 +1,9 @@
 class ProjectActivityPresenter < ApplicationPresenter
   def present(record)
     context = Interpolation::Context.new(record)
-    name = context.apply(record.name)
 
-    { id: record.id, name: name }
+    super
+      .merge(name: context.apply(record.name))
       .merge(present_source_materials(record))
       .merge(present_questions(record, context))
       .merge(present_issues(record))
