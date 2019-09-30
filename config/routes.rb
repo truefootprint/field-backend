@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :registrations, only: :create
 
   resources :programmes
+  resources :project_types
 end
