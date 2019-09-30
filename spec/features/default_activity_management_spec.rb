@@ -5,7 +5,6 @@ RSpec.describe "Default activity management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:pt1_id) { post "/project_types", auth.merge(name: "pt1"); parsed_json.fetch(:id) }
-  let(:pt2_id) { post "/project_types", auth.merge(name: "pt2"); parsed_json.fetch(:id) }
 
   let(:a1_id) { post "/activities", auth.merge(name: "a1"); parsed_json.fetch(:id) }
   let(:a2_id) { post "/activities", auth.merge(name: "a2"); parsed_json.fetch(:id) }
