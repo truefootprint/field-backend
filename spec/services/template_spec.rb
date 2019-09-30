@@ -15,10 +15,11 @@ RSpec.describe Template do
   describe described_class::ProjectType do
     subject(:template) { described_class.new(project_type) }
 
+    let(:programme) { FactoryBot.create(:programme) }
     let(:project_type) { FactoryBot.create(:project_type) }
 
-    it "creates a project with the given name" do
-      expect { subject.create_records("Project name") }
+    it "creates a project in the programme with the given name" do
+      expect { subject.create_records(programme, "Project name") }
         .to change(Project, :count).by(1)
 
       project = Project.last
@@ -33,13 +34,13 @@ RSpec.describe Template do
       FactoryBot.create(:default_activity, project_type: project_type, activity: activity)
       FactoryBot.create(:default_question, activity: activity)
 
-      expect { subject.create_records("Project name") }
+      expect { subject.create_records(programme, "Project name") }
         .to change(ProjectActivity, :count).by(1)
         .and change(ProjectQuestion, :count).by(1)
     end
 
     it "returns the created project" do
-      project = subject.create_records("Project name")
+      project = subject.create_records(programme, "Project name")
       expect(project).to eq(Project.last)
     end
   end

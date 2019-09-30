@@ -1,4 +1,5 @@
 class Project < ApplicationRecord
+  belongs_to :programme
   belongs_to :project_type
   has_many :project_activities
 

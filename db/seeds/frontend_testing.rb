@@ -32,7 +32,8 @@ CompletionQuestion.create!(question: question_8, completion_value: "yes")
 
 # Projects
 
-project = Project.create!(name: "Test Project", project_type: project_type)
+programme = Programme.create!(name: "Test programme", description: "description")
+project = Project.create!(name: "Test Project", programme: programme, project_type: project_type)
 
 project_activity1 = ProjectActivity.create!(activity: activity1, project: project, order: 1)
 project_activity2 = ProjectActivity.create!(activity: activity2, project: project, order: 2)

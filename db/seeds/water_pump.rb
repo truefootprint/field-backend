@@ -48,8 +48,14 @@ question_20 = FreeTextQuestion.create!(text: "Any other comments", data_type: "s
 
 # Projects
 
+programme = Programme.create!(
+  name: "Water pump programme",
+  description: "Install some water pumps",
+)
+
 rusinda_hand_pump = Project.create!(
   name: "Hand pump in the Rusinda area in north-west Burundi",
+  programme: programme,
   project_type: water_pump,
 )
 

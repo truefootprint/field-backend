@@ -50,8 +50,14 @@ CompletionQuestion.create!(question: question_11, completion_value: "yes")
 
 # Projects
 
+programme = Programme.create!(
+  name: "Farming programme",
+  description: "A series of workshops to train farmers",
+)
+
 ololu_workshop = Project.create!(
   name: "Farming workshop at Ololulung'a Junction",
+  programme: programme,
   project_type: farming_workshop,
 )
 

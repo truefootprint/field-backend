@@ -43,7 +43,13 @@ FactoryBot.define do
     completion_value { "yes" }
   end
 
+  factory :programme do
+    name { "Programme name" }
+    description { "Programme description" }
+  end
+
   factory :project do
+    programme
     project_type
     sequence(:name) { |n| "Project #{n}" }
   end

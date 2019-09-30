@@ -53,8 +53,14 @@ question_25 = FreeTextQuestion.create!(text: "Running water", data_type: "boolea
 
 # Projects
 
+programme = Programme.create!(
+  name: "School construction programme",
+  description: "Build some schools",
+)
+
 bilobilo_school = Project.create!(
   name: "School construction in the Bilobilo village",
+  programme: programme,
   project_type: school_building,
 )
 

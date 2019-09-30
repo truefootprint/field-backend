@@ -10,8 +10,12 @@ module Template
       self.project_type = project_type
     end
 
-    def create_records(project_name)
-      project = Project.create!(project_type: project_type, name: project_name)
+    def create_records(programme, project_name)
+      project = Project.create!(
+        programme: programme,
+        project_type: project_type,
+        name: project_name,
+      )
 
       default_activities.each do |default|
         Template.for(default.activity).create_records(project)
