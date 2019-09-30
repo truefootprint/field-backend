@@ -1,7 +1,7 @@
 RSpec.describe TopicPresenter do
   it "presents a topic" do
-    topic = FactoryBot.create(:topic, name: "Topic name")
-    expect(described_class.present(topic)).to eq(name: "Topic name")
+    topic = FactoryBot.create(:topic, id: 123, name: "Topic name")
+    expect(described_class.present(topic)).to eq(id: 123, name: "Topic name")
   end
 
   it "can interpolate user names into topic names" do

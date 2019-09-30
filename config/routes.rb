@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :project_types
   resources :activities
   resources :default_activities
+  resources :topics
 end

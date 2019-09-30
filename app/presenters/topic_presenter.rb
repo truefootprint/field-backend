@@ -1,6 +1,6 @@
 class TopicPresenter < ApplicationPresenter
   def present(record)
-    { name: interpolate(record.name) }
+    { id: record.id, name: interpolate(record.name) }
   end
 
   private
