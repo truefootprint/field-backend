@@ -35,12 +35,12 @@ RSpec.describe "Follow up activities" do
   end
 
   def register_for_workshop(name, role)
-    post "/registrations", id: workshop.id, name: name, role: role
+    post "/registrations", id: workshop.id, user_name: name, role_name: role
     expect(response.status).to eq(204)
   end
 
   def get_my_data(name, role)
-    get "/my_data", name: name, role: role
+    get "/my_data", user_name: name, role_name: role
     expect(response.status).to eq(200)
   end
 

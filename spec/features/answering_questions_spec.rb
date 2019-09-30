@@ -2,7 +2,7 @@ RSpec.describe "Answering questions" do
   let!(:user) { FactoryBot.create(:user, name: "Test") }
   let!(:role) { FactoryBot.create(:role, name: "Test") }
 
-  let(:auth) { { name: "Test", role: "Test" } }
+  let(:auth) { { user_name: "Test", role_name: "Test" } }
 
   let(:project) { FactoryBot.create(:project) }
 

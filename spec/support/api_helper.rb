@@ -32,4 +32,8 @@ module ApiHelper
   def find_project_question(id)
     all_project_questions.detect { |pq| pq.fetch(:id) == id }
   end
+
+  def error_messages
+    parsed_json.dig(:error, :full_messages)
+  end
 end
