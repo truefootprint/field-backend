@@ -20,6 +20,12 @@ RSpec.describe "Activity management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
+    get "/activities", auth
+    expect(parsed_json.size).to eq(2)
+
+    get "/activities", auth.merge(name: "My activity")
+    expect(parsed_json.size).to eq(1)
+
     get "/activities/#{id}", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another activity")

@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
   def index
-    render json: present(Activity.all)
+    render json: present(Activity.where(activity_params))
   end
 
   def create

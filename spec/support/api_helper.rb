@@ -36,4 +36,8 @@ module ApiHelper
   def error_messages
     parsed_json.dig(:error, :full_messages)
   end
+
+  def presentation(options)
+    "presentation=#{URI.encode(options.to_json)}"
+  end
 end

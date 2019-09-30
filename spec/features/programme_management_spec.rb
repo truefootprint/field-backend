@@ -20,6 +20,12 @@ RSpec.describe "Programme management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
+    get "/programmes", auth
+    expect(parsed_json.size).to eq(2)
+
+    get "/programmes", auth.merge(name: "My programme")
+    expect(parsed_json.size).to eq(1)
+
     get "/programmes/#{id}", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another programme")

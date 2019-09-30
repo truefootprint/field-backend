@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :programmes
   resources :project_types
   resources :activities
+  resources :default_activities
 end

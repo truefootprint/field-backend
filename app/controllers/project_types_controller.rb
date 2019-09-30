@@ -1,6 +1,6 @@
 class ProjectTypesController < ApplicationController
   def index
-    render json: present(ProjectType.all)
+    render json: present(ProjectType.where(project_type_params))
   end
 
   def create

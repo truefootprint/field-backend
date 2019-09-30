@@ -1,6 +1,6 @@
 class ProgrammesController < ApplicationController
   def index
-    render json: present(Programme.all)
+    render json: present(Programme.where(programme_params))
   end
 
   def create

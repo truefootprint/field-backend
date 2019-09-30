@@ -20,6 +20,12 @@ RSpec.describe "Project type management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
+    get "/project_types", auth
+    expect(parsed_json.size).to eq(2)
+
+    get "/project_types", auth.merge(name: "My project type")
+    expect(parsed_json.size).to eq(1)
+
     get "/project_types/#{id}", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another project type")

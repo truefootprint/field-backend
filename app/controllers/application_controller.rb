@@ -19,7 +19,7 @@ class ApplicationController < ActionController::API
 
   def presentation
     return {} unless params.key?(:presentation)
-    @presentation ||= JSON.parse(params.fetch(:presentation))
+    @presentation ||= JSON.parse(params.fetch(:presentation), symbolize_names: true)
   end
 
   def record_not_found
