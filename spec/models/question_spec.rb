@@ -11,8 +11,8 @@ RSpec.describe Question do
       expect(question).to be_invalid
     end
 
-    it "requires a type" do
-      question.type = " "
+    it "requires a known type" do
+      question.type = "unknown"
       expect(question).to be_invalid
     end
 
