@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :activities
   resources :default_activities
   resources :default_questions
+  resources :default_expected_values
   resources :topics
   resources :questions
 end
