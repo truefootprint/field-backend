@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2019_09_30_102047) do
     t.text "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_project_summaries_on_project_id"
+    t.index ["project_id"], name: "index_project_summaries_on_project_id", unique: true
   end
 
   create_table "project_types", force: :cascade do |t|
