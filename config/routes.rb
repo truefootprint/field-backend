@@ -16,4 +16,5 @@ Rails.application.routes.draw do
 
   resources :programmes
   resources :projects
+  resources :project_activities
 end
