@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :programmes
   resources :project_types
   resources :activities
+  resources :follow_up_activities
   resources :default_activities
   resources :default_questions
   resources :default_expected_values
