@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   resources :projects
   resources :project_activities
   resources :project_summaries
+
+  resources :users
 end
