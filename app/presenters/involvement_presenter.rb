@@ -1,0 +1,2 @@
+class InvolvementPresenter < ApplicationPresenter
+end
