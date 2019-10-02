@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   resources :involvements
 
   resources :users
+  resources :roles
 end

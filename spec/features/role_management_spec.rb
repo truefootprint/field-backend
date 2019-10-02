@@ -1,53 +1,53 @@
-RSpec.describe "User management" do
-  scenario "provides API endpoints to manage users" do
-    get "/users"
+RSpec.describe "Role management" do
+  scenario "provides API endpoints to manage roles" do
+    get "/roles"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/users", name: "User name"
+    post "/roles", name: "Role name"
     expect(response.status).to eq(201)
 
-    post "/users", name: " "
+    post "/roles", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
 
-    post "/users", name: "Another user"
+    post "/roles", name: "Another role"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/users"
+    get "/roles"
     expect(parsed_json.size).to eq(2)
 
-    get "/users", name: "Another user"
+    get "/roles", name: "Another role"
     expect(parsed_json.size).to eq(1)
 
-    get "/users/#{id}"
+    get "/roles/#{id}"
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(name: "Another user")
+    expect(parsed_json).to include(name: "Another role")
 
-    delete "/users/#{id}"
+    delete "/roles/#{id}"
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(name: "Another user")
+    expect(parsed_json).to include(name: "Another role")
 
-    get "/users/#{id}"
+    get "/roles/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/users/#{id}"
+    delete "/roles/#{id}"
     expect(response.status).to eq(404)
 
-    get "/users"
+    get "/roles"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
-      hash_including(name: "User name"),
+      hash_including(name: "Role name"),
     ]
 
     id = parsed_json.first.fetch(:id)
 
-    put "/users/#{id}", name: "New name"
+    put "/roles/#{id}", name: "New name"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
-    put "/users/#{id}", name: " "
+    put "/roles/#{id}", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
   end
