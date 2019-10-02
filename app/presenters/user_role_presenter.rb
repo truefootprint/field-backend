@@ -1,0 +1,2 @@
+class UserRolePresenter < ApplicationPresenter
+end
