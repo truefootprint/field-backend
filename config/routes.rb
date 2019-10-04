@@ -30,4 +30,5 @@ Rails.application.routes.draw do
   resources :documents
   resources :source_materials
   resources :visibilities
+  resources :issues
 end
