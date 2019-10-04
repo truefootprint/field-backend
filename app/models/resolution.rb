@@ -4,5 +4,6 @@ class Resolution < ApplicationRecord
 
   has_many_attached :photos
 
+  validates :issue, uniqueness: true
   validates :description, presence: true
 end

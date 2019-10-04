@@ -10,5 +10,12 @@ RSpec.describe Resolution do
       resolution.description = " "
       expect(resolution).to be_invalid
     end
+
+    it "requires a unique issue" do
+      existing = FactoryBot.create(:resolution)
+
+      resolution.issue = existing.issue
+      expect(resolution).to be_invalid
+    end
   end
 end
