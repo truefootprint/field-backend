@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :project_summaries
   resources :project_activities
   resources :involvements
+  resources :project_questions
 
   resources :users
   resources :user_roles
