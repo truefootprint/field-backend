@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2019_09_30_102047) do
     t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_question_id"], name: "index_expected_values_on_project_question_id"
+    t.index ["project_question_id"], name: "index_expected_values_on_project_question_id", unique: true
   end
 
   create_table "follow_up_activities", force: :cascade do |t|

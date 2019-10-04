@@ -10,5 +10,12 @@ RSpec.describe ExpectedValue do
       expected_value.value = " "
       expect(expected_value).to be_invalid
     end
+
+    it "requires a unique project question" do
+      existing = FactoryBot.create(:expected_value)
+
+      expected_value.project_question = existing.project_question
+      expect(expected_value).to be_invalid
+    end
   end
 end
