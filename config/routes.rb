@@ -31,4 +31,5 @@ Rails.application.routes.draw do
   resources :source_materials
   resources :visibilities
   resources :issues
+  resources :resolutions
 end
