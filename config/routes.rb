@@ -28,4 +28,5 @@ Rails.application.routes.draw do
 
   resources :responses
   resources :documents
+  resources :source_materials
 end
