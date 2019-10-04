@@ -5,5 +5,16 @@ RSpec.describe SourceMaterial do
     it "has a valid default factory" do
       expect(source_material).to be_valid
     end
+
+    it "requires a natural number for page" do
+      source_material.page = 1.5
+      expect(source_material).to be_invalid
+
+      source_material.page = 0
+      expect(source_material).to be_invalid
+
+      source_material.page = nil
+      expect(source_material).to be_valid
+    end
   end
 end
