@@ -2,6 +2,10 @@ class Visibility < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :visible_to, polymorphic: true
 
+  validates :subject_id, uniqueness: {
+    scope: %i[subject_type visible_to_type visible_to_id]
+  }
+
   def self.subject_ids(subject_type)
     where(subject_type: subject_type.to_s).select(:subject_id)
   end

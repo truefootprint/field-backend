@@ -5,6 +5,19 @@ RSpec.describe Visibility do
     it "has a valid default factory" do
       expect(visibility).to be_valid
     end
+
+    it "must be unique per subject/visible_to" do
+      existing = FactoryBot.create(:visibility)
+
+      visibility.subject = existing.subject
+      expect(visibility).to be_valid
+
+      visibility.visible_to = existing.visible_to
+      expect(visibility).to be_invalid
+
+      visibility.subject = FactoryBot.build(:project)
+      expect(visibility).to be_valid
+    end
   end
 
   describe ".subject_ids" do
