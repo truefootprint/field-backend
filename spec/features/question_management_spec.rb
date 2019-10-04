@@ -5,7 +5,7 @@ RSpec.describe "Question management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:topic_id) do
-    post "/topics", auth.merge(name: "Topic name"); parsed_json.fetch(:id)
+    post "/topics", name: "Topic name"; parsed_json.fetch(:id)
   end
 
   scenario "provides API endpoints to manage questions" do
@@ -22,7 +22,7 @@ RSpec.describe "Question management" do
     )
     expect(response.status).to eq(201)
 
-    post "/questions", auth.merge(text: " ")
+    post "/questions", text: " "
     expect(response.status).to eq(422)
     expect(error_messages).to include("Text can't be blank")
 
@@ -39,7 +39,7 @@ RSpec.describe "Question management" do
     get "/questions", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/questions", auth.merge(type: "FreeTextQuestion")
+    get "/questions", type: "FreeTextQuestion"
     expect(parsed_json.size).to eq(1)
 
     get "/questions/#{id}", auth
@@ -64,11 +64,11 @@ RSpec.describe "Question management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/questions/#{id}", auth.merge(text: "New text")
+    put "/questions/#{id}", text: "New text"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(text: "New text")
 
-    put "/questions/#{id}", auth.merge(text: " ")
+    put "/questions/#{id}", text: " "
     expect(response.status).to eq(422)
     expect(error_messages).to include("Text can't be blank")
   end

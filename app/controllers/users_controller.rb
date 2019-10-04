@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  skip_around_action :set_viewpoint
-
   def index
     render json: present(User.where(user_params))
   end

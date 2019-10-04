@@ -5,31 +5,31 @@ RSpec.describe "Response management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme name", description: "Description")
+    post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:project_type_id) do
-    post "/project_types", auth.merge(name: "Project Type")
+    post "/project_types", name: "Project Type"
     parsed_json.fetch(:id)
   end
 
   let(:project_id) do
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id, name: "Project")
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id, name: "Project"
     parsed_json.fetch(:id)
   end
 
   let(:activity_id) do
-    post "/activities", auth.merge(name: "Activity name"); parsed_json.fetch(:id)
+    post "/activities", name: "Activity name"; parsed_json.fetch(:id)
   end
 
   let(:project_activity_id) do
-    post "/project_activities", auth.merge(project_id: project_id, activity_id: activity_id, order: 1)
+    post "/project_activities", project_id: project_id, activity_id: activity_id, order: 1
     parsed_json.fetch(:id)
   end
 
   let(:topic_id) do
-    post "/topics", auth.merge(name: "Topic name"); parsed_json.fetch(:id)
+    post "/topics", name: "Topic name"; parsed_json.fetch(:id)
   end
 
   let(:question_id) do
@@ -86,7 +86,7 @@ RSpec.describe "Response management" do
     get "/responses", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/responses", auth.merge(value: "no")
+    get "/responses", value: "no"
     expect(parsed_json.size).to eq(1)
 
     get "/responses/#{id}", auth
@@ -111,11 +111,11 @@ RSpec.describe "Response management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/responses/#{id}", auth.merge(value: "pass")
+    put "/responses/#{id}", value: "pass"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(value: "pass")
 
-    put "/responses/#{id}", auth.merge(value: " ")
+    put "/responses/#{id}", value: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Value can't be blank"]
   end

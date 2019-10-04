@@ -2,8 +2,6 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 
-  around_action :set_viewpoint
-
   def current_user
     @current_user ||= User.find_by!(name: params.fetch(:user_name))
   end

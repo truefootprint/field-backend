@@ -1,4 +1,6 @@
 class MyUpdatesController < ApplicationController
+  around_action :set_viewpoint
+
   def create
     params.fetch(:actions).each do |action|
       id, value = action.values_at(:project_question_id, :value)

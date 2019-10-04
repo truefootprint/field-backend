@@ -9,21 +9,21 @@ RSpec.describe "Project type management" do
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/project_types", auth.merge(name: "My project type")
+    post "/project_types", name: "My project type"
     expect(response.status).to eq(201)
 
-    post "/project_types", auth.merge(name: " ")
+    post "/project_types", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
 
-    post "/project_types", auth.merge(name: "Another project type")
+    post "/project_types", name: "Another project type"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
     get "/project_types", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/project_types", auth.merge(name: "My project type")
+    get "/project_types", name: "My project type"
     expect(parsed_json.size).to eq(1)
 
     get "/project_types/#{id}", auth
@@ -48,11 +48,11 @@ RSpec.describe "Project type management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/project_types/#{id}", auth.merge(name: "New name")
+    put "/project_types/#{id}", name: "New name"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
-    put "/project_types/#{id}", auth.merge(name: " ")
+    put "/project_types/#{id}", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
   end

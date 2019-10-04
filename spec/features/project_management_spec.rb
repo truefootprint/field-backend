@@ -5,12 +5,12 @@ RSpec.describe "Project management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme name", description: "Description")
+    post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:project_type_id) do
-    post "/project_types", auth.merge(name: "Project type name")
+    post "/project_types", name: "Project type name"
     parsed_json.fetch(:id)
   end
 
@@ -26,7 +26,7 @@ RSpec.describe "Project management" do
     )
     expect(response.status).to eq(201)
 
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id)
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
 
@@ -41,7 +41,7 @@ RSpec.describe "Project management" do
     get "/projects", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/projects", auth.merge(name: "My project")
+    get "/projects", name: "My project"
     expect(parsed_json.size).to eq(1)
 
     get "/projects/#{id}", auth
@@ -66,11 +66,11 @@ RSpec.describe "Project management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/projects/#{id}", auth.merge(name: "New name")
+    put "/projects/#{id}", name: "New name"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
-    put "/projects/#{id}", auth.merge(name: " ")
+    put "/projects/#{id}", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
   end

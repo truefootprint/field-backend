@@ -9,21 +9,21 @@ RSpec.describe "Programme management" do
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/programmes", auth.merge(name: "My programme", description: "Description")
+    post "/programmes", name: "My programme", description: "Description"
     expect(response.status).to eq(201)
 
-    post "/programmes", auth.merge(name: "Another programme", description: " ")
+    post "/programmes", name: "Another programme", description: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Description can't be blank"]
 
-    post "/programmes", auth.merge(name: "Another programme", description: "Description")
+    post "/programmes", name: "Another programme", description: "Description"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
     get "/programmes", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/programmes", auth.merge(name: "My programme")
+    get "/programmes", name: "My programme"
     expect(parsed_json.size).to eq(1)
 
     get "/programmes/#{id}", auth
@@ -48,11 +48,11 @@ RSpec.describe "Programme management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/programmes/#{id}", auth.merge(name: "New name")
+    put "/programmes/#{id}", name: "New name"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
-    put "/programmes/#{id}", auth.merge(name: " ")
+    put "/programmes/#{id}", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
   end

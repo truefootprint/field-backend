@@ -5,22 +5,22 @@ RSpec.describe "Project activity management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme", description: "Description")
+    post "/programmes", name: "Programme", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:project_type_id) do
-    post "/project_types", auth.merge(name: "Project Type")
+    post "/project_types", name: "Project Type"
     parsed_json.fetch(:id)
   end
 
   let(:project_id) do
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id, name: "Project")
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id, name: "Project"
     parsed_json.fetch(:id)
   end
 
   let(:activity_id) do
-    post "/activities", auth.merge(name: "Activity")
+    post "/activities", name: "Activity"
     parsed_json.fetch(:id)
   end
 
@@ -29,21 +29,21 @@ RSpec.describe "Project activity management" do
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/project_activities", auth.merge(project_id: project_id, activity_id: activity_id, order: 1)
+    post "/project_activities", project_id: project_id, activity_id: activity_id, order: 1
     expect(response.status).to eq(201)
 
-    post "/project_activities", auth.merge(project_id: project_id, activity_id: activity_id)
+    post "/project_activities", project_id: project_id, activity_id: activity_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Order can't be blank")
 
-    post "/project_activities", auth.merge(project_id: project_id, activity_id: activity_id, order: 2)
+    post "/project_activities", project_id: project_id, activity_id: activity_id, order: 2
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
     get "/project_activities", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/project_activities", auth.merge(order: 2)
+    get "/project_activities", order: 2
     expect(parsed_json.size).to eq(1)
 
     get "/project_activities/#{id}", auth
@@ -68,11 +68,11 @@ RSpec.describe "Project activity management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/project_activities/#{id}", auth.merge(order: 3)
+    put "/project_activities/#{id}", order: 3
     expect(response.status).to eq(200)
     expect(parsed_json).to include(order: 3)
 
-    put "/project_activities/#{id}", auth.merge(order: -1)
+    put "/project_activities/#{id}", order: -1
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Order must be greater than 0"]
   end

@@ -5,31 +5,31 @@ RSpec.describe "Project question management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme name", description: "Description")
+    post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:project_type_id) do
-    post "/project_types", auth.merge(name: "Project Type")
+    post "/project_types", name: "Project Type"
     parsed_json.fetch(:id)
   end
 
   let(:project_id) do
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id, name: "Project")
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id, name: "Project"
     parsed_json.fetch(:id)
   end
 
   let(:activity_id) do
-    post "/activities", auth.merge(name: "Activity name"); parsed_json.fetch(:id)
+    post "/activities", name: "Activity name"; parsed_json.fetch(:id)
   end
 
   let(:project_activity_id) do
-    post "/project_activities", auth.merge(project_id: project_id, activity_id: activity_id, order: 1)
+    post "/project_activities", project_id: project_id, activity_id: activity_id, order: 1
     parsed_json.fetch(:id)
   end
 
   let(:topic_id) do
-    post "/topics", auth.merge(name: "Topic name"); parsed_json.fetch(:id)
+    post "/topics", name: "Topic name"; parsed_json.fetch(:id)
   end
 
   let(:question_id) do
@@ -73,7 +73,7 @@ RSpec.describe "Project question management" do
     get "/project_questions", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/project_questions", auth.merge(order: 2)
+    get "/project_questions", order: 2
     expect(parsed_json.size).to eq(1)
 
     get "/project_questions/#{id}", auth
@@ -98,11 +98,11 @@ RSpec.describe "Project question management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/project_questions/#{id}", auth.merge(order: 3)
+    put "/project_questions/#{id}", order: 3
     expect(response.status).to eq(200)
     expect(parsed_json).to include(order: 3)
 
-    put "/project_questions/#{id}", auth.merge(order: -1)
+    put "/project_questions/#{id}", order: -1
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Order must be greater than 0"]
   end

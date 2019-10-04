@@ -9,21 +9,21 @@ RSpec.describe "Topic management" do
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/topics", auth.merge(name: "My topic")
+    post "/topics", name: "My topic"
     expect(response.status).to eq(201)
 
-    post "/topics", auth.merge(name: " ")
+    post "/topics", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
 
-    post "/topics", auth.merge(name: "Another topic")
+    post "/topics", name: "Another topic"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
     get "/topics", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/topics", auth.merge(name: "My topic")
+    get "/topics", name: "My topic"
     expect(parsed_json.size).to eq(1)
 
     get "/topics/#{id}", auth
@@ -48,11 +48,11 @@ RSpec.describe "Topic management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/topics/#{id}", auth.merge(name: "New name")
+    put "/topics/#{id}", name: "New name"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "New name")
 
-    put "/topics/#{id}", auth.merge(name: " ")
+    put "/topics/#{id}", name: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Name can't be blank"]
   end

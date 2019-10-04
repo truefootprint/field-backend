@@ -1,6 +1,4 @@
 class RolesController < ApplicationController
-  skip_around_action :set_viewpoint
-
   def index
     render json: present(Role.where(role_params))
   end

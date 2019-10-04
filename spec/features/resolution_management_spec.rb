@@ -5,7 +5,7 @@ RSpec.describe "Resolution management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme name", description: "Description")
+    post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
   end
 
@@ -13,10 +13,10 @@ RSpec.describe "Resolution management" do
     { subject_type: "Programme", subject_id: programme_id, user_id: user_id, description: "Description" }
   end
 
-  let(:issue1_id) { post "/issues", auth.merge(issue_params); parsed_json.fetch(:id) }
-  let(:issue2_id) { post "/issues", auth.merge(issue_params); parsed_json.fetch(:id) }
+  let(:issue1_id) { post "/issues", issue_params; parsed_json.fetch(:id) }
+  let(:issue2_id) { post "/issues", issue_params; parsed_json.fetch(:id) }
 
-  let(:user_id) { post "/users", auth.merge(name: "User 1"); parsed_json.fetch(:id) }
+  let(:user_id) { post "/users", name: "User 1"; parsed_json.fetch(:id) }
 
   scenario "provides API endpoints to manage resolutions" do
     get "/resolutions", auth
@@ -30,7 +30,7 @@ RSpec.describe "Resolution management" do
     )
     expect(response.status).to eq(201)
 
-    post "/resolutions", auth.merge(issue_id: issue1_id, user_id: user_id)
+    post "/resolutions", issue_id: issue1_id, user_id: user_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Description can't be blank")
 
@@ -45,7 +45,7 @@ RSpec.describe "Resolution management" do
     get "/resolutions", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/resolutions", auth.merge(issue_id: issue2_id)
+    get "/resolutions", issue_id: issue2_id
     expect(parsed_json.size).to eq(1)
 
     get "/resolutions/#{id}", auth
@@ -70,11 +70,11 @@ RSpec.describe "Resolution management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/resolutions/#{id}", auth.merge(description: "New description")
+    put "/resolutions/#{id}", description: "New description"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(description: "New description")
 
-    put "/resolutions/#{id}", auth.merge(description: " ")
+    put "/resolutions/#{id}", description: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Description can't be blank"]
   end

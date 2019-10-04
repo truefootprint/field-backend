@@ -5,12 +5,12 @@ RSpec.describe "Issue management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme name", description: "Description")
+    post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:user_id) do
-    post "/users", auth.merge(name: "User 1")
+    post "/users", name: "User 1"
     parsed_json.fetch(:id)
   end
 
@@ -47,7 +47,7 @@ RSpec.describe "Issue management" do
     get "/issues", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/issues", auth.merge(description: "Another description")
+    get "/issues", description: "Another description"
     expect(parsed_json.size).to eq(1)
 
     get "/issues/#{id}", auth
@@ -72,11 +72,11 @@ RSpec.describe "Issue management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/issues/#{id}", auth.merge(description: "New description")
+    put "/issues/#{id}", description: "New description"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(description: "New description")
 
-    put "/issues/#{id}", auth.merge(description: " ")
+    put "/issues/#{id}", description: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Description can't be blank"]
   end

@@ -5,22 +5,22 @@ RSpec.describe "Project summary management" do
   let(:auth) { { user_name: "Test", role_name: "Admin" } }
 
   let(:programme_id) do
-    post "/programmes", auth.merge(name: "Programme", description: "Description")
+    post "/programmes", name: "Programme", description: "Description"
     parsed_json.fetch(:id)
   end
 
   let(:project_type_id) do
-    post "/project_types", auth.merge(name: "Project Type")
+    post "/project_types", name: "Project Type"
     parsed_json.fetch(:id)
   end
 
   let(:project_id) do
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id, name: "Project")
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id, name: "Project"
     parsed_json.fetch(:id)
   end
 
   let(:another_project_id) do
-    post "/projects", auth.merge(programme_id: programme_id, project_type_id: project_type_id, name: "Project")
+    post "/projects", programme_id: programme_id, project_type_id: project_type_id, name: "Project"
     parsed_json.fetch(:id)
   end
 
@@ -29,21 +29,21 @@ RSpec.describe "Project summary management" do
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
 
-    post "/project_summaries", auth.merge(project_id: project_id, text: "Summary text")
+    post "/project_summaries", project_id: project_id, text: "Summary text"
     expect(response.status).to eq(201)
 
-    post "/project_summaries", auth.merge(project_id: project_id)
+    post "/project_summaries", project_id: project_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Text can't be blank")
 
-    post "/project_summaries", auth.merge(project_id: another_project_id, text: "Another text")
+    post "/project_summaries", project_id: another_project_id, text: "Another text"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
     get "/project_summaries", auth
     expect(parsed_json.size).to eq(2)
 
-    get "/project_summaries", auth.merge(text: "Another text")
+    get "/project_summaries", text: "Another text"
     expect(parsed_json.size).to eq(1)
 
     get "/project_summaries/#{id}", auth
@@ -68,11 +68,11 @@ RSpec.describe "Project summary management" do
 
     id = parsed_json.first.fetch(:id)
 
-    put "/project_summaries/#{id}", auth.merge(text: "New text")
+    put "/project_summaries/#{id}", text: "New text"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(text: "New text")
 
-    put "/project_summaries/#{id}", auth.merge(text: " ")
+    put "/project_summaries/#{id}", text: " "
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Text can't be blank"]
   end
