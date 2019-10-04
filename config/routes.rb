@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :project_activities
   resources :involvements
   resources :project_questions
+  resources :expected_values
 
   resources :users
   resources :user_roles
