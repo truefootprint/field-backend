@@ -1,9 +1,4 @@
 RSpec.describe "Default expected value management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:question_params) do
     { topic_id: topic_id, type: "FreeTextQuestion", data_type: "string" }
   end

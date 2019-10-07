@@ -1,11 +1,6 @@
 RSpec.describe "Programme management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   scenario "provides API endpoints to manage programmes" do
-    get "/programmes", auth
+    get "/programmes"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
@@ -21,27 +16,27 @@ RSpec.describe "Programme management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/programmes", auth
+    get "/programmes"
     expect(parsed_json.size).to eq(2)
 
     get "/programmes", name: "My programme"
     expect(parsed_json.size).to eq(1)
 
-    get "/programmes/#{id}", auth
+    get "/programmes/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another programme")
 
-    delete "/programmes/#{id}", auth
+    delete "/programmes/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another programme")
 
-    get "/programmes/#{id}", auth
+    get "/programmes/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/programmes/#{id}", auth
+    delete "/programmes/#{id}"
     expect(response.status).to eq(404)
 
-    get "/programmes", auth
+    get "/programmes"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(name: "My programme"),

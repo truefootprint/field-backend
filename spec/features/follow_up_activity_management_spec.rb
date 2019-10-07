@@ -1,9 +1,4 @@
 RSpec.describe "Follow-up activity management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:a1_id) { post "/activities", name: "a1"; parsed_json.fetch(:id) }
   let(:a2_id) { post "/activities", name: "a2"; parsed_json.fetch(:id) }
   let(:a3_id) { post "/activities", name: "a3"; parsed_json.fetch(:id) }

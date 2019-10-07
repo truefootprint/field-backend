@@ -1,9 +1,4 @@
 RSpec.describe "Response management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
@@ -33,22 +28,20 @@ RSpec.describe "Response management" do
   end
 
   let(:question_id) do
-    post "/questions", auth.merge(
+    post "/questions",
       topic_id: topic_id,
       type: "FreeTextQuestion",
       data_type: "string",
       text: "Question text",
-      expected_length: 10,
-    )
+      expected_length: 10
     parsed_json.fetch(:id)
   end
 
   let(:project_question_id) do
-    post "/project_questions", auth.merge(
+    post "/project_questions",
       project_activity_id: project_activity_id,
       question_id: question_id,
-      order: 1,
-    )
+      order: 1
     parsed_json.fetch(:id)
   end
 
@@ -57,54 +50,51 @@ RSpec.describe "Response management" do
   end
 
   scenario "provides API endpoints to manage responses" do
-    get "/responses", auth
+    get "/responses"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
-    post "/responses", auth.merge(
+    post "/responses",
       project_question_id: project_question_id,
       user_id: user_id,
-      value: "yes",
-    )
+      value: "yes"
     expect(response.status).to eq(201)
 
-    post "/responses", auth.merge(
+    post "/responses",
       project_question_id: project_question_id,
-      user_id: user_id,
-    )
+      user_id: user_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Value can't be blank")
 
-    post "/responses", auth.merge(
+    post "/responses",
       project_question_id: project_question_id,
       user_id: user_id,
-      value: "no",
-    )
+      value: "no"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/responses", auth
+    get "/responses"
     expect(parsed_json.size).to eq(2)
 
     get "/responses", value: "no"
     expect(parsed_json.size).to eq(1)
 
-    get "/responses/#{id}", auth
+    get "/responses/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(value: "no")
 
-    delete "/responses/#{id}", auth
+    delete "/responses/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(value: "no")
 
-    get "/responses/#{id}", auth
+    get "/responses/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/responses/#{id}", auth
+    delete "/responses/#{id}"
     expect(response.status).to eq(404)
 
-    get "/responses", auth
+    get "/responses"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(value: "yes"),

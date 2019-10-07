@@ -1,9 +1,4 @@
 RSpec.describe "Document management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:contract) { file_fixture("water-pump-contract.pdf") }
   let(:evidence) { file_fixture("water-pump-stolen.png") }
 

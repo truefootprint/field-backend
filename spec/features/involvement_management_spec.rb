@@ -1,9 +1,4 @@
 RSpec.describe "Involvement management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme", description: "Description"
     parsed_json.fetch(:id)

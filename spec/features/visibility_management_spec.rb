@@ -1,9 +1,4 @@
 RSpec.describe "Visibility management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
@@ -14,57 +9,54 @@ RSpec.describe "Visibility management" do
   let(:user3_id) { post "/users", name: "User 3"; parsed_json.fetch(:id) }
 
   scenario "provides API endpoints to manage visibilities" do
-    get "/visibilities", auth
+    get "/visibilities"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
-    post "/visibilities", auth.merge(
+    post "/visibilities",
       subject_type: "Programme",
       subject_id: programme_id,
       visible_to_type: "User",
-      visible_to_id: user1_id,
-    )
+      visible_to_id: user1_id
     expect(response.status).to eq(201)
 
-    post "/visibilities", auth.merge(
+    post "/visibilities",
       subject_type: "Programme",
       subject_id: programme_id,
-      visible_to_type: "User",
-    )
+      visible_to_type: "User"
     expect(response.status).to eq(422)
     expect(error_messages).to include("Visible to must exist")
 
-    post "/visibilities", auth.merge(
+    post "/visibilities",
       subject_type: "Programme",
       subject_id: programme_id,
       visible_to_type: "User",
-      visible_to_id: user2_id,
-    )
+      visible_to_id: user2_id
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/visibilities", auth
+    get "/visibilities"
     expect(parsed_json.size).to eq(2)
 
     get "/visibilities", visible_to_id: user2_id
     expect(parsed_json.size).to eq(1)
 
-    get "/visibilities/#{id}", auth
+    get "/visibilities/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(visible_to_id: user2_id)
 
-    delete "/visibilities/#{id}", auth
+    delete "/visibilities/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(visible_to_id: user2_id)
 
-    get "/visibilities/#{id}", auth
+    get "/visibilities/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/visibilities/#{id}", auth
+    delete "/visibilities/#{id}"
     expect(response.status).to eq(404)
 
-    get "/visibilities", auth
+    get "/visibilities"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(visible_to_id: user1_id),

@@ -1,9 +1,4 @@
 RSpec.describe "Source material management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:contract) { file_fixture("water-pump-contract.pdf") }
   let(:file) { Rack::Test::UploadedFile.new(contract) }
 
@@ -17,52 +12,50 @@ RSpec.describe "Source material management" do
   end
 
   scenario "provides API endpoints to manage source materials" do
-    get "/source_materials", auth
+    get "/source_materials"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
-    post "/source_materials", auth.merge(
+    post "/source_materials",
       subject_type: "Programme",
       subject_id: programme_id,
-      document_id: document_id,
-    )
+      document_id: document_id
     expect(response.status).to eq(201)
 
     post "/source_materials", subject_type: "Programme", subject_id: programme_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Document must exist")
 
-    post "/source_materials", auth.merge(
+    post "/source_materials",
       subject_type: "Programme",
       subject_id: programme_id,
       document_id: document_id,
-      page: 123,
-    )
+      page: 123
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/source_materials", auth
+    get "/source_materials"
     expect(parsed_json.size).to eq(2)
 
     get "/source_materials", page: 123
     expect(parsed_json.size).to eq(1)
 
-    get "/source_materials/#{id}", auth
+    get "/source_materials/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(page: 123)
 
-    delete "/source_materials/#{id}", auth
+    delete "/source_materials/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(page: 123)
 
-    get "/source_materials/#{id}", auth
+    get "/source_materials/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/source_materials/#{id}", auth
+    delete "/source_materials/#{id}"
     expect(response.status).to eq(404)
 
-    get "/source_materials", auth
+    get "/source_materials"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(page: nil),

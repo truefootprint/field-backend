@@ -1,9 +1,4 @@
 RSpec.describe "Expected value management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
@@ -33,13 +28,12 @@ RSpec.describe "Expected value management" do
   end
 
   let(:question_id) do
-    post "/questions", auth.merge(
+    post "/questions",
       topic_id: topic_id,
       type: "FreeTextQuestion",
       data_type: "string",
       text: "Question text",
-      expected_length: 10,
-    )
+      expected_length: 10
     parsed_json.fetch(:id)
   end
 

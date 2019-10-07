@@ -1,9 +1,4 @@
 RSpec.describe "Project activity management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme", description: "Description"
     parsed_json.fetch(:id)
@@ -25,7 +20,7 @@ RSpec.describe "Project activity management" do
   end
 
   scenario "provides API endpoints to manage project activities" do
-    get "/project_activities", auth
+    get "/project_activities"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
@@ -41,27 +36,27 @@ RSpec.describe "Project activity management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/project_activities", auth
+    get "/project_activities"
     expect(parsed_json.size).to eq(2)
 
     get "/project_activities", order: 2
     expect(parsed_json.size).to eq(1)
 
-    get "/project_activities/#{id}", auth
+    get "/project_activities/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(order: 2)
 
-    delete "/project_activities/#{id}", auth
+    delete "/project_activities/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(order: 2)
 
-    get "/project_activities/#{id}", auth
+    get "/project_activities/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/project_activities/#{id}", auth
+    delete "/project_activities/#{id}"
     expect(response.status).to eq(404)
 
-    get "/project_activities", auth
+    get "/project_activities"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(order: 1),

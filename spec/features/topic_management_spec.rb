@@ -1,11 +1,6 @@
 RSpec.describe "Topic management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   scenario "provides API endpoints to manage topics" do
-    get "/topics", auth
+    get "/topics"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
@@ -21,27 +16,27 @@ RSpec.describe "Topic management" do
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/topics", auth
+    get "/topics"
     expect(parsed_json.size).to eq(2)
 
     get "/topics", name: "My topic"
     expect(parsed_json.size).to eq(1)
 
-    get "/topics/#{id}", auth
+    get "/topics/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another topic")
 
-    delete "/topics/#{id}", auth
+    delete "/topics/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(name: "Another topic")
 
-    get "/topics/#{id}", auth
+    get "/topics/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/topics/#{id}", auth
+    delete "/topics/#{id}"
     expect(response.status).to eq(404)
 
-    get "/topics", auth
+    get "/topics"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(name: "My topic"),

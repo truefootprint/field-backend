@@ -1,9 +1,4 @@
 RSpec.describe "Resolution management" do
-  let!(:user) { FactoryBot.create(:user, name: "Test") }
-  let!(:role) { FactoryBot.create(:role, name: "Admin") }
-
-  let(:auth) { { user_name: "Test", role_name: "Admin" } }
-
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
@@ -19,51 +14,49 @@ RSpec.describe "Resolution management" do
   let(:user_id) { post "/users", name: "User 1"; parsed_json.fetch(:id) }
 
   scenario "provides API endpoints to manage resolutions" do
-    get "/resolutions", auth
+    get "/resolutions"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
-    post "/resolutions", auth.merge(
+    post "/resolutions",
       issue_id: issue1_id,
       user_id: user_id,
-      description: "Description",
-    )
+      description: "Description"
     expect(response.status).to eq(201)
 
     post "/resolutions", issue_id: issue1_id, user_id: user_id
     expect(response.status).to eq(422)
     expect(error_messages).to include("Description can't be blank")
 
-    post "/resolutions", auth.merge(
+    post "/resolutions",
       issue_id: issue2_id,
       user_id: user_id,
-      description: "Description",
-    )
+      description: "Description"
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/resolutions", auth
+    get "/resolutions"
     expect(parsed_json.size).to eq(2)
 
     get "/resolutions", issue_id: issue2_id
     expect(parsed_json.size).to eq(1)
 
-    get "/resolutions/#{id}", auth
+    get "/resolutions/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(issue_id: issue2_id)
 
-    delete "/resolutions/#{id}", auth
+    delete "/resolutions/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(issue_id: issue2_id)
 
-    get "/resolutions/#{id}", auth
+    get "/resolutions/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/resolutions/#{id}", auth
+    delete "/resolutions/#{id}"
     expect(response.status).to eq(404)
 
-    get "/resolutions", auth
+    get "/resolutions"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
       hash_including(issue_id: issue1_id),
