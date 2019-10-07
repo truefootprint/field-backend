@@ -8,6 +8,7 @@ RSpec.describe "Project type management" do
     get "/project_types", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/project_types", name: "My project type"
     expect(response.status).to eq(201)

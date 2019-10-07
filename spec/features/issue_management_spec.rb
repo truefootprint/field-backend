@@ -18,6 +18,7 @@ RSpec.describe "Issue management" do
     get "/issues", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/issues", auth.merge(
       subject_type: "Programme",

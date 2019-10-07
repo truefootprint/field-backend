@@ -8,6 +8,7 @@ RSpec.describe "Default activity management" do
     get "/default_activities"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/default_activities", project_type_id: pt1_id, activity_id: a1_id, order: 1
     expect(response.status).to eq(201)

@@ -1,6 +1,7 @@
 class ProjectQuestionsController < ApplicationController
   def index
-    render json: present(ProjectQuestion.where(project_question_params))
+    response.set_header("X-Total-Count", project_questions.count)
+    render json: present(project_questions)
   end
 
   def create
@@ -28,7 +29,11 @@ class ProjectQuestionsController < ApplicationController
   end
 
   def project_question
-    ProjectQuestion.find(project_question_id)
+    @project_question ||= ProjectQuestion.find(project_question_id)
+  end
+
+  def project_questions
+    @project_questions ||= ProjectQuestion.where(project_question_params)
   end
 
   def project_question_id

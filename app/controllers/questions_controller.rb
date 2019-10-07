@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   def index
-    render json: present(Question.where(question_params))
+    response.set_header("X-Total-Count", questions.count)
+    render json: present(questions)
   end
 
   def create
@@ -28,7 +29,11 @@ class QuestionsController < ApplicationController
   end
 
   def question
-    Question.find(question_id)
+    @question ||= Question.find(question_id)
+  end
+
+  def questions
+    @questions ||= Question.where(question_params)
   end
 
   def question_id

@@ -12,6 +12,7 @@ RSpec.describe "Question management" do
     get "/questions", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/questions", auth.merge(
       topic_id: topic_id,

@@ -3,6 +3,7 @@ RSpec.describe "Activity management" do
     get "/activities"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/activities", name: "My activity"
     expect(response.status).to eq(201)

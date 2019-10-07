@@ -60,6 +60,7 @@ RSpec.describe "Expected value management" do
     get "/expected_values"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/expected_values", project_question_id: pq1_id, value: "yes"
     expect(response.status).to eq(201)

@@ -1,6 +1,7 @@
 class ResolutionsController < ApplicationController
   def index
-    render json: present(Resolution.where(resolution_params))
+    response.set_header("X-Total-Count", resolutions.count)
+    render json: present(resolutions)
   end
 
   def create
@@ -28,7 +29,11 @@ class ResolutionsController < ApplicationController
   end
 
   def resolution
-    Resolution.find(resolution_id)
+    @resolution ||= Resolution.find(resolution_id)
+  end
+
+  def resolutions
+    @resolutions ||= Resolution.where(resolution_params)
   end
 
   def resolution_id

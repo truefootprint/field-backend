@@ -12,6 +12,7 @@ RSpec.describe "Follow-up activity management" do
     get "/follow_up_activities"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/follow_up_activities", activity_id: a1_id, follow_up_activity_id: a2_id
     expect(response.status).to eq(201)

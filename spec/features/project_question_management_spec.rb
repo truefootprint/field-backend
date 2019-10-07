@@ -47,6 +47,7 @@ RSpec.describe "Project question management" do
     get "/project_questions", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/project_questions", auth.merge(
       project_activity_id: project_activity_id,

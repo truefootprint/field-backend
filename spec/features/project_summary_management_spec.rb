@@ -28,6 +28,7 @@ RSpec.describe "Project summary management" do
     get "/project_summaries", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/project_summaries", project_id: project_id, text: "Summary text"
     expect(response.status).to eq(201)

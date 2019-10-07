@@ -9,6 +9,7 @@ RSpec.describe "User role management" do
     get "/user_roles"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/user_roles", user_id: user_id, role_id: role1_id
     expect(response.status).to eq(201)

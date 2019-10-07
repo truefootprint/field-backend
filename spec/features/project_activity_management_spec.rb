@@ -28,6 +28,7 @@ RSpec.describe "Project activity management" do
     get "/project_activities", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/project_activities", project_id: project_id, activity_id: activity_id, order: 1
     expect(response.status).to eq(201)

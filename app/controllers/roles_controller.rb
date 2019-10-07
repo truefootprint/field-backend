@@ -1,6 +1,7 @@
 class RolesController < ApplicationController
   def index
-    render json: present(Role.where(role_params))
+    response.set_header("X-Total-Count", roles.count)
+    render json: present(roles)
   end
 
   def create
@@ -28,7 +29,11 @@ class RolesController < ApplicationController
   end
 
   def role
-    Role.find(role_id)
+    @role ||= Role.find(role_id)
+  end
+
+  def roles
+    @roles ||= Role.where(role_params)
   end
 
   def role_id

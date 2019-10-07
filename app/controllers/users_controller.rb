@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
-    render json: present(User.where(user_params))
+    response.set_header("X-Total-Count", users.count)
+    render json: present(users)
   end
 
   def create
@@ -28,7 +29,11 @@ class UsersController < ApplicationController
   end
 
   def user
-    User.find(user_id)
+    @user ||= User.find(user_id)
+  end
+
+  def users
+    @users ||= User.where(user_params)
   end
 
   def user_id

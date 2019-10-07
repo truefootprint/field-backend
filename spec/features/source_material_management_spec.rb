@@ -20,6 +20,7 @@ RSpec.describe "Source material management" do
     get "/source_materials", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/source_materials", auth.merge(
       subject_type: "Programme",

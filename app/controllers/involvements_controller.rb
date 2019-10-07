@@ -1,6 +1,7 @@
 class InvolvementsController < ApplicationController
   def index
-    render json: present(Involvement.where(involement_params))
+    response.set_header("X-Total-Count", involvements.count)
+    render json: present(involvements)
   end
 
   def create
@@ -28,7 +29,11 @@ class InvolvementsController < ApplicationController
   end
 
   def involvement
-    Involvement.find(involement_id)
+    @involvement ||= Involvement.find(involement_id)
+  end
+
+  def involvements
+    @involvements ||= Involvement.where(involement_params)
   end
 
   def involement_id

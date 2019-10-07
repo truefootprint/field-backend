@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
   def index
-    render json: present(Topic.where(topic_params))
+    response.set_header("X-Total-Count", topics.count)
+    render json: present(topics)
   end
 
   def create
@@ -28,7 +29,11 @@ class TopicsController < ApplicationController
   end
 
   def topic
-    Topic.find(topic_id)
+    @topic ||= Topic.find(topic_id)
+  end
+
+  def topics
+    @topics ||= Topic.where(topic_params)
   end
 
   def topic_id

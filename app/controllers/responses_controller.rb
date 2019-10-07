@@ -1,6 +1,7 @@
 class ResponsesController < ApplicationController
   def index
-    render json: present(Response.where(response_params))
+    response.set_header("X-Total-Count", responses.count)
+    render json: present(responses)
   end
 
   def create
@@ -28,7 +29,11 @@ class ResponsesController < ApplicationController
   end
 
   def response_record
-    Response.find(response_id)
+    @response_record ||= Response.find(response_id)
+  end
+
+  def responses
+    @responses ||= Response.where(response_params)
   end
 
   def response_id

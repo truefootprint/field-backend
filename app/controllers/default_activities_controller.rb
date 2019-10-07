@@ -1,6 +1,7 @@
 class DefaultActivitiesController < ApplicationController
   def index
-    render json: present(DefaultActivity.where(default_activity_params))
+    response.set_header("X-Total-Count", default_activities.count)
+    render json: present(default_activities)
   end
 
   def create
@@ -28,7 +29,11 @@ class DefaultActivitiesController < ApplicationController
   end
 
   def default_activity
-    DefaultActivity.find(default_activity_id)
+    @default_activity ||= DefaultActivity.find(default_activity_id)
+  end
+
+  def default_activities
+    @default_activities ||= DefaultActivity.where(default_activity_params)
   end
 
   def default_activity_id

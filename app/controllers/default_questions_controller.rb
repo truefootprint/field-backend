@@ -1,6 +1,7 @@
 class DefaultQuestionsController < ApplicationController
   def index
-    render json: present(DefaultQuestion.where(default_question_params))
+    response.set_header("X-Total-Count", default_questions.count)
+    render json: present(default_questions)
   end
 
   def create
@@ -28,7 +29,11 @@ class DefaultQuestionsController < ApplicationController
   end
 
   def default_question
-    DefaultQuestion.find(default_question_id)
+    @default_question ||= DefaultQuestion.find(default_question_id)
+  end
+
+  def default_questions
+    @default_questions ||= DefaultQuestion.where(default_question_params)
   end
 
   def default_question_id

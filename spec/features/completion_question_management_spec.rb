@@ -12,6 +12,7 @@ RSpec.describe "Completion question management" do
     get "/completion_questions"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/completion_questions", question_id: q1_id, completion_value: "yes"
     expect(response.status).to eq(201)

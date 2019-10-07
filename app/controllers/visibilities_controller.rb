@@ -1,6 +1,7 @@
 class VisibilitiesController < ApplicationController
   def index
-    render json: present(Visibility.where(visibility_params))
+    response.set_header("X-Total-Count", visibilities.count)
+    render json: present(visibilities)
   end
 
   def create
@@ -28,7 +29,11 @@ class VisibilitiesController < ApplicationController
   end
 
   def visibility
-    Visibility.find(visibility_id)
+    @visibility ||= Visibility.find(visibility_id)
+  end
+
+  def visibilities
+    @visibilities ||= Visibility.where(visibility_params)
   end
 
   def visibility_id

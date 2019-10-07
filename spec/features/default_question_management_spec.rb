@@ -19,6 +19,7 @@ RSpec.describe "Default question management" do
     get "/default_questions"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/default_questions", activity_id: a1_id, question_id: q1_id, order: 1
     expect(response.status).to eq(201)

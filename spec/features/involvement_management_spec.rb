@@ -37,6 +37,7 @@ RSpec.describe "Involvement management" do
     get "/involvements"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/involvements", project_activity_id: project_activity_id, user_id: user1_id
     expect(response.status).to eq(201)

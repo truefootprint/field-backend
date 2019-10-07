@@ -1,6 +1,7 @@
 class ProgrammesController < ApplicationController
   def index
-    render json: present(Programme.where(programme_params))
+    response.set_header("X-Total-Count", programmes.count)
+    render json: present(programmes)
   end
 
   def create
@@ -28,7 +29,11 @@ class ProgrammesController < ApplicationController
   end
 
   def programme
-    Programme.find(programme_id)
+    @programme ||= Programme.find(programme_id)
+  end
+
+  def programmes
+    @programmes ||= Programme.where(programme_params)
   end
 
   def programme_id

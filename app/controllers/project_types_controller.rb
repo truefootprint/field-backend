@@ -1,6 +1,7 @@
 class ProjectTypesController < ApplicationController
   def index
-    render json: present(ProjectType.where(project_type_params))
+    response.set_header("X-Total-Count", project_types.count)
+    render json: present(project_types)
   end
 
   def create
@@ -28,7 +29,11 @@ class ProjectTypesController < ApplicationController
   end
 
   def project_type
-    ProjectType.find(project_type_id)
+    @project_type ||= ProjectType.find(project_type_id)
+  end
+
+  def project_types
+    @project_types ||= ProjectType.where(project_type_params)
   end
 
   def project_type_id

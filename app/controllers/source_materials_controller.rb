@@ -1,6 +1,7 @@
 class SourceMaterialsController < ApplicationController
   def index
-    render json: present(SourceMaterial.where(source_material_params))
+    response.set_header("X-Total-Count", source_materials.count)
+    render json: present(source_materials)
   end
 
   def create
@@ -28,7 +29,11 @@ class SourceMaterialsController < ApplicationController
   end
 
   def source_material
-    SourceMaterial.find(source_material_id)
+    @source_material ||= SourceMaterial.find(source_material_id)
+  end
+
+  def source_materials
+    @source_materials ||= SourceMaterial.where(source_material_params)
   end
 
   def source_material_id

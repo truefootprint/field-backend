@@ -1,6 +1,7 @@
 class DefaultExpectedValuesController < ApplicationController
   def index
-    render json: present(DefaultExpectedValue.where(default_expected_value_params))
+    response.set_header("X-Total-Count", default_expected_values.count)
+    render json: present(default_expected_values)
   end
 
   def create
@@ -28,7 +29,11 @@ class DefaultExpectedValuesController < ApplicationController
   end
 
   def default_expected_value
-    DefaultExpectedValue.find(default_expected_value_id)
+    @default_expected_value ||= DefaultExpectedValue.find(default_expected_value_id)
+  end
+
+  def default_expected_values
+    @default_expected_values ||= DefaultExpectedValue.where(default_expected_value_params)
   end
 
   def default_expected_value_id

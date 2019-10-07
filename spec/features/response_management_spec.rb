@@ -60,6 +60,7 @@ RSpec.describe "Response management" do
     get "/responses", auth
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/responses", auth.merge(
       project_question_id: project_question_id,

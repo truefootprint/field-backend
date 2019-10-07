@@ -17,6 +17,7 @@ RSpec.describe "Default expected value management" do
     get "/default_expected_values"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
+    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/default_expected_values", question_id: q1_id, value: "123"
     expect(response.status).to eq(201)

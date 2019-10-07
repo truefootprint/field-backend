@@ -1,6 +1,7 @@
 class ActivitiesController < ApplicationController
   def index
-    render json: present(Activity.where(activity_params))
+    response.set_header("X-Total-Count", activities.count)
+    render json: present(activities)
   end
 
   def create
@@ -28,7 +29,11 @@ class ActivitiesController < ApplicationController
   end
 
   def activity
-    Activity.find(activity_id)
+    @activity ||= Activity.find(activity_id)
+  end
+
+  def activities
+    @activities ||= Activity.where(activity_params)
   end
 
   def activity_id

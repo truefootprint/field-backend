@@ -1,6 +1,7 @@
 class CompletionQuestionsController < ApplicationController
   def index
-    render json: present(CompletionQuestion.where(completion_question_params))
+    response.set_header("X-Total-Count", completion_questions.count)
+    render json: present(completion_questions)
   end
 
   def create
@@ -28,7 +29,11 @@ class CompletionQuestionsController < ApplicationController
   end
 
   def completion_question
-    CompletionQuestion.find(completion_question_id)
+    @completion_question ||= CompletionQuestion.find(completion_question_id)
+  end
+
+  def completion_questions
+    @completion_questions ||= CompletionQuestion.where(completion_question_params)
   end
 
   def completion_question_id

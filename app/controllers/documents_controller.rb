@@ -1,6 +1,7 @@
 class DocumentsController < ApplicationController
   def index
-    render json: present(Document.all) # Filtering is not supported.
+    response.set_header("X-Total-Count", documents.count)
+    render json: present(documents)
   end
 
   def create
@@ -28,7 +29,11 @@ class DocumentsController < ApplicationController
   end
 
   def document
-    Document.find(document_id)
+    @document ||= Document.find(document_id)
+  end
+
+  def documents
+    @documents ||= Document.all # Filtering is not supported.
   end
 
   def document_id
