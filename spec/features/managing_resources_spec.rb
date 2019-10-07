@@ -41,7 +41,6 @@ RSpec.describe "Managing resources via CRUD actions" do
     get "/project_questions"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
-    expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
     post "/project_questions",
       project_activity_id: project_activity_id,
@@ -67,6 +66,21 @@ RSpec.describe "Managing resources via CRUD actions" do
 
     get "/project_questions", order: 2
     expect(parsed_json.size).to eq(1)
+
+    get "/project_questions", _sort: "id", _order: "desc"
+    expect(response.headers.fetch("X-Total-Count")).to eq(2)
+    expect(parsed_json).to match [
+      hash_including(order: 2),
+      hash_including(order: 1),
+    ]
+
+    get "/project_questions", _start: "1"
+    expect(parsed_json).to match [hash_including(order: 2)]
+    expect(response.headers.fetch("X-Total-Count")).to eq(2)
+
+    get "/project_questions", _end: "1"
+    expect(parsed_json).to match [hash_including(order: 1)]
+    expect(response.headers.fetch("X-Total-Count")).to eq(2)
 
     get "/project_questions/#{id}"
     expect(response.status).to eq(200)

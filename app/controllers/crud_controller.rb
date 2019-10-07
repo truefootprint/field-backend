@@ -1,7 +1,7 @@
 class CrudController < ApplicationController
   def index
-    response.set_header("X-Total-Count", records.count)
-    render json: present(records)
+    response.set_header("X-Total-Count", all_records.count)
+    render json: present(paginated_records)
   end
 
   def create
@@ -36,12 +36,17 @@ class CrudController < ApplicationController
     @record ||= model.find(params.fetch(:id))
   end
 
-  def records
-    @records ||= model.where(model_params)
+  def paginated_records
+    parser = QueryParser.new(params)
+    all_records.order(parser.order).offset(parser.offset).limit(parser.limit)
+  end
+
+  def all_records
+    model.where(model_params)
   end
 
   def model_params
-    params.permit(model.column_names + %i[file photo])
+    params.slice(model.column_names + %i[file photo])
   end
 
   def model
