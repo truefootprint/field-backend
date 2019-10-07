@@ -1,35 +1,37 @@
 Rails.application.routes.draw do
+  crud_resources = %i[
+    activities
+    completion_questions
+    default_activities
+    default_expected_values
+    default_questions
+    documents
+    expected_values
+    follow_up_activities
+    involvements
+    issues
+    programmes
+    project_activities
+    project_questions
+    project_summaries
+    project_types
+    projects
+    questions
+    resolutions
+    responses
+    roles
+    source_materials
+    topics
+    user_roles
+    users
+    visibilities
+  ]
+
+  crud_resources.each do |name|
+    resources name, controller: :crud
+  end
+
   resources :my_data, only: :index
   resources :my_updates, only: :create
   resources :registrations, only: :create
-
-  resources :default_activities
-  resources :default_questions
-  resources :default_expected_values
-
-  resources :project_types
-  resources :activities
-  resources :follow_up_activities
-  resources :topics
-  resources :questions
-  resources :completion_questions
-
-  resources :programmes
-  resources :projects
-  resources :project_summaries
-  resources :project_activities
-  resources :involvements
-  resources :project_questions
-  resources :expected_values
-
-  resources :users
-  resources :user_roles
-  resources :roles
-
-  resources :responses
-  resources :documents
-  resources :source_materials
-  resources :visibilities
-  resources :issues
-  resources :resolutions
 end

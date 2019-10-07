@@ -1,4 +1,4 @@
-RSpec.describe "Response management" do
+RSpec.describe "Managing resources via CRUD actions" do
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)
@@ -37,77 +37,65 @@ RSpec.describe "Response management" do
     parsed_json.fetch(:id)
   end
 
-  let(:project_question_id) do
-    post "/project_questions",
-      project_activity_id: project_activity_id,
-      question_id: question_id,
-      order: 1
-    parsed_json.fetch(:id)
-  end
-
-  let(:user_id) do
-    post "/users", name: "User name"; parsed_json.fetch(:id)
-  end
-
-  scenario "provides API endpoints to manage responses" do
-    get "/responses"
+  scenario "provides API endpoints to manage project questions" do
+    get "/project_questions"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
     expect(response.headers.fetch("X-Total-Count")).to eq(0)
 
-    post "/responses",
-      project_question_id: project_question_id,
-      user_id: user_id,
-      value: "yes"
+    post "/project_questions",
+      project_activity_id: project_activity_id,
+      question_id: question_id,
+      order: 1
     expect(response.status).to eq(201)
 
-    post "/responses",
-      project_question_id: project_question_id,
-      user_id: user_id
+    post "/project_questions",
+      project_activity_id: project_activity_id,
+      question_id: question_id
     expect(response.status).to eq(422)
-    expect(error_messages).to include("Value can't be blank")
+    expect(error_messages).to include("Order can't be blank")
 
-    post "/responses",
-      project_question_id: project_question_id,
-      user_id: user_id,
-      value: "no"
+    post "/project_questions",
+      project_activity_id: project_activity_id,
+      question_id: question_id,
+      order: 2
     expect(response.status).to eq(201)
     id = parsed_json.fetch(:id)
 
-    get "/responses"
+    get "/project_questions"
     expect(parsed_json.size).to eq(2)
 
-    get "/responses", value: "no"
+    get "/project_questions", order: 2
     expect(parsed_json.size).to eq(1)
 
-    get "/responses/#{id}"
+    get "/project_questions/#{id}"
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(value: "no")
+    expect(parsed_json).to include(order: 2)
 
-    delete "/responses/#{id}"
+    delete "/project_questions/#{id}"
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(value: "no")
+    expect(parsed_json).to include(order: 2)
 
-    get "/responses/#{id}"
+    get "/project_questions/#{id}"
     expect(response.status).to eq(404)
 
-    delete "/responses/#{id}"
+    delete "/project_questions/#{id}"
     expect(response.status).to eq(404)
 
-    get "/responses"
+    get "/project_questions"
     expect(response.status).to eq(200)
     expect(parsed_json).to match [
-      hash_including(value: "yes"),
+      hash_including(order: 1),
     ]
 
     id = parsed_json.first.fetch(:id)
 
-    put "/responses/#{id}", value: "pass"
+    put "/project_questions/#{id}", order: 3
     expect(response.status).to eq(200)
-    expect(parsed_json).to include(value: "pass")
+    expect(parsed_json).to include(order: 3)
 
-    put "/responses/#{id}", value: " "
+    put "/project_questions/#{id}", order: -1
     expect(response.status).to eq(422)
-    expect(error_messages).to eq ["Value can't be blank"]
+    expect(error_messages).to eq ["Order must be greater than 0"]
   end
 end

@@ -1,11 +1,11 @@
-RSpec.describe "Document management" do
+RSpec.describe "Uploading documents" do
   let(:contract) { file_fixture("water-pump-contract.pdf") }
   let(:evidence) { file_fixture("water-pump-stolen.png") }
 
   let(:file1) { Rack::Test::UploadedFile.new(contract) }
   let(:file2) { Rack::Test::UploadedFile.new(evidence) }
 
-  scenario "provides API endpoints to manage documents" do
+  scenario "provides API endpoints to upload documents" do
     get "/documents"
     expect(response.status).to eq(200)
     expect(parsed_json).to eq []
