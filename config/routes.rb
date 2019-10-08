@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     resources name, controller: :crud
   end
 
+  resources :question_types, only: :index
+  resources :question_data_types, only: :index
+
   resources :my_data, only: :index
   resources :my_updates, only: :create
   resources :registrations, only: :create

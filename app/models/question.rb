@@ -1,4 +1,7 @@
 class Question < ApplicationRecord
+  TYPES = %w[FreeTextQuestion MultiChoiceQuestion PhotoUploadQuestion].freeze
+  DATA_TYPES = %w[boolean number photo string].freeze
+
   belongs_to :topic
   has_one :completion_question
 
@@ -9,6 +12,6 @@ class Question < ApplicationRecord
 
   validates :text, presence: true, uniqueness: { scope: :topic_id }
   validates :type, presence: true
-  validates :type, inclusion: { in: %w[FreeTextQuestion MultiChoiceQuestion PhotoUploadQuestion] }
-  validates :data_type, inclusion: { in: %w[boolean number photo string] }
+  validates :type, inclusion: { in: TYPES }
+  validates :data_type, inclusion: { in: DATA_TYPES }
 end
