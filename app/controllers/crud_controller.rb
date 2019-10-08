@@ -46,7 +46,7 @@ class CrudController < ApplicationController
   end
 
   def model_params
-    params.slice(model.column_names + %i[file photo])
+    params.permit!.slice(*(model.column_names + %i[file photo]))
   end
 
   def model
