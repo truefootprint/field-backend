@@ -82,6 +82,9 @@ RSpec.describe "Managing resources via CRUD actions" do
     expect(parsed_json).to match [hash_including(order: 1)]
     expect(response.headers.fetch("X-Total-Count")).to eq(2)
 
+    get "/project_questions?order=1&order=2" # Uses the ArrayParams middleware.
+    expect(parsed_json.size).to eq(2)
+
     get "/project_questions/#{id}"
     expect(response.status).to eq(200)
     expect(parsed_json).to include(order: 2)
