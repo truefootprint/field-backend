@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     follow_up_activities
     involvements
     issues
+    multi_choice_options
     programmes
     project_activities
     project_questions
