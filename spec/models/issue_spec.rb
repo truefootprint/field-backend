@@ -15,5 +15,10 @@ RSpec.describe Issue do
       issue.critical = nil
       expect(issue).to be_invalid
     end
+
+    it "requires a known subject type" do
+      issue.subject_type = "unknown"
+      expect(issue).to be_invalid
+    end
   end
 end
