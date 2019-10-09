@@ -24,6 +24,20 @@ RSpec.describe MultiChoiceOption do
       expect(multi_choice_option).to be_valid
     end
 
+    it "must belong to a multi-choice question" do
+      question = FactoryBot.create(:free_text_question)
+
+      expect { multi_choice_option.question = question }
+        .to raise_error(ActiveRecord::AssociationTypeMismatch)
+
+      multi_choice_option.question_id = question.id
+      expect(multi_choice_option).to be_invalid
+
+      expect(multi_choice_option.errors.full_messages).to include(
+        "Can't belong to a FreeTextQuestion"
+      )
+    end
+
     it "requires an order" do
       multi_choice_option.order = nil
       expect(multi_choice_option).to be_invalid
