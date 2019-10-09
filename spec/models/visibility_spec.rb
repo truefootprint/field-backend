@@ -18,6 +18,16 @@ RSpec.describe Visibility do
       visibility.subject = FactoryBot.build(:project)
       expect(visibility).to be_valid
     end
+
+    it "requires a known subject type" do
+      visibility.subject_type = "unknown"
+      expect(visibility).to be_invalid
+    end
+
+    it "requires a known visible to type" do
+      visibility.visible_to_type = "unknown"
+      expect(visibility).to be_invalid
+    end
   end
 
   describe ".subject_ids" do

@@ -42,4 +42,25 @@ RSpec.describe "Listing types" do
       { id: "ProjectActivity" },
     ]
   end
+
+  scenario "provides an endpoint to list all visibility subject types" do
+    get "/visibility_subject_types"
+    expect(response.status).to eq(200)
+
+    expect(parsed_json).to include(
+      { id: "Project" },
+      { id: "ProjectQuestion" },
+    )
+  end
+
+  scenario "provides an endpoint to list all visibility visible to types" do
+    get "/visibility_visible_to_types"
+    expect(response.status).to eq(200)
+
+    expect(parsed_json).to eq [
+      { id: "User" },
+      { id: "Role" },
+      { id: "UserRole" },
+    ]
+  end
 end

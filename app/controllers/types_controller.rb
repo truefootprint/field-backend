@@ -15,6 +15,14 @@ class TypesController < ApplicationController
     render_types(SourceMaterial::SUBJECT_TYPES)
   end
 
+  def visibility_subject_types
+    render_types(Visibility::SUBJECT_TYPES)
+  end
+
+  def visibility_visible_to_types
+    render_types(Visibility::VISIBLE_TO_TYPES)
+  end
+
   private
 
   def render_types(types)
