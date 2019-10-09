@@ -16,5 +16,10 @@ RSpec.describe SourceMaterial do
       source_material.page = nil
       expect(source_material).to be_valid
     end
+
+    it "requires a known subject type" do
+      source_material.subject_type = "unknown"
+      expect(source_material).to be_invalid
+    end
   end
 end

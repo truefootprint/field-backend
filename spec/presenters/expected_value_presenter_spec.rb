@@ -3,21 +3,4 @@ RSpec.describe ExpectedValuePresenter do
     expected_value = FactoryBot.create(:expected_value, value: "yes")
     expect(described_class.present(expected_value)).to include(value: "yes")
   end
-
-  it "can present with source materials" do
-    expected_value = FactoryBot.create(:expected_value)
-    document = FactoryBot.create(:document, filename: "contract.pdf")
-
-    FactoryBot.create(:source_material, subject: expected_value, document: document, page: 50)
-
-    presented = described_class.present(expected_value, source_materials: true)
-    expect(presented).to include(source_materials: [hash_including(
-      page: 50,
-      document: hash_including(
-        file: {
-          url: a_string_matching("/contract.pdf"),
-        },
-      ),
-    )])
-  end
 end

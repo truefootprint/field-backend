@@ -31,6 +31,7 @@ TYPE_RESOURCES = %i[
   question_types
   question_data_types
   issue_subject_types
+  source_material_subject_types
 ]
 
 Rails.application.routes.draw do

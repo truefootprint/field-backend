@@ -11,6 +11,10 @@ class TypesController < ApplicationController
     render_types(Issue::SUBJECT_TYPES)
   end
 
+  def source_material_subject_types
+    render_types(SourceMaterial::SUBJECT_TYPES)
+  end
+
   private
 
   def render_types(types)

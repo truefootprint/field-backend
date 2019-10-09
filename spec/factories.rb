@@ -149,7 +149,7 @@ FactoryBot.define do
   end
 
   factory :source_material do
-    association :subject, factory: :expected_value
+    association :subject, factory: :project
     document
   end
 

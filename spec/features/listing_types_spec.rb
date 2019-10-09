@@ -32,4 +32,14 @@ RSpec.describe "Listing types" do
       { id: "ProjectQuestion" },
     ]
   end
+
+  scenario "provides an endpoint to list all source material subject types" do
+    get "/source_material_subject_types"
+    expect(response.status).to eq(200)
+
+    expect(parsed_json).to eq [
+      { id: "Project" },
+      { id: "ProjectActivity" },
+    ]
+  end
 end
