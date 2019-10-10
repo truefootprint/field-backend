@@ -19,6 +19,8 @@ RSpec.describe ResolutionPresenter do
     resolution = FactoryBot.create(:resolution, photos: [attachment])
 
     presented = described_class.present(resolution, photos: true)
-    expect(presented).to include(photos: [{ url: a_string_matching("/working.png") }])
+    expect(presented).to include(photos: [
+      hash_including(url: a_string_matching("/working.png"))
+    ])
   end
 end

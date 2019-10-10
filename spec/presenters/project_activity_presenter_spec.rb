@@ -37,9 +37,9 @@ RSpec.describe ProjectActivityPresenter do
     expect(presented).to include(source_materials: [hash_including(
       page: 50,
       document: hash_including(
-        file: {
+        file: hash_including(
           url: a_string_matching("/contract.pdf"),
-        },
+        ),
       ),
     )])
   end

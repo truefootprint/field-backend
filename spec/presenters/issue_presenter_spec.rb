@@ -19,7 +19,9 @@ RSpec.describe IssuePresenter do
     issue = FactoryBot.create(:issue, photos: [attachment])
 
     presented = described_class.present(issue, photos: true)
-    expect(presented).to include(photos: [{ url: a_string_matching("/stolen.png") }])
+    expect(presented).to include(photos: [
+      hash_including(url: a_string_matching("/stolen.png"))
+    ])
   end
 
   it "can present with the resolution" do

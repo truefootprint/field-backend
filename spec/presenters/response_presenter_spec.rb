@@ -20,6 +20,6 @@ RSpec.describe ResponsePresenter do
     response = FactoryBot.create(:response, photo: attachment)
 
     presented = described_class.present(response, photo: true)
-    expect(presented).to include(photo: { url: a_string_matching("/upload.png") })
+    expect(presented).to include(photo: hash_including(url: a_string_matching("/upload.png")))
   end
 end

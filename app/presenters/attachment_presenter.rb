@@ -10,6 +10,6 @@ class AttachmentPresenter < ApplicationPresenter
   end
 
   def present(record)
-    { url: url_for(record) }
+    { url: url_for(record), name: record.filename }
   end
 end
