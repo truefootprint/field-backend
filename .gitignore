@@ -4,3 +4,5 @@
 .byebug_history
 /config/master.key
 /storage
+
+/config/basic-auth.json

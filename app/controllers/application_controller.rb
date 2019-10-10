@@ -1,4 +1,13 @@
 class ApplicationController < ActionController::API
+  include ActionController::HttpAuthentication::Basic::ControllerMethods
+
+  if BasicAuth.enabled?
+    http_basic_authenticate_with(
+      name: BasicAuth.username,
+      password: BasicAuth.password
+    )
+  end
+
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 

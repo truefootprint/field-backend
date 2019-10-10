@@ -1,4 +1,8 @@
 RSpec.describe "Managing resources via CRUD actions" do
+  before do
+    allow(BasicAuth).to receive(:enabled?).and_return(false)
+  end
+
   let(:programme_id) do
     post "/programmes", name: "Programme name", description: "Description"
     parsed_json.fetch(:id)

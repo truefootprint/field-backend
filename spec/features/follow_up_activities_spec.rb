@@ -15,6 +15,8 @@ RSpec.describe "Follow up activities" do
   let(:workshop) { FactoryBot.create(:project_activity, project: project, activity: activity) }
 
   before do
+    allow(BasicAuth).to receive(:enabled?).and_return(false)
+
     topic = FactoryBot.create(:topic, name: "Rate %{farmer}'s farm")
 
     q1 = FactoryBot.create(:question, text: "How would you rate the workshop?")

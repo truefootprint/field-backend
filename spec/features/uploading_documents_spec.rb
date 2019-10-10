@@ -5,6 +5,10 @@ RSpec.describe "Uploading documents" do
   let(:file1) { Rack::Test::UploadedFile.new(contract) }
   let(:file2) { Rack::Test::UploadedFile.new(evidence) }
 
+  before do
+    allow(BasicAuth).to receive(:enabled?).and_return(false)
+  end
+
   scenario "provides API endpoints to upload documents" do
     get "/documents"
     expect(response.status).to eq(200)

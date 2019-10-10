@@ -17,6 +17,8 @@ RSpec.describe "Answering questions" do
   let(:pq4) { FactoryBot.create(:project_question, project_activity: pa2, question: question) }
 
   before do
+    allow(BasicAuth).to receive(:enabled?).and_return(false)
+
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")
 
     [project, pa1, pa2, pq1, pq2, pq3, pq4].each do |subject|

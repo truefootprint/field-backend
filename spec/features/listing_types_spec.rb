@@ -1,4 +1,8 @@
 RSpec.describe "Listing types" do
+  before do
+    allow(BasicAuth).to receive(:enabled?).and_return(false)
+  end
+
   scenario "provides an endpoint to list all question types" do
     get "/question_types"
     expect(response.status).to eq(200)
