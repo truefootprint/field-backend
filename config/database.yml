@@ -5,14 +5,13 @@ default: &default
 
 development:
   <<: *default
-  database: reporter_backend_development
+  database: reporter-backend_development
 
 test:
   <<: *default
-  database: reporter_backend_test
+  database: reporter-backend_test
 
 production:
   <<: *default
-  database: reporter_backend_production
-  username: reporter_backend
-  password: <%= ENV['REPORTER_BACKEND_DATABASE_PASSWORD'] %>
+  database: reporter-backend_production
+  username: postgres
