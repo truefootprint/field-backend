@@ -23,6 +23,10 @@ class TypesController < ApplicationController
     render_types(Visibility::VISIBLE_TO_TYPES)
   end
 
+  def unit_types
+    render_types(Unit::TYPES)
+  end
+
   private
 
   def render_types(types)

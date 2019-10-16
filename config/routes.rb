@@ -22,6 +22,7 @@ CRUD_RESOURCES = %i[
   roles
   source_materials
   topics
+  units
   user_roles
   users
   visibilities
@@ -34,6 +35,7 @@ TYPE_RESOURCES = %i[
   source_material_subject_types
   visibility_subject_types
   visibility_visible_to_types
+  unit_types
 ]
 
 Rails.application.routes.draw do

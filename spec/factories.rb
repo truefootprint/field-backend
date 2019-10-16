@@ -165,4 +165,9 @@ FactoryBot.define do
     user
     description { "The contractor has returned and fitted the water pump" }
   end
+
+  factory :unit do
+    sequence(:name) { |n| "Unit #{n}" }
+    type { "length" }
+  end
 end
