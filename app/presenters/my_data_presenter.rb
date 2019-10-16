@@ -22,11 +22,14 @@ class MyDataPresenter < ApplicationPresenter
               visible: true,
               by_topic: true,
               completion_question: true,
+              unit: true,
               expected_value: {
                 source_materials: true,
+                unit: true,
               },
               responses: {
                 for_user: viewpoint.user,
+                unit: true,
               },
               issues: {
                 user: true,

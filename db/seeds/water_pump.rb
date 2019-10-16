@@ -1,5 +1,7 @@
 # Definitions
 
+meter = FactoryBot.create(:unit, name: "meter", type: "length")
+
 water_pump = ProjectType.create!(name: "Water pump")
 
 clearing_space = Activity.create!(name: "Clearing space")
@@ -10,7 +12,7 @@ using_the_pump = Activity.create!(name: "Using the pump")
 
 hole = Topic.create!(name: "Hole")
 
-question_1 = FreeTextQuestion.create!(text: "Depth in meters", data_type: "number", topic: hole)
+question_1 = FreeTextQuestion.create!(text: "Depth in meters", data_type: "number", topic: hole, unit: meter)
 question_2 = FreeTextQuestion.create!(text: "Diameter in cm", data_type: "number", topic: hole)
 question_3 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: hole)
 question_4 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: hole)
@@ -122,10 +124,10 @@ Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role)
 
 # Data Collection
 
-Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "2")
-Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "3")
-Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4")
-Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2")
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "2", unit: meter)
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "3", unit: meter)
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4", unit: meter)
+Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2", unit: meter)
 
 Visibility.create!(subject: clearing_space, visible_to: monitor)
 Visibility.create!(subject: digging_the_hole, visible_to: monitor)

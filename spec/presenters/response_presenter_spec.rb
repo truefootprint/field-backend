@@ -15,6 +15,14 @@ RSpec.describe ResponsePresenter do
     expect(presented.map { |h| h.fetch(:value) }).to eq %w[222 111 333]
   end
 
+  it "can present with the unit" do
+    unit = FactoryBot.create(:unit, name: "meter", type: "length")
+    response = FactoryBot.create(:response, unit: unit)
+
+    presented = described_class.present(response, unit: true)
+    expect(presented).to include(unit: hash_including(name: "meter", type: "length"))
+  end
+
   it "can present with the photo" do
     attachment = { io: file_fixture("water-pump-working.png").open, filename: "upload.png" }
     response = FactoryBot.create(:response, photo: attachment)
