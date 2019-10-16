@@ -99,7 +99,14 @@ RSpec.describe Template do
 
     it "creates expected values for the project questions" do
       default = FactoryBot.create(:default_question, activity: activity)
-      FactoryBot.create(:default_expected_value, question: default.question, value: "yes")
+      unit = FactoryBot.create(:unit)
+
+      FactoryBot.create(
+        :default_expected_value,
+        question: default.question,
+        value: "yes",
+        unit: unit,
+      )
 
       expect { subject.create_records(project) }
         .to change(ExpectedValue, :count).by(1)
@@ -109,6 +116,7 @@ RSpec.describe Template do
 
       expect(expected_value.value).to eq("yes")
       expect(expected_value.project_question).to eq(project_question)
+      expect(expected_value.unit).to eq(unit)
     end
 
     it "uses the default expected value specialised to the activity if it exists" do

@@ -56,6 +56,7 @@ module Template
           ExpectedValue.create!(
             project_question: project_question,
             value: default.value,
+            unit: default.unit,
           )
         end
       end
