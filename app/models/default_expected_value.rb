@@ -1,6 +1,7 @@
 class DefaultExpectedValue < ApplicationRecord
   belongs_to :question
   belongs_to :activity, optional: true
+  belongs_to :unit, optional: true
 
   validates :value, presence: true
 

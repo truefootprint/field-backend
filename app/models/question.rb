@@ -3,6 +3,7 @@ class Question < ApplicationRecord
   DATA_TYPES = %w[boolean number photo string].freeze
 
   belongs_to :topic
+  belongs_to :unit, optional: true
   has_one :completion_question
 
   scope :visible, -> { visible_to(Viewpoint.current) }

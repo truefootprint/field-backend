@@ -1,6 +1,7 @@
 class Response < ApplicationRecord
   belongs_to :project_question
   belongs_to :user
+  belongs_to :unit, optional: true
 
   has_one_attached :photo
 

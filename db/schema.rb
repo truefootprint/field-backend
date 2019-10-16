@@ -65,11 +65,13 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
   create_table "default_expected_values", force: :cascade do |t|
     t.bigint "question_id"
     t.bigint "activity_id"
+    t.bigint "unit_id"
     t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_expected_values_on_activity_id"
     t.index ["question_id"], name: "index_default_expected_values_on_question_id"
+    t.index ["unit_id"], name: "index_default_expected_values_on_unit_id"
   end
 
   create_table "default_questions", force: :cascade do |t|
@@ -90,10 +92,12 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
 
   create_table "expected_values", force: :cascade do |t|
     t.bigint "project_question_id"
+    t.bigint "unit_id"
     t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_expected_values_on_project_question_id", unique: true
+    t.index ["unit_id"], name: "index_expected_values_on_unit_id"
   end
 
   create_table "follow_up_activities", force: :cascade do |t|
@@ -195,6 +199,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
 
   create_table "questions", force: :cascade do |t|
     t.bigint "topic_id"
+    t.bigint "unit_id"
     t.string "type", null: false
     t.string "data_type", null: false
     t.text "text", null: false
@@ -206,6 +211,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
     t.index ["topic_id", "text"], name: "index_questions_on_topic_id_and_text", unique: true
     t.index ["topic_id"], name: "index_questions_on_topic_id"
     t.index ["type"], name: "index_questions_on_type"
+    t.index ["unit_id"], name: "index_questions_on_unit_id"
   end
 
   create_table "resolutions", force: :cascade do |t|
@@ -221,10 +227,12 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
   create_table "responses", force: :cascade do |t|
     t.bigint "project_question_id"
     t.bigint "user_id"
+    t.bigint "unit_id"
     t.text "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_responses_on_project_question_id"
+    t.index ["unit_id"], name: "index_responses_on_unit_id"
     t.index ["user_id"], name: "index_responses_on_user_id"
   end
 

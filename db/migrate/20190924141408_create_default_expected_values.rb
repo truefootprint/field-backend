@@ -3,6 +3,7 @@ class CreateDefaultExpectedValues < ActiveRecord::Migration[6.0]
     create_table :default_expected_values do |t|
       t.belongs_to :question
       t.belongs_to :activity, optional: true
+      t.belongs_to :unit, optional: true
       t.text :value, null: false
       t.timestamps
     end

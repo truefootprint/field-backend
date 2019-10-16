@@ -2,6 +2,7 @@ class CreateQuestions < ActiveRecord::Migration[6.0]
   def change
     create_table :questions do |t|
       t.belongs_to :topic
+      t.belongs_to :unit, optional: true
       t.string :type, null: false
       t.string :data_type, null: false
       t.text :text, null: false
