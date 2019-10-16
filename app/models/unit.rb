@@ -5,4 +5,11 @@ class Unit < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :type, inclusion: { in: TYPES }
+
+  validate :name_is_recognised
+
+  def name_is_recognised
+    return if Unitwise.search(name).present?
+    errors.add(:name, "must be a recognised unit (lower-case, singular)")
+  end
 end

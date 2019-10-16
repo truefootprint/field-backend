@@ -12,9 +12,14 @@ RSpec.describe Unit do
     end
 
     it "requires a unique name" do
-      FactoryBot.create(:unit, name: "Name")
+      FactoryBot.create(:unit, name: "meter")
 
-      unit.name = "name"
+      unit.name = "meter"
+      expect(unit).to be_invalid
+    end
+
+    it "requires a name recognised by the Unitwise gem" do
+      unit.name = "unknown"
       expect(unit).to be_invalid
     end
 

@@ -167,7 +167,10 @@ FactoryBot.define do
   end
 
   factory :unit do
-    sequence(:name) { |n| "Unit #{n}" }
+    sequence(:name) do |n|
+      %w[meter centimeter millimeter kilometer inch foot yard mile][n - 1]
+    end
+
     type { "length" }
   end
 end
