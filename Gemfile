@@ -7,7 +7,7 @@ ruby "2.6.5"
 gem "rails", "~> 6.0.0"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
-gem "rack-cors", "~> 1.0.3"
+gem "rack-cors", "~> 1.0.5"
 gem "unitwise", "~> 2.2"
 
 group :development, :test do
