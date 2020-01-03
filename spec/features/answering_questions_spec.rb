@@ -4,34 +4,23 @@ RSpec.describe "Answering questions" do
 
   let(:auth) { { user_name: "Test", role_name: "Test" } }
 
-  let(:project) { FactoryBot.create(:project) }
-
-  let(:pa1) { FactoryBot.create(:project_activity, project: project) }
-  let(:pa2) { FactoryBot.create(:project_activity, project: project) }
-
   let(:question) { FactoryBot.create(:question, text: "Is this activity finished?") }
-
-  let(:pq1) { FactoryBot.create(:project_question, project_activity: pa1) }
-  let(:pq2) { FactoryBot.create(:project_question, project_activity: pa1, question: question) }
-  let(:pq3) { FactoryBot.create(:project_question, project_activity: pa2) }
-  let(:pq4) { FactoryBot.create(:project_question, project_activity: pa2, question: question) }
+  let(:project_question) { FactoryBot.create(:project_question, question: question) }
+  let(:project_activity) { project_question.project_activity }
+  let(:project) { project_activity.project }
 
   before do
     allow(BasicAuth).to receive(:enabled?).and_return(false)
 
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")
 
-    [project, pa1, pa2, pq1, pq2, pq3, pq4].each do |subject|
+    [project, project_activity, project_question].each do |subject|
       FactoryBot.create(:visibility, subject: subject, visible_to: user)
     end
   end
 
   def current_project_activity
     all_projects.first.fetch(:current_project_activity)
-  end
-
-  def completion_question(pq)
-    find_project_question(pq.id).fetch(:completion_question)
   end
 
   def responses(pq)
@@ -42,26 +31,62 @@ RSpec.describe "Answering questions" do
     post "/my_updates", auth.merge(actions: [action])
   end
 
-  scenario "creating responses to questions that have been answered" do
+  def post_updates(updates)
+    post "/my_updates", auth.merge(updates: updates)
+  end
+
+  scenario "creating responses and updating them within the submission period" do
     get "/my_data", auth
     expect(response.status).to eq(200)
-    expect(current_project_activity).to include(id: pa1.id, name: pa1.activity.name)
-    expect(completion_question(pq2)).to include(completion_value: "yes")
-    expect(completion_question(pq4)).to include(completion_value: "yes")
+    expect(current_project_activity).to include(id: project_activity.id)
 
-    post_action(action: "AnswerQuestion", project_question_id: pq2.id, value: "yes")
+    period_start = "2020-01-01T00:00:00.000Z"
+    period_end = "2020-01-01T23:59:59.000Z"
+
+    response1 = {
+      created_at: "2020-01-01T12:00:00.000Z",
+      updated_at: "2020-01-01T13:00:00.000Z",
+      project_question_id: project_question.id,
+      value: "yes",
+    }
+
+    post_updates([{ period_start: period_start, period_end: period_end, responses: [response1] }])
     expect(response.status).to eq(201)
 
     get "/my_data", auth
-    expect(response.status).to eq(200)
-    expect(current_project_activity).to include(id: pa2.id, name: pa2.activity.name)
-    expect(responses(pq2)).to match [hash_including(value: "yes")]
-
-    post_action(action: "AnswerQuestion", project_question_id: pq4.id, value: "yes")
-    expect(response.status).to eq(201)
-
-    get "/my_data", auth
+    expect(responses(project_question)).to match [hash_including(response1)]
     expect(current_project_activity).to be_nil
-    expect(responses(pq4)).to match [hash_including(value: "yes")]
+
+    # The response was updated by the user an hour later:
+    response2 = response1.merge(value: "no", updated_at: "2020-01-01T14:00:00.000Z")
+    post_updates([{ period_start: period_start, period_end: period_end, responses: [response2] }])
+    expect(response.status).to eq(201)
+
+    get "/my_data", auth
+    expect(responses(project_question)).to match [hash_including(response2)]
+    expect(current_project_activity).to include(id: project_activity.id)
+
+    # It is now the next day:
+    period_start = "2020-01-02T00:00:00.000Z"
+    period_end = "2020-01-02T23:59:59.000Z"
+
+    # A brand new response was submitted by the user:
+    response3 = {
+      created_at: "2020-01-02T12:00:00.000Z",
+      updated_at: "2020-01-02T13:00:00.000Z",
+      project_question_id: project_question.id,
+      value: "yes",
+    }
+
+    post_updates([{ period_start: period_start, period_end: period_end, responses: [response3] }])
+    expect(response.status).to eq(201)
+
+    # A new response should be created, rather than updating the previous one:
+    get "/my_data", auth
+    expect(responses(project_question)).to match_array [
+      hash_including(response2),
+      hash_including(response3),
+    ]
+    expect(current_project_activity).to be_nil
   end
 end
