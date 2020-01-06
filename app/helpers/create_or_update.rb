@@ -3,7 +3,7 @@ module CreateOrUpdate
     record = model.order(:id).find_by(where)
 
     if record
-      record.update!(attributes)
+      record.update!(attributes.except(:created_at))
     else
       record = model.create!(attributes)
     end

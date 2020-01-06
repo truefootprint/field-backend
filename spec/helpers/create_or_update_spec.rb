@@ -20,6 +20,14 @@ RSpec.describe CreateOrUpdate do
     expect(user.reload.name).to eq("new name")
   end
 
+  it "does not update created_at if it exists" do
+    user = FactoryBot.create(:user, id: 1, name: "old name", created_at: "2020-01-01")
+    attributes = { id: 1, name: "new name", created_at: "2020-01-02" }
+
+    expect { create_or_update!(User, where: { id: 1 }, attributes: attributes) }
+      .not_to change { user.reload.created_at }
+  end
+
   it "only updates the first record it finds" do
     user1 = FactoryBot.create(:user, name: "name")
     user2 = FactoryBot.create(:user, name: "name")
