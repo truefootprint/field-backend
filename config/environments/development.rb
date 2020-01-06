@@ -43,6 +43,8 @@ Rails.application.configure do
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.active_storage.service = :local
+
+  config.hosts << /.*\.ngrok\.io/
 end
 
 Rails.application.routes.default_url_options = {
