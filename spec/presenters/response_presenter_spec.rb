@@ -23,11 +23,13 @@ RSpec.describe ResponsePresenter do
     expect(presented).to include(unit: hash_including(name: "meter", type: "length"))
   end
 
-  it "can present with the photo" do
+  it "can present with the photos" do
     attachment = { io: file_fixture("water-pump-working.png").open, filename: "upload.png" }
-    response = FactoryBot.create(:response, photo: attachment)
+    response = FactoryBot.create(:response, photos: [attachment])
 
-    presented = described_class.present(response, photo: true)
-    expect(presented).to include(photo: hash_including(url: a_string_matching("/upload.png")))
+    presented = described_class.present(response, photos: true)
+    photo = presented.fetch(:photos).first
+
+    expect(photo).to include(url: a_string_matching("/upload.png"))
   end
 end

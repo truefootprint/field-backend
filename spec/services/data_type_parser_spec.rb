@@ -31,31 +31,14 @@ RSpec.describe DataTypeParser do
     describe "when the response is for a photo upload question" do
       let(:question) { FactoryBot.create(:question, data_type: "photo") }
       let(:project_question) { FactoryBot.create(:project_question, question: question) }
-      let(:response) { FactoryBot.create(:response, project_question: project_question, photo: attachment) }
+      let(:response) { FactoryBot.create(:response, project_question: project_question, photos: [attachment]) }
 
       def attachment
         { io: file_fixture("water-pump-working.png").open, filename: "upload.png" }
       end
 
-      before { response.update!(value: response.photo.id) }
-
-      it "returns the response's photo" do
-        expect(described_class.parse_response(response)).to eq(response.photo)
-      end
-
-      it "errors if the response's value is not a valid id" do
-        response.update!(value: "invalid")
-
-        expect { described_class.parse_response(response) }
-          .to raise_error(ArgumentError, /invalid value/)
-      end
-
-      it "errors if the response's value is not set to the id of its photo" do
-        another_response = FactoryBot.create(:response, photo: attachment)
-        response.update!(value: another_response.photo.id)
-
-        expect { described_class.parse_response(response) }
-          .to raise_error(DataIntegrityError, /but its photo id is/)
+      it "returns the response's photos" do
+        expect(described_class.parse_response(response)).to eq(response.photos)
       end
     end
   end

@@ -2,7 +2,7 @@ class ResponsePresenter < ApplicationPresenter
   def present(record)
     super
       .merge(present_unit(record))
-      .merge(present_photo(record))
+      .merge(present_photos(record))
   end
 
   def modify_scope(scope)
@@ -15,9 +15,7 @@ class ResponsePresenter < ApplicationPresenter
     end
   end
 
-  def present_photo(record)
-    present_nested(:photo, AttachmentPresenter) do
-      record.photo.attached? && record.photo
-    end
+  def present_photos(record)
+    present_nested(:photos, AttachmentPresenter) { record.photos }
   end
 end
