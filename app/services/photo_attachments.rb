@@ -17,8 +17,14 @@ module PhotoAttachments
     end
   end
 
-  def self.sync_image(image, user)
-    # TODO
+  def self.sync_image!(image, user)
+    filename = image.filename.to_s
+
+    user.responses
+      .joins(project_question: :question)
+      .merge(PhotoUploadQuestion.all)
+      .where("value like ?", "%#{filename}%")
+      .each { |r| sync_response!(r) }
   end
 
   private

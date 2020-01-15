@@ -77,6 +77,39 @@ RSpec.describe PhotoAttachments do
   end
 
   describe ".sync_image" do
-    # TODO
+    it "attaches image blobs that are referenced in the response's value" do
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      response = create_photo_response(value: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, response.user) }
+        .to change { response.reload.photos.count }.by(1)
+
+      expect(response.photos.last.filename).to eq("water-pump-stolen.png")
+    end
+
+    it "is scoped to the current user's responses" do
+      another_user = FactoryBot.create(:user)
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      response = create_photo_response(value: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, another_user) }
+        .not_to change { response.reload.photos.count }
+    end
+
+    it "is scoped to responses for photo upload questions" do
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      response = create_photo_response(value: image_references)
+
+      Question.last.update!(type: "FreeTextQuestion")
+
+      expect { PhotoAttachments.sync_image!(image, response.user) }
+        .not_to change { response.reload.photos.count }
+    end
   end
 end
