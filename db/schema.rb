@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
     t.index ["project_question_id"], name: "index_responses_on_project_question_id"
     t.index ["unit_id"], name: "index_responses_on_unit_id"
     t.index ["user_id"], name: "index_responses_on_user_id"
+    t.index ["value"], name: "index_responses_on_value"
   end
 
   create_table "roles", force: :cascade do |t|

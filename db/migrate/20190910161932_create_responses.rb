@@ -7,5 +7,7 @@ class CreateResponses < ActiveRecord::Migration[6.0]
       t.text :value, null: false
       t.timestamps
     end
+
+    add_index :responses, :value
   end
 end
