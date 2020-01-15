@@ -49,5 +49,10 @@ Rails.application.routes.draw do
 
   resources :my_data, only: :index
   resources :my_updates, only: :create
+
+  resources :my_photos, only: [:show, :create] do
+    member { get :exists }
+  end
+
   resources :registrations, only: :create
 end
