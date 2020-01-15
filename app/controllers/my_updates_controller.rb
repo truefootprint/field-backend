@@ -12,7 +12,8 @@ class MyUpdatesController < ApplicationController
         attributes = response_attributes(attr)
         where = response_identifiers(attributes, period_start, period_end)
 
-        create_or_update!(Response, where: where, attributes: attributes)
+        response = create_or_update!(Response, where: where, attributes: attributes)
+        PhotoAttachments.sync_response!(response)
       end
     end
 

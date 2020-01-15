@@ -9,6 +9,7 @@ class MyPhotosController < ApplicationController
 
   def create
     image = find_or_create_blob!(params.fetch(:image))
+    PhotoAttachments.sync_image!(image, current_user)
 
     head :created
   end
