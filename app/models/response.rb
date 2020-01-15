@@ -3,7 +3,7 @@ class Response < ApplicationRecord
   belongs_to :user
   belongs_to :unit, optional: true
 
-  has_one_attached :photo
+  has_many_attached :photos
 
   delegate :question, :project, :project_type, to: :project_question
 
