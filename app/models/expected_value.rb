@@ -5,4 +5,5 @@ class ExpectedValue < ApplicationRecord
 
   validates :project_question, uniqueness: true
   validates :value, presence: true
+  validates :text, presence: true
 end

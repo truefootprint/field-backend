@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
     t.bigint "activity_id"
     t.bigint "unit_id"
     t.text "value", null: false
+    t.text "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_expected_values_on_activity_id"
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
     t.bigint "project_question_id"
     t.bigint "unit_id"
     t.text "value", null: false
+    t.text "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_expected_values_on_project_question_id", unique: true

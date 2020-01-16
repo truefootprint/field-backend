@@ -10,6 +10,11 @@ RSpec.describe DefaultExpectedValue do
       default_expected_value.value = " "
       expect(default_expected_value).to be_invalid
     end
+
+    it "requires text" do
+      default_expected_value.text = " "
+      expect(default_expected_value).to be_invalid
+    end
   end
 
   describe ".for" do

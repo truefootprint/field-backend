@@ -105,6 +105,7 @@ RSpec.describe Template do
         :default_expected_value,
         question: default.question,
         value: "yes",
+        text: "It should be 'yes'",
         unit: unit,
       )
 
@@ -115,6 +116,7 @@ RSpec.describe Template do
       expected_value = ExpectedValue.last
 
       expect(expected_value.value).to eq("yes")
+      expect(expected_value.text).to eq("It should be 'yes'")
       expect(expected_value.project_question).to eq(project_question)
       expect(expected_value.unit).to eq(unit)
     end

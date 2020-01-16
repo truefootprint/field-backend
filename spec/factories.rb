@@ -74,6 +74,7 @@ FactoryBot.define do
   factory :expected_value do
     project_question
     value { "yes" }
+    text { "It should be 'yes'" }
   end
 
   factory :user do
@@ -119,6 +120,7 @@ FactoryBot.define do
   factory :default_expected_value do
     question
     value { "yes" }
+    text { "It should be 'yes'" }
   end
 
   factory :involvement do

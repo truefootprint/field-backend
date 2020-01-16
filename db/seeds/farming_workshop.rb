@@ -107,10 +107,10 @@ DefaultQuestion.create!(activity: applying_knowledge, question: question_24, ord
 DefaultQuestion.create!(activity: applying_knowledge, question: question_25, order: 14)
 DefaultQuestion.create!(activity: applying_knowledge, question: question_26, order: 15)
 
-DefaultExpectedValue.create!(question: question_13, value: "10 litres")
+DefaultExpectedValue.create!(question: question_13, value: "10 litres", text: "It should be 10 litres")
 
-DefaultExpectedValue.create!(question: question_14, value: "3 litres") # fallback default - not used
-DefaultExpectedValue.create!(question: question_14, activity: applying_knowledge, value: "5 litres")
+DefaultExpectedValue.create!(question: question_14, value: "3 litres", text: "It should be 3 litres") # fallback default - not used
+DefaultExpectedValue.create!(question: question_14, activity: applying_knowledge, value: "5 litres", text: "It should be 5 liters")
 
 # Users
 

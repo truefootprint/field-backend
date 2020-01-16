@@ -5,6 +5,7 @@ class CreateDefaultExpectedValues < ActiveRecord::Migration[6.0]
       t.belongs_to :activity, optional: true
       t.belongs_to :unit, optional: true
       t.text :value, null: false
+      t.text :text, null: false
       t.timestamps
     end
   end
