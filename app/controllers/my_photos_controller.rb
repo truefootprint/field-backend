@@ -17,6 +17,9 @@ class MyPhotosController < ApplicationController
   # Ideally, we'd just issue a HEAD to #show and check for a 3xx status but
   # react-native always follows the redirect, even with { redirect: "manual" }
   def exists
-    render json: { exists: false }
+    filename = params.require(:id).gsub("-", ".")
+    exists = ActiveStorage::Blob.exists?(filename: filename)
+
+    render json: { exists: exists }
   end
 end
