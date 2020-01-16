@@ -12,8 +12,12 @@ class MyUpdatesController < ApplicationController
         attributes = response_attributes(attr)
         where = response_identifiers(attributes, period_start, period_end)
 
-        response = create_or_update!(Response, where: where, attributes: attributes)
-        PhotoAttachments.sync_response!(response)
+        if attributes.fetch(:value).blank?
+          Response.find_by(where)&.destroy
+        else
+          response = create_or_update!(Response, where: where, attributes: attributes)
+          PhotoAttachments.sync_response!(response)
+        end
       end
     end
 
@@ -23,11 +27,14 @@ class MyUpdatesController < ApplicationController
   private
 
   def response_attributes(attributes)
-    keys = %i[project_question_id value created_at updated_at]
+    keys = %i[project_question_id created_at updated_at]
     values = attributes.require(keys)
     hash = keys.zip(values).to_h
 
-    hash.merge(user: current_user)
+    # Explicitly fetch value since require throws an error for blanks:
+    value = attributes.fetch(:value)
+
+    hash.merge(value: value, user: current_user)
   end
 
   # Find responses that were already created in the submission period so we can

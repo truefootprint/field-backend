@@ -88,5 +88,14 @@ RSpec.describe "Answering questions" do
       hash_including(response3),
     ]
     expect(current_project_activity).to be_nil
+
+    # The response was cleared out by the user an hour later:
+    response4 = response3.merge(value: " ", updated_at: "2020-01-02T14:00:00.000Z")
+    post_updates([{ period_start: period_start, period_end: period_end, responses: [response4] }])
+    expect(response.status).to eq(201)
+
+    get "/my_data", auth
+    expect(responses(project_question)).to match [hash_including(response2)]
+    expect(current_project_activity).to include(id: project_activity.id)
   end
 end
