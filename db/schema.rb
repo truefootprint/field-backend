@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_121619) do
+ActiveRecord::Schema.define(version: 2020_01_27_132043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,25 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_activities_on_name", unique: true
+  end
+
+  create_table "api_tokens", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "encrypted_token", null: false
+    t.string "encrypted_token_iv", null: false
+    t.string "encrypted_device_id"
+    t.string "encrypted_device_id_iv"
+    t.string "device_name"
+    t.string "device_year_class"
+    t.string "app_version"
+    t.string "app_version_code"
+    t.integer "times_used", default: 0, null: false
+    t.datetime "last_used_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["encrypted_device_id_iv"], name: "index_api_tokens_on_encrypted_device_id_iv", unique: true
+    t.index ["encrypted_token_iv"], name: "index_api_tokens_on_encrypted_token_iv", unique: true
+    t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
   create_table "completion_questions", force: :cascade do |t|
