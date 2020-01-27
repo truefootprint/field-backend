@@ -6,3 +6,4 @@
 /storage
 
 /config/basic-auth.json
+/config/initializers/load_icons.rb
