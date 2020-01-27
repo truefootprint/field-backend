@@ -10,6 +10,7 @@ gem "puma", "~> 3.11"
 gem "rack-cors", "~> 1.0.3"
 gem "unitwise", "~> 2.2"
 gem "delta", "~> 2.1"
+gem "attr_encrypted", "~> 3.1"
 
 group :development, :test do
   gem "rspec-rails", "~> 3.8.2"
