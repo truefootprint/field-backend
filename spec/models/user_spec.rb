@@ -10,5 +10,25 @@ RSpec.describe User do
       user.name = " "
       expect(user).to be_invalid
     end
+
+    it "requires a country code" do
+      user.country_code = " "
+      expect(user).to be_invalid
+    end
+
+    it "requires a country code that starts with a plus (+) character" do
+      user.country_code = "44"
+      expect(user).to be_invalid
+    end
+
+    it "requires a phone number" do
+      user.phone_number = " "
+      expect(user).to be_invalid
+    end
+
+    it "requires a phone number that only contains digits" do
+      user.phone_number = "12 3 45"
+      expect(user).to be_invalid
+    end
   end
 end

@@ -114,9 +114,9 @@ DefaultExpectedValue.create!(question: question_14, activity: applying_knowledge
 
 # Users
 
-azizi = User.create!(name: "Azizi")
-nyah = User.create!(name: "Nyah")
-tefo = User.create!(name: "Tefo")
+azizi = User.create!(name: "Azizi", country_code: "+250", phone_number: "22222")
+nyah = User.create!(name: "Nyah", country_code: "+250", phone_number: "33333")
+tefo = User.create!(name: "Tefo", country_code: "+250", phone_number: "44444")
 
 farmer = Role.create!(name: "farmer")
 monitor = Role.find_by!(name: "monitor")

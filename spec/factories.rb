@@ -79,6 +79,8 @@ FactoryBot.define do
 
   factory :user do
     sequence(:name) { |n| "User #{n}" }
+    country_code { "+123" }
+    phone_number { "456789" }
   end
 
   factory :role do
@@ -168,5 +170,10 @@ FactoryBot.define do
     end
 
     type { "length" }
+  end
+
+  factory :api_token do
+    user
+    sequence(:token) { |n| "api token #{n}" }
   end
 end

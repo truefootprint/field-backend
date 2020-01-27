@@ -116,7 +116,7 @@ ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_
 
 # Users
 
-suleman = User.create!(name: "Suleman")
+suleman = User.create!(name: "Suleman", country_code: "+250", phone_number: "55555")
 monitor = Role.create!(name: "monitor")
 
 user_role = UserRole.create!(user: suleman, role: monitor)

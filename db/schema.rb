@@ -284,9 +284,13 @@ ActiveRecord::Schema.define(version: 2019_10_16_121619) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.text "name", null: false
+    t.string "name", null: false
+    t.string "country_code", null: false
+    t.string "encrypted_phone_number", null: false
+    t.string "encrypted_phone_number_iv", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["encrypted_phone_number_iv"], name: "index_users_on_encrypted_phone_number_iv", unique: true
     t.index ["name"], name: "index_users_on_name"
   end
 

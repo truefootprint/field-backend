@@ -50,7 +50,7 @@ ProjectQuestion.create!(project_activity: project_activity2, question: question_
 
 # Users
 
-test_user = User.create!(name: "Test")
+test_user = User.create!(name: "Test", country_code: "+44", phone_number: "11111")
 test_role = Role.create!(name: "Test")
 
 test_user_role = UserRole.create!(user: test_user, role: test_role)
