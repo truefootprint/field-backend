@@ -48,8 +48,10 @@ ActiveRecord::Schema.define(version: 2020_01_27_132043) do
     t.bigint "user_id"
     t.string "encrypted_token", null: false
     t.string "encrypted_token_iv", null: false
+    t.string "token_bidx", null: false
     t.string "encrypted_device_id"
     t.string "encrypted_device_id_iv"
+    t.string "device_id_bidx"
     t.string "device_name"
     t.string "device_year_class"
     t.string "app_version"
@@ -58,8 +60,10 @@ ActiveRecord::Schema.define(version: 2020_01_27_132043) do
     t.datetime "last_used_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["encrypted_device_id_iv"], name: "index_api_tokens_on_encrypted_device_id_iv", unique: true
-    t.index ["encrypted_token_iv"], name: "index_api_tokens_on_encrypted_token_iv", unique: true
+    t.index ["device_id_bidx"], name: "index_device_id_bidx"
+    t.index ["encrypted_device_id_iv"], name: "index_device_id_iv", unique: true
+    t.index ["encrypted_token_iv"], name: "index_token_iv", unique: true
+    t.index ["token_bidx"], name: "index_token_bidx", unique: true
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
@@ -307,10 +311,12 @@ ActiveRecord::Schema.define(version: 2020_01_27_132043) do
     t.string "country_code", null: false
     t.string "encrypted_phone_number", null: false
     t.string "encrypted_phone_number_iv", null: false
+    t.string "phone_number_bidx", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["encrypted_phone_number_iv"], name: "index_users_on_encrypted_phone_number_iv", unique: true
+    t.index ["encrypted_phone_number_iv"], name: "index_phone_number_iv", unique: true
     t.index ["name"], name: "index_users_on_name"
+    t.index ["phone_number_bidx"], name: "index_phone_number_bidx", unique: true
   end
 
   create_table "visibilities", force: :cascade do |t|

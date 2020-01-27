@@ -55,7 +55,7 @@ test_role = Role.create!(name: "Test")
 
 test_user_role = UserRole.create!(user: test_user, role: test_role)
 
-ApiToken.create!(user: test_user)
+ApiToken.generate_for!(test_user)
 
 # Visibility
 

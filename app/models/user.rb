@@ -1,11 +1,12 @@
 class User < ApplicationRecord
   attr_encrypted :phone_number, key: ENV.fetch("KEY")
+  blind_index :phone_number
 
   has_many :user_roles
   has_many :responses
 
   validates :name, presence: true
-  validates :phone_number, presence: true, numericality: true
+  validates :phone_number, presence: true, uniqueness: true, numericality: true
 
   validates :country_code, presence: true
   validate :country_code_starts_with_plus

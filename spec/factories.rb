@@ -80,7 +80,7 @@ FactoryBot.define do
   factory :user do
     sequence(:name) { |n| "User #{n}" }
     country_code { "+123" }
-    phone_number { "456789" }
+    sequence(:phone_number) { |n| n.to_s }
   end
 
   factory :role do

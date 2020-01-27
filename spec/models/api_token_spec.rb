@@ -6,11 +6,16 @@ RSpec.describe ApiToken do
       expect(api_token).to be_valid
     end
 
-    it "sets the token before validation if it is blank" do
-      api_token.token = " "
+    it "requires a token" do
+      api_token.token = " " * 10
+      expect(api_token).to be_invalid
+    end
 
-      expect(api_token).to be_valid
-      expect(api_token.token.length).to eq(24)
+    it "requires a unique token" do
+      FactoryBot.create(:api_token, token: "long enough token")
+
+      api_token.token = "long enough token"
+      expect(api_token).to be_invalid
     end
 
     it "requires a token of 10 chracters or more" do
@@ -19,6 +24,17 @@ RSpec.describe ApiToken do
 
       api_token.token = "long enough token"
       expect(api_token).to be_valid
+    end
+  end
+
+  describe ".generate_for" do
+    it "generates an api token for a user" do
+      user = FactoryBot.create(:user)
+      api_token = described_class.generate_for!(user)
+
+      expect(api_token.user).to eq(user)
+      expect(api_token.token.length).to eq(24)
+      expect(api_token).to be_persisted
     end
   end
 
@@ -40,6 +56,29 @@ RSpec.describe ApiToken do
 
       api_token.just_used!
       expect(api_token.reload.last_used_at).to be_present
+    end
+  end
+
+  describe "blind index" do
+    it "is populated" do
+      api_token = FactoryBot.create(:api_token, device_id: "abc-123")
+
+      expect(api_token.token_bidx).to be_present
+      expect(api_token.device_id_bidx).to be_present
+    end
+
+    it "can exact match on token" do
+      FactoryBot.create(:api_token, token: "long enough token")
+
+      api_token = ApiToken.find_by(token: "long enough token")
+      expect(api_token.token).to eq("long enough token")
+    end
+
+    it "can exact match on device id" do
+      FactoryBot.create(:api_token, device_id: "abc-123")
+
+      api_token = ApiToken.find_by(device_id: "abc-123")
+      expect(api_token.device_id).to eq("abc-123")
     end
   end
 end
