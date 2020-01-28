@@ -1,6 +1,10 @@
 class Viewpoint
   thread_mattr_accessor :current
 
+  def self.for_user(user)
+    new(users: user, roles: user.roles, user_roles: user.user_roles)
+  end
+
   attr_accessor :users, :roles, :user_roles
 
   def initialize(users: nil, roles: nil, user_roles: nil)
