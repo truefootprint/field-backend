@@ -25,7 +25,7 @@ RSpec.describe ProjectQuestion do
       pq1, _pq2 = FactoryBot.create_list(:project_question, 2)
       visibility = FactoryBot.create(:visibility, subject: pq1)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(ProjectQuestion.visible_to(viewpoint)).to eq [pq1]
     end
@@ -34,7 +34,7 @@ RSpec.describe ProjectQuestion do
       pq1, _pq2 = FactoryBot.create_list(:project_question, 2)
       visibility = FactoryBot.create(:visibility, subject: pq1.question)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(ProjectQuestion.visible_to(viewpoint)).to eq [pq1]
     end

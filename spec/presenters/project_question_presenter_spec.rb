@@ -53,7 +53,7 @@ RSpec.describe ProjectQuestionPresenter do
     _pq2 = FactoryBot.create(:project_question, id: 222)
 
     visibility = FactoryBot.create(:visibility, subject: pq1)
-    Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+    Viewpoint.current = Viewpoint.new(users: visibility.visible_to)
 
     presented = described_class.present(ProjectQuestion.all, visible: true)
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]

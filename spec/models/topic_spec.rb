@@ -24,7 +24,7 @@ RSpec.describe Topic do
       topic1, _topic2 = FactoryBot.create_list(:topic, 2)
       visibility = FactoryBot.create(:visibility, subject: topic1)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(Topic.visible_to(viewpoint)).to eq [topic1]
     end

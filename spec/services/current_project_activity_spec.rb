@@ -14,7 +14,7 @@ RSpec.describe CurrentProjectActivity do
   ] }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:viewpoint) { Viewpoint.new(user: user) }
+  let(:viewpoint) { Viewpoint.new(users: user) }
 
   let(:question) { FactoryBot.create(:question, text: "Is this activity finished?") }
 

@@ -1,6 +1,6 @@
 RSpec.describe Registration do
   let(:user) { FactoryBot.create(:user) }
-  let(:viewpoint) { Viewpoint.new(user: user) }
+  let(:viewpoint) { Viewpoint.new(users: user) }
 
   let(:project) { FactoryBot.create(:project) }
 
@@ -15,7 +15,7 @@ RSpec.describe Registration do
   end
 
   it "raises an error if the viewpoint has no user" do
-    viewpoint = Viewpoint.new(role: FactoryBot.create(:role))
+    viewpoint = Viewpoint.new(roles: FactoryBot.create(:role))
 
     expect { described_class.process(viewpoint: viewpoint, subject: project) }
       .to raise_error(RegistrationError, /must be on behalf of a user/)
@@ -23,7 +23,7 @@ RSpec.describe Registration do
 
   context "when the viewpoint also specifies a role" do
     let(:role) { FactoryBot.create(:role) }
-    let(:viewpoint) { Viewpoint.new(user: user, role: role) }
+    let(:viewpoint) { Viewpoint.new(users: user, roles: role) }
 
     let!(:user_role) { FactoryBot.create(:user_role, user: user, role: role) }
 

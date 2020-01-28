@@ -21,7 +21,7 @@ RSpec.describe ProjectActivityPresenter do
     _pa2 = FactoryBot.create(:project_activity, id: 222)
 
     visibility = FactoryBot.create(:visibility, subject: pa1)
-    Viewpoint.current = Viewpoint.new(user: visibility.visible_to)
+    Viewpoint.current = Viewpoint.new(users: visibility.visible_to)
 
     presented = described_class.present(ProjectActivity.all, visible: true)
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]

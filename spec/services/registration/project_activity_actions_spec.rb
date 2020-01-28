@@ -5,7 +5,7 @@ RSpec.describe Registration::ProjectActivityActions do
   let(:follow_up) { FactoryBot.create(:activity) }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:viewpoint) { Viewpoint.new(user: user) }
+  let(:viewpoint) { Viewpoint.new(users: user) }
 
   let!(:project_activity) do
     FactoryBot.create(:project_activity, project: project, activity: activity)

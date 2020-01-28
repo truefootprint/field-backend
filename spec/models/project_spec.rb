@@ -17,7 +17,7 @@ RSpec.describe Project do
       project1, _project2 = FactoryBot.create_list(:project, 2)
       visibility = FactoryBot.create(:visibility, subject: project1)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(Project.visible_to(viewpoint)).to eq [project1]
     end
@@ -26,7 +26,7 @@ RSpec.describe Project do
       project1, _project2 = FactoryBot.create_list(:project, 2)
       visibility = FactoryBot.create(:visibility, subject: project1.project_type)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(Project.visible_to(viewpoint)).to eq [project1]
     end

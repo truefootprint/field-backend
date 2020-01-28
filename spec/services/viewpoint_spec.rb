@@ -6,7 +6,7 @@ RSpec.describe Viewpoint do
 
       FactoryBot.create(:visibility, subject: project1, visible_to: user)
 
-      viewpoint = Viewpoint.new(user: user)
+      viewpoint = Viewpoint.new(users: user)
       projects = viewpoint.scope(Project)
 
       expect(projects).to eq [project1]

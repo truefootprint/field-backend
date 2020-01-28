@@ -33,7 +33,7 @@ RSpec.describe Activity do
       activity1, _activity2 = FactoryBot.create_list(:activity, 2)
       visibility = FactoryBot.create(:visibility, subject: activity1)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(Activity.visible_to(viewpoint)).to eq [activity1]
     end

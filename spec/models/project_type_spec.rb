@@ -24,7 +24,7 @@ RSpec.describe ProjectType do
       pt1, _pt2 = FactoryBot.create_list(:project_type, 2)
       visibility = FactoryBot.create(:visibility, subject: pt1)
 
-      viewpoint = Viewpoint.new(user: visibility.visible_to)
+      viewpoint = Viewpoint.new(users: visibility.visible_to)
 
       expect(ProjectType.visible_to(viewpoint)).to eq [pt1]
     end
