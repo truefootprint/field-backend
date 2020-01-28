@@ -132,7 +132,7 @@ FactoryBot.define do
 
   factory :visibility do
     association :subject, factory: :question
-    association :visible_to, factory: :role
+    association :visible_to, factory: :user_role
   end
 
   factory :document do
