@@ -3,6 +3,7 @@ class User < ApplicationRecord
   blind_index :phone_number
 
   has_many :user_roles
+  has_many :roles, through: :user_roles
   has_many :responses
 
   validates :name, presence: true
