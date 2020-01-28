@@ -188,11 +188,11 @@ Visibility.create!(subject: applying_knowledge, visible_to: monitor)
 Visibility.create!(subject: applying_knowledge, visible_to: farmer)
 
 Registration.process(
-  viewpoint: Viewpoint.new(user: azizi, role: farmer),
+  viewpoint: Viewpoint.new(users: azizi, roles: farmer),
   subject: attending_workshop_pa,
 )
 
 Registration.process(
-  viewpoint: Viewpoint.new(user: nyah, role: farmer),
+  viewpoint: Viewpoint.new(users: nyah, roles: farmer),
   subject: attending_workshop_pa,
 )
