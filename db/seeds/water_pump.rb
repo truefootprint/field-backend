@@ -1,6 +1,6 @@
 # Definitions
 
-meter = FactoryBot.create(:unit, name: "meter", type: "length")
+meter = Unit.create!(name: "meter", type: "length")
 
 water_pump = ProjectType.create!(name: "Water pump")
 
