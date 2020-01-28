@@ -26,12 +26,10 @@ class Visibility < ApplicationRecord
     where(subject_type: subject_type.to_s).select(:subject_id)
   end
 
-  def self.union(user: nil, role: nil, user_roles: nil)
-    user_roles ||= UserRole.where(user: user, role: role) if user && role
-
+  def self.union(users: nil, roles: nil, user_roles: nil)
     scope = none
-    scope = scope.or(where(visible_to: user)) if user
-    scope = scope.or(where(visible_to: role)) if role
+    scope = scope.or(where(visible_to: users)) if users
+    scope = scope.or(where(visible_to: roles)) if roles
     scope = scope.or(where(visible_to: user_roles)) if user_roles
     scope
   end

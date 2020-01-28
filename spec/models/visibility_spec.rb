@@ -61,14 +61,14 @@ RSpec.describe Visibility do
 
     it "returns visibilities for the user" do
       visibility = FactoryBot.create(:visibility, subject: projects.first, visible_to: users.first)
-      visibilities = Visibility.union(user: users.first)
+      visibilities = Visibility.union(users: users.first)
 
       expect(visibilities).to eq [visibility]
     end
 
     it "returns visibilities for the role" do
       visibility = FactoryBot.create(:visibility, subject: projects.first, visible_to: roles.first)
-      visibilities = Visibility.union(role: roles.first)
+      visibilities = Visibility.union(roles: roles.first)
 
       expect(visibilities).to eq [visibility]
     end
@@ -86,23 +86,16 @@ RSpec.describe Visibility do
       v3 = FactoryBot.create(:visibility, subject: projects.third, visible_to: user_roles.first)
       v4 = FactoryBot.create(:visibility, subject: projects.fourth, visible_to: user_roles.last)
 
-      visibilities = Visibility.union(user: users.first, role: roles.first, user_roles: user_roles.first)
+      visibilities = Visibility.union(users: users.first, roles: roles.first, user_roles: user_roles.first)
 
       expect(visibilities).to eq [v1, v2, v3]
     end
 
-    it "looks up user_roles if not provided" do
-      visibility = FactoryBot.create(:visibility, subject: projects.first, visible_to: user_roles.first)
-      visibilities = Visibility.union(user: users.first, role: roles.first)
-
-      expect(visibilities).to eq [visibility]
-    end
-
     it "does not use nil values when building the scope" do
-      scope = Visibility.union(user: nil, role: nil, user_roles: nil)
+      scope = Visibility.union(users: nil, roles: nil, user_roles: nil)
       expect(scope.to_sql).not_to match(/is null/i)
 
-      scope = Visibility.union(user: nil, role: nil, user_roles: [])
+      scope = Visibility.union(users: [], roles: [], user_roles: [])
       expect(scope.to_sql).not_to match(/is null/i)
     end
   end
