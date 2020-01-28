@@ -13,7 +13,8 @@ class ApiToken < ApplicationRecord
     create!(user: user, token: SecureRandom.base64)
   end
 
-  def just_used!
+  def just_used!(metadata = {})
+    self.assign_attributes(metadata)
     self.times_used += 1
     self.touch(:last_used_at)
     self.save!

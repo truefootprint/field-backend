@@ -41,6 +41,11 @@ RSpec.describe ApiToken do
   describe "#just_used!" do
     subject(:api_token) { FactoryBot.create(:api_token) }
 
+    it "sets metadata from the field app" do
+      api_token.just_used!(device_id: "abc-123")
+      expect(api_token.reload.device_id).to eq("abc-123")
+    end
+
     it "increments times_used and saves" do
       expect(api_token.times_used).to eq(0)
 

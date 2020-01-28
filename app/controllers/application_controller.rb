@@ -2,10 +2,12 @@ class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Basic::ControllerMethods
 
   before_action :authenticate
+  before_action :save_metadata
   around_action :set_viewpoint
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  rescue_from JSON::ParserError, with: :bad_request
 
   def authenticate
     api_token || request_http_basic_authentication
@@ -42,4 +44,22 @@ class ApplicationController < ActionController::API
   def record_invalid(error)
     render json: ErrorPresenter.present(error.record), status: :unprocessable_entity
   end
+
+  def bad_request
+    head :bad_request
+  end
+
+  def save_metadata
+    api_token.just_used!(field_app_params.select { |_, v| v.present? })
+  end
+
+  def field_app_params
+    JSON.parse(field_app_header, symbolize_names: true).slice(*METADATA)
+  end
+
+  def field_app_header
+    request.get_header("HTTP_FIELD_APP") || request.env["Field-App"] || "{}"
+  end
+
+  METADATA = %i[device_id device_name device_year_class app_version app_version_code]
 end
