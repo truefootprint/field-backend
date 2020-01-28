@@ -15,8 +15,6 @@ RSpec.describe "Follow up activities" do
   let(:workshop) { FactoryBot.create(:project_activity, project: project, activity: activity) }
 
   before do
-    allow(BasicAuth).to receive(:enabled?).and_return(false)
-
     topic = FactoryBot.create(:topic, name: "Rate %{farmer}'s farm")
 
     q1 = FactoryBot.create(:question, text: "How would you rate the workshop?")
@@ -34,15 +32,27 @@ RSpec.describe "Follow up activities" do
       user_role = FactoryBot.create(:user_role, user: user, role: role)
       FactoryBot.create(:visibility, subject: project, visible_to: user_role)
     end
+
+    FactoryBot.create(:api_token, user: user1)
+    FactoryBot.create(:api_token, user: user2)
+    FactoryBot.create(:api_token, user: user3)
   end
 
-  def register_for_workshop(name, role)
-    post "/registrations", id: workshop.id, user_name: name, role_name: role
+  def authenticate_as(name)
+    user = User.find_by!(name: name)
+    api_token = ApiToken.find_by!(user: user)
+    basic_authorize("", api_token.token)
+  end
+
+  def register_for_workshop(name)
+    authenticate_as(name)
+    post "/registrations", id: workshop.id
     expect(response.status).to eq(204)
   end
 
-  def get_my_data(name, role)
-    get "/my_data", user_name: name, role_name: role
+  def get_my_data(name)
+    authenticate_as(name)
+    get "/my_data"
     expect(response.status).to eq(200)
   end
 
@@ -55,35 +65,35 @@ RSpec.describe "Follow up activities" do
   end
 
   scenario "creating follow up activities that are personalised to users" do
-    get_my_data("Azizi", "farmer")
+    get_my_data("Azizi")
     expect(project_activities).to be_empty
 
-    get_my_data("Nyah", "farmer")
+    get_my_data("Nyah")
     expect(project_activities).to be_empty
 
-    get_my_data("Tefo", "monitor")
+    get_my_data("Tefo")
     expect(project_activities).to be_empty
 
-    register_for_workshop("Azizi", "farmer")
+    register_for_workshop("Azizi")
 
-    get_my_data("Azizi", "farmer")
+    get_my_data("Azizi")
     expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
-    get_my_data("Nyah", "farmer")
+    get_my_data("Nyah")
     expect(project_activities).to be_empty
 
-    get_my_data("Tefo", "monitor")
+    get_my_data("Tefo")
     expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Azizi applying knowledge")
 
-    register_for_workshop("Nyah", "farmer")
+    register_for_workshop("Nyah")
 
-    get_my_data("Nyah", "farmer")
+    get_my_data("Nyah")
     expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
-    get_my_data("Tefo", "monitor")
+    get_my_data("Tefo")
     expect(project_activities.size).to eq(2)
     expect(project_activities.first.fetch(:name)).to eq("Azizi applying knowledge")
     expect(project_activities.second.fetch(:name)).to eq("Nyah applying knowledge")

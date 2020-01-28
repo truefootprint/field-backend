@@ -1,4 +1,8 @@
 RSpec.describe "Uploading documents" do
+  let(:user) { FactoryBot.create(:user, name: "admin") }
+  let(:role) { FactoryBot.create(:role, name: "admin") }
+  let(:api_token) { FactoryBot.create(:api_token, user: user) }
+
   let(:contract) { file_fixture("water-pump-contract.pdf") }
   let(:evidence) { file_fixture("water-pump-stolen.png") }
 
@@ -6,7 +10,9 @@ RSpec.describe "Uploading documents" do
   let(:file2) { Rack::Test::UploadedFile.new(evidence) }
 
   before do
-    allow(BasicAuth).to receive(:enabled?).and_return(false)
+    FactoryBot.create(:user_role, user: user, role: role)
+
+    basic_authorize("", api_token.token)
   end
 
   scenario "provides API endpoints to upload documents" do
@@ -56,5 +62,12 @@ RSpec.describe "Uploading documents" do
     put "/documents/#{id}", file: nil
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["File can't be blank"]
+  end
+
+  scenario "only allows admins to access this resource" do
+    role.update!(name: "monitor")
+
+    get "/documents"
+    expect(response.status).to eq(401)
   end
 end

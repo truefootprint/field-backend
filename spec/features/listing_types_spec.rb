@@ -1,6 +1,12 @@
 RSpec.describe "Listing types" do
+  let(:user) { FactoryBot.create(:user, name: "admin") }
+  let(:role) { FactoryBot.create(:role, name: "admin") }
+  let(:api_token) { FactoryBot.create(:api_token, user: user) }
+
   before do
-    allow(BasicAuth).to receive(:enabled?).and_return(false)
+    FactoryBot.create(:user_role, user: user, role: role)
+
+    basic_authorize("", api_token.token)
   end
 
   scenario "provides an endpoint to list all question types" do
@@ -66,5 +72,27 @@ RSpec.describe "Listing types" do
       { id: "Role" },
       { id: "UserRole" },
     ]
+  end
+
+  scenario "only allows admins to access these resources" do
+    role.update!(name: "monitor")
+
+    get "/question_types"
+    expect(response.status).to eq(401)
+
+    get "/question_data_types"
+    expect(response.status).to eq(401)
+
+    get "/issue_subject_types"
+    expect(response.status).to eq(401)
+
+    get "/source_material_subject_types"
+    expect(response.status).to eq(401)
+
+    get "/visibility_subject_types"
+    expect(response.status).to eq(401)
+
+    get "/visibility_visible_to_types"
+    expect(response.status).to eq(401)
   end
 end

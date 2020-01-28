@@ -1,8 +1,6 @@
 class MyPhotosController < ApplicationController
   include FindOrCreateBlob
 
-  around_action :set_viewpoint
-
   def show
     redirect_to "/"
   end

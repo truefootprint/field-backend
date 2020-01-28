@@ -1,8 +1,6 @@
 class MyUpdatesController < ApplicationController
   include CreateOrUpdate
 
-  around_action :set_viewpoint
-
   def create
     params.fetch(:updates).each do |chunk|
       period_start = chunk.fetch(:period_start)

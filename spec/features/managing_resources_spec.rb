@@ -1,6 +1,12 @@
 RSpec.describe "Managing resources via CRUD actions" do
+  let(:user) { FactoryBot.create(:user, name: "admin") }
+  let(:role) { FactoryBot.create(:role, name: "admin") }
+  let(:api_token) { FactoryBot.create(:api_token, user: user) }
+
   before do
-    allow(BasicAuth).to receive(:enabled?).and_return(false)
+    FactoryBot.create(:user_role, user: user, role: role)
+
+    basic_authorize("", api_token.token)
   end
 
   let(:programme_id) do
@@ -118,5 +124,12 @@ RSpec.describe "Managing resources via CRUD actions" do
     put "/project_questions/#{id}", order: -1
     expect(response.status).to eq(422)
     expect(error_messages).to eq ["Order must be greater than 0"]
+  end
+
+  scenario "only allows admins to access these resources" do
+    role.update!(name: "monitor")
+
+    get "/project_questions"
+    expect(response.status).to eq(401)
   end
 end

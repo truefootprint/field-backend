@@ -1,8 +1,7 @@
-RSpec.describe "Answering questions" do
+RSpec.describe "Answering questions", type: :feature do
   let!(:user) { FactoryBot.create(:user, name: "Test") }
   let!(:role) { FactoryBot.create(:role, name: "Test") }
-
-  let(:auth) { { user_name: "Test", role_name: "Test" } }
+  let(:api_token) { FactoryBot.create(:api_token, user: user) }
 
   let(:question) { FactoryBot.create(:question, text: "Is this activity finished?") }
   let(:project_question) { FactoryBot.create(:project_question, question: question) }
@@ -10,13 +9,15 @@ RSpec.describe "Answering questions" do
   let(:project) { project_activity.project }
 
   before do
-    allow(BasicAuth).to receive(:enabled?).and_return(false)
+    user_role = FactoryBot.create(:user_role, user: user, role: role)
 
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")
 
     [project, project_activity, project_question].each do |subject|
-      FactoryBot.create(:visibility, subject: subject, visible_to: user)
+      FactoryBot.create(:visibility, subject: subject, visible_to: user_role)
     end
+
+    basic_authorize("", api_token.token)
   end
 
   def current_project_activity
@@ -28,15 +29,15 @@ RSpec.describe "Answering questions" do
   end
 
   def post_action(action)
-    post "/my_updates", auth.merge(actions: [action])
+    post "/my_updates", actions: [action]
   end
 
   def post_updates(updates)
-    post "/my_updates", auth.merge(updates: updates)
+    post "/my_updates", updates: updates
   end
 
   scenario "creating responses and updating them within the submission period" do
-    get "/my_data", auth
+    get "/my_data"
     expect(response.status).to eq(200)
     expect(current_project_activity).to include(id: project_activity.id)
 
@@ -53,7 +54,7 @@ RSpec.describe "Answering questions" do
     post_updates([{ period_start: period_start, period_end: period_end, responses: [response1] }])
     expect(response.status).to eq(201)
 
-    get "/my_data", auth
+    get "/my_data"
     expect(responses(project_question)).to match [hash_including(response1)]
     expect(current_project_activity).to be_nil
 
@@ -62,7 +63,7 @@ RSpec.describe "Answering questions" do
     post_updates([{ period_start: period_start, period_end: period_end, responses: [response2] }])
     expect(response.status).to eq(201)
 
-    get "/my_data", auth
+    get "/my_data"
     expect(responses(project_question)).to match [hash_including(response2)]
     expect(current_project_activity).to include(id: project_activity.id)
 
@@ -82,7 +83,7 @@ RSpec.describe "Answering questions" do
     expect(response.status).to eq(201)
 
     # A new response should be created, rather than updating the previous one:
-    get "/my_data", auth
+    get "/my_data"
     expect(responses(project_question)).to match_array [
       hash_including(response2),
       hash_including(response3),
@@ -94,7 +95,7 @@ RSpec.describe "Answering questions" do
     post_updates([{ period_start: period_start, period_end: period_end, responses: [response4] }])
     expect(response.status).to eq(201)
 
-    get "/my_data", auth
+    get "/my_data"
     expect(responses(project_question)).to match [hash_including(response2)]
     expect(current_project_activity).to include(id: project_activity.id)
   end

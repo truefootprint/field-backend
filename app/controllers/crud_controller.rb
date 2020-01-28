@@ -1,4 +1,6 @@
 class CrudController < ApplicationController
+  before_action :admins_only
+
   def index
     response.set_header("X-Total-Count", all_records.count)
     render json: present(paginated_records)

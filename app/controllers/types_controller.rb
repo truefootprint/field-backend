@@ -1,4 +1,6 @@
 class TypesController < ApplicationController
+  before_action :admins_only
+
   def question_types
     render_types(Question::TYPES)
   end
