@@ -54,5 +54,6 @@ Rails.application.routes.draw do
     member { get :exists }
   end
 
+  resources :tokens, only: :create
   resources :registrations, only: :create
 end

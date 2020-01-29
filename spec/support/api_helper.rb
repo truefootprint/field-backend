@@ -40,4 +40,9 @@ module ApiHelper
   def presentation(options)
     "presentation=#{URI.encode(options.to_json)}"
   end
+
+  def authenticate_as(user)
+    post "/tokens", { phone_number: user.phone_number }
+    basic_authorize("", parsed_json.fetch(:token))
+  end
 end

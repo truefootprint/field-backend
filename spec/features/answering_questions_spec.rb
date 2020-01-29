@@ -1,7 +1,6 @@
 RSpec.describe "Answering questions", type: :feature do
   let!(:user) { FactoryBot.create(:user, name: "Test") }
   let!(:role) { FactoryBot.create(:role, name: "Test") }
-  let(:api_token) { FactoryBot.create(:api_token, user: user) }
 
   let(:question) { FactoryBot.create(:question, text: "Is this activity finished?") }
   let(:project_question) { FactoryBot.create(:project_question, question: question) }
@@ -16,8 +15,6 @@ RSpec.describe "Answering questions", type: :feature do
     [project, project_activity, project_question].each do |subject|
       FactoryBot.create(:visibility, subject: subject, visible_to: user_role)
     end
-
-    basic_authorize("", api_token.token)
   end
 
   def current_project_activity
@@ -37,6 +34,8 @@ RSpec.describe "Answering questions", type: :feature do
   end
 
   scenario "creating responses and updating them within the submission period" do
+    authenticate_as(user)
+
     get "/my_data"
     expect(response.status).to eq(200)
     expect(current_project_activity).to include(id: project_activity.id)

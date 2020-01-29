@@ -32,26 +32,16 @@ RSpec.describe "Follow up activities" do
       user_role = FactoryBot.create(:user_role, user: user, role: role)
       FactoryBot.create(:visibility, subject: project, visible_to: user_role)
     end
-
-    FactoryBot.create(:api_token, user: user1)
-    FactoryBot.create(:api_token, user: user2)
-    FactoryBot.create(:api_token, user: user3)
-  end
-
-  def authenticate_as(name)
-    user = User.find_by!(name: name)
-    api_token = ApiToken.find_by!(user: user)
-    basic_authorize("", api_token.token)
   end
 
   def register_for_workshop(name)
-    authenticate_as(name)
+    authenticate_as(User.find_by!(name: name))
     post "/registrations", id: workshop.id
     expect(response.status).to eq(204)
   end
 
   def get_my_data(name)
-    authenticate_as(name)
+    authenticate_as(User.find_by!(name: name))
     get "/my_data"
     expect(response.status).to eq(200)
   end
