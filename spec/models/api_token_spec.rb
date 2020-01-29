@@ -42,8 +42,12 @@ RSpec.describe ApiToken do
     subject(:api_token) { FactoryBot.create(:api_token) }
 
     it "sets metadata from the field app" do
-      api_token.just_used!(device_id: "abc-123")
-      expect(api_token.reload.device_id).to eq("abc-123")
+      api_token.just_used!(device_name: "Google Pixel", device_id: "abc-123")
+      api_token.reload
+
+      expect(api_token.device_name).to eq("Google Pixel")
+      expect(api_token.device_id).to eq("abc-123")
+      expect(api_token.device_id_bidx).to be_present
     end
 
     it "increments times_used and saves" do

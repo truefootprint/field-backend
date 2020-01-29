@@ -14,9 +14,9 @@ class ApiToken < ApplicationRecord
   end
 
   def just_used!(metadata = {})
-    self.assign_attributes(metadata)
-    self.times_used += 1
     self.touch(:last_used_at)
+    self.times_used += 1
+    self.assign_attributes(metadata)
     self.save!
   end
 end
