@@ -63,7 +63,7 @@ ololu_workshop = Project.create!(
 
 ProjectSummary.create!(
   project: ololu_workshop,
-  text: <<~TEXT
+  text: <<~TEXT.squish
     This project is about teaching farmers good practices to produce better
     yields and be more environmentally friendly. There will be a workshop and
     then some follow up activities where a monitor will visit each individual
@@ -185,7 +185,6 @@ Visibility.create!(subject: water_quality, visible_to: monitor)
 Visibility.create!(subject: farm, visible_to: monitor)
 
 Visibility.create!(subject: applying_knowledge, visible_to: monitor)
-Visibility.create!(subject: applying_knowledge, visible_to: farmer)
 
 Registration.process(
   viewpoint: Viewpoint.new(users: azizi, roles: farmer),
