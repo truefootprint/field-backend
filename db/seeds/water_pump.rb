@@ -90,7 +90,7 @@ using_the_pump_pa = ProjectActivity.create!(
   order: 4,
 )
 
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_1, order: 1)
+pq1 = ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_1, order: 1)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_2, order: 2)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_3, order: 3)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_4, order: 4)
@@ -141,14 +141,10 @@ Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
 
 water_pump_stolen = Issue.create!(
-  subject: rusinda_hand_pump,
+  subject: pq1,
   user: suleman,
   description: "The water pump has been stolen",
   critical: true,
-  photos: [{
-    io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
-    filename: "water-pump-stolen.png",
-  }],
 )
 
 Resolution.create!(
@@ -158,5 +154,19 @@ Resolution.create!(
   photos: [{
     io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
     filename: "water-pump-working.png",
+  }],
+)
+
+another_issue = Issue.create!(
+  subject: pq1,
+  user: suleman,
+  description: [
+    "The water pump has been stolen again! It's only been a week since last time.",
+    "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
+  ].join(" "),
+  critical: true,
+  photos: [{
+    io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
+    filename: "water-pump-stolen.png",
   }],
 )
