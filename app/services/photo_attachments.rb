@@ -5,14 +5,15 @@ module PhotoAttachments
     expected = filenames_from_value(response)
     actual = filenames_from_attachments(response)
 
-    delta = Delta.new(from: actual, to: expected, identifiers: [:itself])
+    additions = expected - actual
+    deletions = actual - expected
 
-    delta.additions.each do |filename|
+    additions.each do |filename|
       blob = ActiveStorage::Blob.find_by(filename: filename)
       response.photos.attach(blob) if blob
     end
 
-    delta.deletions.each do |filename|
+    deletions.each do |filename|
       response.photos.detect { |p| p.blob.filename.to_s == filename }.destroy
     end
   end

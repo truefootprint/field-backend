@@ -9,7 +9,6 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "rack-cors", "~> 1.0.3"
 gem "unitwise", "~> 2.2"
-gem "delta", "~> 2.1"
 gem "attr_encrypted", "~> 3.1"
 gem "blind_index", "~> 1.0"
 
