@@ -14,7 +14,7 @@ class MyUpdatesController < ApplicationController
           Response.find_by(where)&.destroy
         else
           response = create_or_update!(Response, where: where, attributes: attributes)
-          PhotoAttachments.sync_response!(response)
+          PhotoAttachments.sync_record!(response)
         end
       end
     end

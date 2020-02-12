@@ -23,4 +23,8 @@ class Response < ApplicationRecord
   def parsed_value
     DataTypeParser.parse_response(self)
   end
+
+  def supports_photos?
+    project_question&.question.is_a?(PhotoUploadQuestion)
+  end
 end
