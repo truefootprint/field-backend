@@ -30,6 +30,7 @@ class MyDataPresenter < ApplicationPresenter
               responses: {
                 for_user: viewpoint.user,
                 unit: true,
+                photos: true,
               },
               issues: {
                 user: true,
