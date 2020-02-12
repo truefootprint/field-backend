@@ -176,4 +176,10 @@ FactoryBot.define do
     user
     sequence(:token) { |n| "api token #{n}" }
   end
+
+  factory :exif_data do
+    user
+    filename { |n| "md5-#{n}.jpg" }
+    data { { "GPS Latitude": 123, "GPS Longitude": 456 }.to_json }
+  end
 end
