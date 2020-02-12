@@ -56,10 +56,14 @@ class CrudController < ApplicationController
   end
 
   def model_name
-    resource.singularize.camelize
+    singularize(resource).camelize
   end
 
   def resource
     request.path.split("/")[1]
+  end
+
+  def singularize(name)
+    name.ends_with?("data_sets") ? name[..-5] : name.singularize
   end
 end

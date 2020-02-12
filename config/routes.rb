@@ -5,6 +5,7 @@ CRUD_RESOURCES = %i[
   default_expected_values
   default_questions
   documents
+  exif_data_sets
   expected_values
   follow_up_activities
   involvements
