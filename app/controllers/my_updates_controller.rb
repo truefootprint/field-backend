@@ -17,6 +17,7 @@ class MyUpdatesController < ApplicationController
 
           PhotoAttachments.sync_record!(response)
           PhotoMetadata.extract_exif_data!(response)
+          PhotoSanitiser.sanitise_json!(response, :value)
         end
       end
     end

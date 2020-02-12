@@ -46,7 +46,7 @@ RSpec.describe "Sync'ing photos" do
     get "/my_data"
     expect(response.status).to eq(200)
     photo_response = all_responses.first
-    expect(photo_response.fetch(:value)).to eq(response_value)
+    expect(photo_response.fetch(:value)).to be_present
     expect(photo_response.fetch(:photos)).to eq([])
 
     # Upload the referenced photo after the response.

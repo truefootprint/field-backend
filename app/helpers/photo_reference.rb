@@ -13,4 +13,8 @@ class PhotoReference
     self.height = height
     self.exif = exif
   end
+
+  def as_json(_options = {})
+    super.reject { |_, v| v.blank? }
+  end
 end
