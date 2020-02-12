@@ -29,6 +29,10 @@ module ApiHelper
     all_topics.flat_map { |t| t.fetch(:project_questions) }
   end
 
+  def all_responses
+    all_project_questions.flat_map { |pq| pq.fetch(:responses) }
+  end
+
   def find_project_question(id)
     all_project_questions.detect { |pq| pq.fetch(:id) == id }
   end
