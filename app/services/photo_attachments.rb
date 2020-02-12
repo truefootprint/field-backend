@@ -1,9 +1,9 @@
 module PhotoAttachments
-  def self.sync_record!(record, field: :value)
+  def self.sync_record!(record)
     return unless record.supports_photos?
 
-    expected = filenames_from_field(record, field)
-    actual = filenames_from_attachments(record)
+    expected = referenced_filenames(record)
+    actual = attachment_filenames(record)
 
     additions = expected - actual
     deletions = actual - expected
@@ -30,11 +30,11 @@ module PhotoAttachments
 
   private
 
-  def self.filenames_from_attachments(record)
+  def self.attachment_filenames(record)
     record.photos.map { |attachment| attachment.blob.filename.to_s }
   end
 
-  def self.filenames_from_field(record, field)
-    JSON.parse(record.public_send(field)).map { |img| File.basename(img.fetch("uri")) }
+  def self.referenced_filenames(record)
+    record.photo_references.map { |r| File.basename(r.uri) }
   end
 end

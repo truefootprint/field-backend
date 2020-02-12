@@ -27,4 +27,8 @@ class Response < ApplicationRecord
   def supports_photos?
     project_question&.question.is_a?(PhotoUploadQuestion)
   end
+
+  def photo_references
+    PhotoReference.parse_json_array(value)
+  end
 end
