@@ -5,7 +5,7 @@ class Issue < ApplicationRecord
   belongs_to :user
   has_one :resolution
 
-  has_many_attached :photos
+  has_many_attached :photos, dependent: :destroy
 
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
   validates :description, presence: true

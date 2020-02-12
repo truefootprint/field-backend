@@ -25,6 +25,20 @@ RSpec.describe PhotoAttachments do
       expect(response.photos.last.filename).to eq("water-pump-stolen.png")
     end
 
+    it "does not attach the same blob more than once" do
+      blob = create_image_blob("water-pump-stolen.png")
+
+      image_references = [
+        { uri: "/documents/water-pump-stolen.png" },
+        { uri: "/documents/water-pump-stolen.png" },
+      ].to_json
+
+      response = create_photo_response(value: image_references, photos: [])
+
+      expect { PhotoAttachments.sync_response!(response) }
+        .to change { response.reload.photos.count }.by(1)
+    end
+
     it "detaches image blobs that are no longer referenced" do
       blob = create_image_blob("water-pump-stolen.png")
       response = create_photo_response(value: [].to_json, photos: [blob])
