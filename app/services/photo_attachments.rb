@@ -26,6 +26,10 @@ module PhotoAttachments
       .merge(PhotoUploadQuestion.all)
       .where("value like ?", "%#{filename}%")
       .each { |r| sync_record!(r) }
+
+    user.exif_data_sets
+      .where(filename: filename)
+      .each { |r| sync_record!(r) }
   end
 
   private

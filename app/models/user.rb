@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :user_roles
   has_many :roles, through: :user_roles
   has_many :responses
+  has_many :exif_data_sets, class_name: :ExifData
 
   validates :name, presence: true
   validates :phone_number, presence: true, uniqueness: true, numericality: true

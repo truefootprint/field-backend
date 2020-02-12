@@ -39,11 +39,10 @@ RSpec.describe PhotoMetadata do
 
     it "does not touch updated_at if nothing has changed" do
       exif_data = FactoryBot.create(:exif_data, filename: "md5.jpg", updated_at: "2020-01-01")
-      exif = JSON.parse(exif_data.data)
 
       record = create_response(
         user: exif_data.user,
-        value: [{ uri: "uri/md5.jpg", exif: exif }].to_json,
+        value: [{ uri: "uri/md5.jpg", exif: exif_data.parsed_data }].to_json,
       )
 
       expect { described_class.extract_exif_data!(record) }

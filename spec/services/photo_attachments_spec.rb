@@ -103,6 +103,15 @@ RSpec.describe PhotoAttachments do
       expect(response.photos.last.filename).to eq("water-pump-stolen.png")
     end
 
+    it "attaches image blobs to exif data records" do
+      image = create_image_blob("water-pump-stolen.png")
+
+      exif_data = FactoryBot.create(:exif_data, filename: "water-pump-stolen.png")
+
+      expect { PhotoAttachments.sync_image!(image, exif_data.user) }
+        .to change { exif_data.reload.photos.count }.by(1)
+    end
+
     it "is scoped to the current user's responses" do
       another_user = FactoryBot.create(:user)
       image = create_image_blob("water-pump-stolen.png")
@@ -124,6 +133,16 @@ RSpec.describe PhotoAttachments do
 
       expect { PhotoAttachments.sync_image!(image, response.user) }
         .not_to change { response.reload.photos.count }
+    end
+
+    it "is scoped to the current user's exif data" do
+      another_user = FactoryBot.create(:user)
+      image = create_image_blob("water-pump-stolen.png")
+
+      exif_data = FactoryBot.create(:exif_data, filename: "water-pump-stolen.png")
+
+      expect { PhotoAttachments.sync_image!(image, another_user) }
+        .not_to change { exif_data.reload.photos.count }
     end
   end
 end
