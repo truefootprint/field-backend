@@ -14,7 +14,8 @@ module PhotoMetadata
       where = { filename: filename }
       attributes = { user: user, filename: filename, data: r.exif.to_json }
 
-      create_or_update!(ExifData, where: where, attributes: attributes)
+      record = create_or_update!(ExifData, where: where, attributes: attributes)
+      PhotoAttachments.sync_record!(record)
     end
   end
 end

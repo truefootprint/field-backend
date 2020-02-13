@@ -1,4 +1,10 @@
 RSpec.describe PhotoMetadata do
+  include FindOrCreateBlob
+
+  def create_image_blob(filename)
+    find_or_create_blob!(fixture_file_upload("files/#{filename}", "image/png"))
+  end
+
   def create_response(**attributes)
     q = FactoryBot.create(:photo_upload_question)
     pq = FactoryBot.create(:project_question, question: q)
@@ -47,6 +53,19 @@ RSpec.describe PhotoMetadata do
 
       expect { described_class.extract_exif_data!(record) }
         .not_to change { exif_data.reload.updated_at }
+    end
+
+    it "associates the exif data record with the image blob" do
+      image = create_image_blob("water-pump-stolen.png")
+      image.update!(filename: "md5.jpg")
+
+      exif = { "GPS Latitude" => 123, "GPS Longitude" => 456 }
+      record = create_response(value: [{ uri: "uri/md5.jpg", exif: exif }].to_json)
+
+      expect { described_class.extract_exif_data!(record) }
+        .to change(ExifData, :count).by(1)
+
+      expect(ExifData.last.photos.size).to eq(1)
     end
   end
 end
