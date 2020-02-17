@@ -35,7 +35,7 @@ RSpec.describe VersionedContent do
     end
   end
 
-  it "defaults 'photos' to an empty json array" do
-    expect(versioned_content.photos).to eq("[]")
+  it "defaults 'photos_json' to an empty array" do
+    expect(versioned_content.photos_json).to eq("[]")
   end
 end

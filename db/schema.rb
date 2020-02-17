@@ -333,12 +333,12 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
     t.bigint "user_id"
     t.string "ancestry"
     t.text "content", null: false
-    t.jsonb "photos", null: false
+    t.jsonb "photos_json", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ancestry"], name: "index_versioned_contents_on_ancestry"
     t.index ["created_at"], name: "index_versioned_contents_on_created_at"
-    t.index ["photos"], name: "index_versioned_contents_on_photos"
+    t.index ["photos_json"], name: "index_versioned_contents_on_photos_json"
     t.index ["subject_type", "subject_id"], name: "index_versioned_contents_on_subject_type_and_subject_id"
     t.index ["updated_at"], name: "index_versioned_contents_on_updated_at"
     t.index ["user_id"], name: "index_versioned_contents_on_user_id"

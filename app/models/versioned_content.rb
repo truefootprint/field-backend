@@ -5,6 +5,7 @@ class VersionedContent < ApplicationRecord
   belongs_to :user
 
   has_ancestry
+  has_many_attached :photos, dependent: :destroy
 
   validates :content, presence: true
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
@@ -15,11 +16,19 @@ class VersionedContent < ApplicationRecord
   end
 
   after_initialize do
-    self.photos = "[]" if photos.blank?
+    self.photos_json = "[]" if photos_json.blank?
   end
 
   def self.latest
     order(created_at: :desc).first
+  end
+
+  def supports_photos?
+    true
+  end
+
+  def photo_references
+    PhotoReference.parse_json_array(photos_json)
   end
 
   private

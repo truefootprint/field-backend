@@ -6,7 +6,6 @@ class Issue < ApplicationRecord
 
   has_one :resolution
   has_many :versioned_contents, as: :subject, inverse_of: :subject
-  has_many_attached :photos, dependent: :destroy
 
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
   validates :versioned_contents, presence: true, unless: -> { factory_bot }

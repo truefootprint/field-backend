@@ -149,33 +149,20 @@ water_pump_stolen.update!(versioned_contents: [
   ),
 ])
 
-resolution = Resolution.new(
-  issue: water_pump_stolen,
-  user: suleman,
-  photos: [{
-    io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
-    filename: "water-pump-working.png",
-  }],
-)
-
+resolution = Resolution.new(issue: water_pump_stolen, user: suleman)
 resolution.update!(versioned_contents: [
   VersionedContent.new(
     subject: resolution,
     user: suleman,
     content: "The contractor has returned and fitted the water pump",
+    photos: [{
+      io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
+      filename: "water-pump-working.png",
+    }],
   ),
 ])
 
-another_issue = Issue.new(
-  subject: pq1,
-  user: suleman,
-  critical: true,
-  photos: [{
-    io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
-    filename: "water-pump-stolen.png",
-  }],
-)
-
+another_issue = Issue.new(subject: pq1, user: suleman, critical: true)
 another_issue.update!(versioned_contents: [
   VersionedContent.new(
     subject: another_issue,
@@ -184,5 +171,9 @@ another_issue.update!(versioned_contents: [
       "The water pump has been stolen again! It's only been a week since last time.",
       "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
     ].join(" "),
+    photos: [{
+      io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
+      filename: "water-pump-stolen.png",
+    }],
   ),
 ])

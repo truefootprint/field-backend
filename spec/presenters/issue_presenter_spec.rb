@@ -17,16 +17,6 @@ RSpec.describe IssuePresenter do
     expect(presented.dig(:user, :name)).to eq("User name")
   end
 
-  it "can present with photos" do
-    attachment = { io: file_fixture("water-pump-stolen.png").open, filename: "stolen.png" }
-    issue = FactoryBot.create(:issue, photos: [attachment])
-
-    presented = described_class.present(issue, photos: true)
-    expect(presented).to include(photos: [
-      hash_including(url: a_string_matching("/stolen.png"))
-    ])
-  end
-
   it "can present with the resolution" do
     issue = FactoryBot.create(:issue)
     FactoryBot.create(:resolution, issue: issue, content: "Resolution content")

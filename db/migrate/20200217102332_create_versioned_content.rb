@@ -7,13 +7,13 @@ class CreateVersionedContent < ActiveRecord::Migration[6.0]
       t.string :ancestry # Uses the ancestry gem
 
       t.text :content, null: false
-      t.jsonb :photos, null: false
+      t.jsonb :photos_json, null: false
 
       t.timestamps
     end
 
     add_index :versioned_contents, :ancestry
-    add_index :versioned_contents, :photos
+    add_index :versioned_contents, :photos_json
 
     add_index :versioned_contents, :created_at
     add_index :versioned_contents, :updated_at

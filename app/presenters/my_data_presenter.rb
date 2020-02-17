@@ -34,34 +34,22 @@ class MyDataPresenter < ApplicationPresenter
               },
               issues: {
                 user: true,
-                content: true,
-                photos: true,
                 resolution: {
                   user: true,
-                  content: true,
-                  photos: true,
                 },
               },
             },
             issues: {
               user: true,
-              content: true,
-              photos: true,
               resolution: {
                 user: true,
-                content: true,
-                photos: true,
               },
             },
           },
           issues: {
             user: true,
-            content: true,
-            photos: true,
             resolution: {
               user: true,
-              content: true,
-              photos: true,
             },
           },
         },
