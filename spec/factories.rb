@@ -164,6 +164,12 @@ FactoryBot.define do
     description { "The contractor has returned and fitted the water pump" }
   end
 
+  factory :versioned_content do
+    association :subject, factory: :issue
+    user
+    content { "Hey, I've just opened this issue because..." }
+  end
+
   factory :unit do
     sequence(:name) do |n|
       %w[meter centimeter millimeter kilometer inch foot yard mile][n - 1]
