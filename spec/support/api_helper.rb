@@ -42,7 +42,7 @@ module ApiHelper
   end
 
   def presentation(options)
-    "presentation=#{URI.encode(options.to_json)}"
+    "presentation=#{CGI.escape(options.to_json)}"
   end
 
   def authenticate_as(user)
