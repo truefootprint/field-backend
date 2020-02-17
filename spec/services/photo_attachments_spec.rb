@@ -112,6 +112,16 @@ RSpec.describe PhotoAttachments do
         .to change { exif_data.reload.photos.count }.by(1)
     end
 
+    it "attaches image blobs to versioned content" do
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      content = FactoryBot.create(:versioned_content, photos_json: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, content.user) }
+        .to change { content.reload.photos.count }.by(1)
+    end
+
     it "is scoped to the current user's responses" do
       another_user = FactoryBot.create(:user)
       image = create_image_blob("water-pump-stolen.png")
@@ -143,6 +153,17 @@ RSpec.describe PhotoAttachments do
 
       expect { PhotoAttachments.sync_image!(image, another_user) }
         .not_to change { exif_data.reload.photos.count }
+    end
+
+    it "is scoped to the current user's versioned content" do
+      another_user = FactoryBot.create(:user)
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      content = FactoryBot.create(:versioned_content, photos_json: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, another_user) }
+        .not_to change { content.reload.photos.count }
     end
   end
 end
