@@ -158,7 +158,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
     t.string "subject_type"
     t.bigint "subject_id"
     t.bigint "user_id"
-    t.text "description", null: false
     t.boolean "critical", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -253,7 +252,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
   create_table "resolutions", force: :cascade do |t|
     t.bigint "issue_id"
     t.bigint "user_id"
-    t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["issue_id"], name: "index_resolutions_on_issue_id"
@@ -339,8 +337,10 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ancestry"], name: "index_versioned_contents_on_ancestry"
+    t.index ["created_at"], name: "index_versioned_contents_on_created_at"
     t.index ["photos"], name: "index_versioned_contents_on_photos"
     t.index ["subject_type", "subject_id"], name: "index_versioned_contents_on_subject_type_and_subject_id"
+    t.index ["updated_at"], name: "index_versioned_contents_on_updated_at"
     t.index ["user_id"], name: "index_versioned_contents_on_user_id"
   end
 

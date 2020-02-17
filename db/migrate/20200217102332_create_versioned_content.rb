@@ -14,5 +14,8 @@ class CreateVersionedContent < ActiveRecord::Migration[6.0]
 
     add_index :versioned_contents, :ancestry
     add_index :versioned_contents, :photos
+
+    add_index :versioned_contents, :created_at
+    add_index :versioned_contents, :updated_at
   end
 end

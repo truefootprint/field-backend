@@ -18,6 +18,10 @@ class VersionedContent < ApplicationRecord
     self.photos = "[]" if photos.blank?
   end
 
+  def self.latest
+    order(created_at: :desc).first
+  end
+
   private
 
   def subject_is_the_same_as(scope, name)
