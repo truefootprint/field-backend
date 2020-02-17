@@ -6,8 +6,8 @@ RSpec.describe Resolution do
       expect(resolution).to be_valid
     end
 
-    it "requires a description" do
-      resolution.description = " "
+    it "requires versioned content" do
+      resolution.versioned_contents = []
       expect(resolution).to be_invalid
     end
 

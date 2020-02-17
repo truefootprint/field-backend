@@ -154,18 +154,38 @@ FactoryBot.define do
   factory :issue do
     association :subject, factory: :project_activity
     user
-    description { "The water pump has been stolen" }
     critical { true }
+
+    versioned_contents do
+      content ? build_list(:versioned_content, 1, content: content) : []
+    end
+
+    transient do
+      content { "The water pump has been stolen" }
+    end
+
+    before(:create) { Issue.factory_bot = true }
+    after(:create) { Issue.factory_bot = false }
   end
 
   factory :resolution do
     issue
     user
-    description { "The contractor has returned and fitted the water pump" }
+
+    versioned_contents do
+      content ? build_list(:versioned_content, 1, content: content) : []
+    end
+
+    transient do
+      content { "The contractor has returned and fitted the water pump" }
+    end
+
+    before(:create) { Resolution.factory_bot = true }
+    after(:create) { Resolution.factory_bot = false }
   end
 
   factory :versioned_content do
-    association :subject, factory: :issue
+    association :subject, factory: :issue, content: nil # Skip the default content
     user
     content { "Hey, I've just opened this issue because..." }
   end

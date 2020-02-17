@@ -6,8 +6,8 @@ RSpec.describe Issue do
       expect(issue).to be_valid
     end
 
-    it "requires a description" do
-      issue.description = " "
+    it "requires versioned content" do
+      issue.versioned_contents = []
       expect(issue).to be_invalid
     end
 
