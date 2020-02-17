@@ -140,33 +140,49 @@ Visibility.create(subject: pump, visible_to: monitor)
 Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
 
-water_pump_stolen = Issue.create!(
-  subject: pq1,
-  user: suleman,
-  description: "The water pump has been stolen",
-  critical: true,
-)
+water_pump_stolen = Issue.new(subject: pq1,user: suleman, critical: true)
+water_pump_stolen.update!(versioned_contents: [
+  VersionedContent.new(
+    subject: water_pump_stolen,
+    user: suleman,
+    content: "The water pump has been stolen",
+  ),
+])
 
-Resolution.create!(
+resolution = Resolution.new(
   issue: water_pump_stolen,
   user: suleman,
-  description: "The contractor has returned and fitted the water pump",
   photos: [{
     io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
     filename: "water-pump-working.png",
   }],
 )
 
-another_issue = Issue.create!(
+resolution.update!(versioned_contents: [
+  VersionedContent.new(
+    subject: resolution,
+    user: suleman,
+    content: "The contractor has returned and fitted the water pump",
+  ),
+])
+
+another_issue = Issue.new(
   subject: pq1,
   user: suleman,
-  description: [
-    "The water pump has been stolen again! It's only been a week since last time.",
-    "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
-  ].join(" "),
   critical: true,
   photos: [{
     io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
     filename: "water-pump-stolen.png",
   }],
 )
+
+another_issue.update!(versioned_contents: [
+  VersionedContent.new(
+    subject: another_issue,
+    user: suleman,
+    content: [
+      "The water pump has been stolen again! It's only been a week since last time.",
+      "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
+    ].join(" "),
+  ),
+])
