@@ -1,9 +1,12 @@
 RSpec.describe IssuePresenter do
   it "presents an issue" do
-    issue = FactoryBot.create(:issue, description: "Issue description", critical: true)
+    issue = FactoryBot.create(:issue, content: "Issue content", critical: true)
 
     presented = described_class.present(issue)
-    expect(presented).to include(description: "Issue description", critical: true)
+    expect(presented).to include(critical: true)
+
+    versioned_content = presented.fetch(:versioned_content)
+    expect(versioned_content).to include(content: "Issue content")
   end
 
   it "can present with the user" do
@@ -26,9 +29,11 @@ RSpec.describe IssuePresenter do
 
   it "can present with the resolution" do
     issue = FactoryBot.create(:issue)
-    FactoryBot.create(:resolution, issue: issue, description: "Resolution description")
+    FactoryBot.create(:resolution, issue: issue, content: "Resolution content")
 
     presented = described_class.present(issue, resolution: true)
-    expect(presented.dig(:resolution, :description)).to eq("Resolution description")
+    versioned_content = presented.dig(:resolution, :versioned_content)
+
+    expect(versioned_content).to include(content: "Resolution content")
   end
 end

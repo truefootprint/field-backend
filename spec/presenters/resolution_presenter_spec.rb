@@ -1,9 +1,11 @@
 RSpec.describe ResolutionPresenter do
   it "presents a resolution" do
-    resolution = FactoryBot.create(:resolution, description: "Resolution description")
+    resolution = FactoryBot.create(:resolution, content: "Resolution content")
 
     presented = described_class.present(resolution)
-    expect(presented).to include(description: "Resolution description")
+    versioned_content = presented.fetch(:versioned_content)
+
+    expect(versioned_content).to include(content: "Resolution content")
   end
 
   it "can present with the user" do
