@@ -2,47 +2,10 @@ class MyUpdatesController < ApplicationController
   include CreateOrUpdate
 
   def create
-    params.fetch(:updates).each do |chunk|
-      period_start = chunk.fetch(:period_start)
-      period_end = chunk.fetch(:period_end)
+    updates = params.fetch(:updates)
 
-      chunk.fetch(:responses).each do |attr|
-        attributes = response_attributes(attr)
-        where = response_identifiers(attributes, period_start, period_end)
-
-        if attributes.fetch(:value).blank?
-          Response.find_by(where)&.destroy
-        else
-          response = create_or_update!(Response, where: where, attributes: attributes)
-
-          PhotoAttachments.sync_record!(response)
-          PhotoMetadata.extract_exif_data!(response)
-          PhotoSanitiser.sanitise_json!(response, :value)
-        end
-      end
-    end
+    UpdateProcessor.process_chunks(updates, current_user)
 
     head :created
-  end
-
-  private
-
-  def response_attributes(attributes)
-    keys = %i[project_question_id created_at updated_at]
-    values = attributes.require(keys)
-    hash = keys.zip(values).to_h
-
-    # Explicitly fetch value since require throws an error for blanks:
-    value = attributes.fetch(:value)
-
-    hash.merge(value: value, user: current_user)
-  end
-
-  # Find responses that were already created in the submission period so we can
-  # update them rather than create new ones. This matches the app's behaviour.
-  def response_identifiers(attributes, period_start, period_end)
-    attributes
-      .slice(:project_question_id, :user)
-      .merge(created_at: period_start..period_end)
   end
 end
