@@ -84,7 +84,7 @@ RSpec.describe "Issues and resolutions" do
       subject_type: ["Issue", "Resolution"],
       subject_id: issue.fetch(:id),
       content: "The contractor has returned and fitted the water pump",
-      photos_json: "[]",
+      photos_json: [{ uri: "/field-app/md5.jpg" }].to_json,
       parent_id: versioned_content.fetch(:id),
     }
 
@@ -92,10 +92,15 @@ RSpec.describe "Issues and resolutions" do
 
     get "/my_data"
     expect(response.status).to eq(200)
-    issues = all_projects.first.fetch(:issues)
+    issue = all_projects.first.fetch(:issues).first
+    resolution = issue.fetch(:resolutions).first
 
-    expect(issues.size).to eq(1)
+    content1 = issue.dig(:versioned_content, :content)
+    content2 = resolution.dig(:versioned_content, :content)
+    photos = resolution.dig(:versioned_content, :photos)
 
-    # TODO: add more assertions about the resolution, e.g. its created_at_issue_content_version field
+    expect(content1).to eq("I contacted the contractor. Here's a photo of the pump:")
+    expect(content2).to eq("The contractor has returned and fitted the water pump")
+    expect(photos.size).to eq(1)
   end
 end
