@@ -149,7 +149,12 @@ water_pump_stolen.update!(versioned_contents: [
   ),
 ])
 
-resolution = Resolution.new(issue: water_pump_stolen, user: suleman)
+resolution = Resolution.new(
+  issue: water_pump_stolen,
+  user: suleman,
+  created_at_issue_content_version: VersionedContent.last,
+)
+
 resolution.update!(versioned_contents: [
   VersionedContent.new(
     subject: resolution,

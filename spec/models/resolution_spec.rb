@@ -17,5 +17,10 @@ RSpec.describe Resolution do
       resolution.issue = existing.issue
       expect(resolution).to be_invalid
     end
+
+    it "requires created_at_issue_content_version to point to the resolution's issue" do
+      resolution.issue = FactoryBot.create(:issue)
+      expect(resolution).to be_invalid
+    end
   end
 end

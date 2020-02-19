@@ -66,7 +66,7 @@ class UpdateProcessor
       parent_id = attributes[:parent_id] or return {}
       model_name = first_class.name.downcase
 
-      { :"created_at_#{model_name}_content_version" => parent_id }
+      { :"created_at_#{model_name}_content_version_id" => parent_id }
     end
 
     class InvalidSubjectError < StandardError; end

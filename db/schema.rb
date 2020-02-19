@@ -252,8 +252,10 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
   create_table "resolutions", force: :cascade do |t|
     t.bigint "issue_id"
     t.bigint "user_id"
+    t.bigint "created_at_issue_content_version_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_at_issue_content_version_id"], name: "index_resolutions_on_created_at_issue_content_version_id"
     t.index ["issue_id"], name: "index_resolutions_on_issue_id"
     t.index ["user_id"], name: "index_resolutions_on_user_id"
   end

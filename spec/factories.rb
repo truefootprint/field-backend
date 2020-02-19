@@ -172,6 +172,10 @@ FactoryBot.define do
     issue
     user
 
+    created_at_issue_content_version do
+      build(:versioned_content, subject: self.issue)
+    end
+
     versioned_contents do
       content ? build_list(:versioned_content, 1, content: content) : []
     end
