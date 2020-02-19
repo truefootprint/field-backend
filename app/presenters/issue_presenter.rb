@@ -3,7 +3,7 @@ class IssuePresenter < ApplicationPresenter
     super
       .merge(present_user(record))
       .merge(present_versioned_content(record))
-      .merge(present_resolution(record))
+      .merge(present_resolutions(record))
   end
 
   def present_user(record)
@@ -14,8 +14,8 @@ class IssuePresenter < ApplicationPresenter
     present_nested(:versioned_content, VersionedContentPresenter) { record.versioned_contents.latest }
   end
 
-  def present_resolution(record)
-    present_nested(:resolution, ResolutionPresenter) { record.resolution }
+  def present_resolutions(record)
+    present_nested(:resolutions, ResolutionPresenter) { record.resolutions }
   end
 
   def options

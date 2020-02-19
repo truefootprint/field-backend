@@ -4,7 +4,7 @@ class Issue < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :user
 
-  has_one :resolution
+  has_many :resolutions
   has_many :versioned_contents, as: :subject, inverse_of: :subject
 
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }

@@ -21,8 +21,9 @@ RSpec.describe IssuePresenter do
     issue = FactoryBot.create(:issue)
     FactoryBot.create(:resolution, issue: issue, content: "Resolution content")
 
-    presented = described_class.present(issue, resolution: true)
-    versioned_content = presented.dig(:resolution, :versioned_content)
+    presented = described_class.present(issue, resolutions: true)
+    resolution =presented.fetch(:resolutions).first
+    versioned_content = resolution.fetch(:versioned_content)
 
     expect(versioned_content).to include(content: "Resolution content")
   end
