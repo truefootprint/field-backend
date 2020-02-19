@@ -7,6 +7,8 @@ class UpdateProcessor
 
         target_of_content.update!(versioned_contents: [record])
       else
+        attributes.fetch(:parent_id) # required in this context
+
         record = ::VersionedContent.create!(attributes)
       end
 

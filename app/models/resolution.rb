@@ -24,7 +24,7 @@ class Resolution < ApplicationRecord
 
   def points_to_the_same_issue
     version = created_at_issue_content_version
-    return if version.subject_type == "Issue" && version.subject_id == issue_id
+    return if version&.subject_type == "Issue" && version&.subject_id == issue_id
 
     message = "must point to the resolution's issue"
     errors.add(:created_at_issue_content_version_id, message)
