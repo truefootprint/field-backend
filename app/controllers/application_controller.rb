@@ -8,6 +8,7 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from JSON::ParserError, with: :bad_request
+  rescue_from UpdateProcessor::VersionedContent::InvalidSubjectError, with: :bad_request
 
   def authenticate
     api_token || request_http_basic_authentication
