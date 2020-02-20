@@ -113,7 +113,7 @@ RSpec.describe "Sync'ing photos" do
     expect(response.status).to eq(200)
     json_value = all_responses.first.fetch(:value)
     value = JSON.parse(json_value, symbolize_names: true).first
-    expect(value).to eq(uri: "<documents>/md5.jpg", width: 1920, height: 1080)
+    expect(value).to eq(uri: "[[[documents]]]/md5.jpg", width: 1920, height: 1080)
 
     # Upload the referenced photo after the response.
     post "/my_photos", image: file

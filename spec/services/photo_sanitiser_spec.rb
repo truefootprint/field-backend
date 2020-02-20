@@ -24,7 +24,7 @@ RSpec.describe PhotoSanitiser do
       sanitised = JSON.parse(record.reload.value, symbolize_names: true)
 
       expect(sanitised).to eq [{
-        uri: "<documents>/md5.jpg", width: 800, height: 600,
+        uri: "[[[documents]]]/md5.jpg", width: 800, height: 600,
       }]
     end
 

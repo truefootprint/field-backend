@@ -160,6 +160,7 @@ resolution.update!(versioned_contents: [
     subject: resolution,
     user: suleman,
     content: "The contractor has returned and fitted the water pump",
+    photos_json: [{ uri: "[[[documents]]]/bd00c7bcb4550512146c27dc092aa909.png" }].to_json,
     photos: [{
       io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
       filename: "water-pump-working.png",
@@ -176,6 +177,7 @@ another_issue.update!(versioned_contents: [
       "The water pump has been stolen again! It's only been a week since last time.",
       "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
     ].join(" "),
+    photos_json: [{ uri: "[[[documents]]]/d1cd76a708872ce4aa870a2a22b480a7.png" }].to_json,
     photos: [{
       io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
       filename: "water-pump-stolen.png",

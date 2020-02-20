@@ -5,7 +5,7 @@ module PhotoSanitiser
     references = record.photo_references.clone
 
     references.each do |r|
-      r.uri = "<documents>/#{File.basename(r.uri)}"
+      r.uri = "[[[documents]]]/#{File.basename(r.uri)}"
       r.exif = nil
     end
 
