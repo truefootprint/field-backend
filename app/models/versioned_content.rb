@@ -7,7 +7,7 @@ class VersionedContent < ApplicationRecord
   has_ancestry
   has_many_attached :photos, dependent: :destroy
 
-  validates :content, presence: true
+  validates :text, presence: true
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
 
   validate :subject do

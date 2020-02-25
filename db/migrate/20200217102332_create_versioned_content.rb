@@ -6,7 +6,7 @@ class CreateVersionedContent < ActiveRecord::Migration[6.0]
 
       t.string :ancestry # Uses the ancestry gem
 
-      t.text :content, null: false
+      t.text :text, null: false
       t.text :photos_json, null: false
 
       t.timestamps

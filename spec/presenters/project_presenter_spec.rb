@@ -71,6 +71,6 @@ RSpec.describe ProjectPresenter do
     versioned_content = issue.fetch(:versioned_content)
 
     expect(issue).to include(critical: true)
-    expect(versioned_content).to include(content: "Issue content")
+    expect(versioned_content).to include(text: "Issue content")
   end
 end

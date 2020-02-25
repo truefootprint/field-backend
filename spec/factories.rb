@@ -157,7 +157,7 @@ FactoryBot.define do
     critical { true }
 
     versioned_contents do
-      content ? build_list(:versioned_content, 1, content: content) : []
+      content ? build_list(:versioned_content, 1, text: content) : []
     end
 
     transient do
@@ -177,7 +177,7 @@ FactoryBot.define do
     end
 
     versioned_contents do
-      content ? build_list(:versioned_content, 1, content: content) : []
+      content ? build_list(:versioned_content, 1, text: content) : []
     end
 
     transient do
@@ -191,7 +191,7 @@ FactoryBot.define do
   factory :versioned_content do
     association :subject, factory: :issue, content: nil # Skip the default content
     user
-    content { "Hey, I've just opened this issue because..." }
+    text { "Hey, I've just opened this issue because..." }
   end
 
   factory :unit do

@@ -145,7 +145,7 @@ water_pump_stolen.update!(versioned_contents: [
   VersionedContent.new(
     subject: water_pump_stolen,
     user: suleman,
-    content: "The water pump has been stolen",
+    text: "The water pump has been stolen",
   ),
 ])
 
@@ -159,7 +159,7 @@ resolution.update!(versioned_contents: [
   VersionedContent.new(
     subject: resolution,
     user: suleman,
-    content: "The contractor has returned and fitted the water pump",
+    text: "The contractor has returned and fitted the water pump",
     photos_json: [{ uri: "[[[documents]]]/bd00c7bcb4550512146c27dc092aa909.png" }].to_json,
     photos: [{
       io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
@@ -173,7 +173,7 @@ another_issue.update!(versioned_contents: [
   VersionedContent.new(
     subject: another_issue,
     user: suleman,
-    content: [
+    text: [
       "The water pump has been stolen again! It's only been a week since last time.",
       "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
     ].join(" "),

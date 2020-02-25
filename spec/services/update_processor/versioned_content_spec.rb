@@ -11,7 +11,7 @@ RSpec.describe UpdateProcessor::VersionedContent do
     params = ActionController::Parameters.new(
       subject_type: ["Project", "Issue"],
       subject_id: project.id,
-      content: "There's an issue",
+      text: "There's an issue",
       photos_json: "[]",
       created_at: "2020-01-01T12:00:00.000Z",
       updated_at: "2020-01-01T13:00:00.000Z",
@@ -28,7 +28,7 @@ RSpec.describe UpdateProcessor::VersionedContent do
     params = ActionController::Parameters.new(
       subject_type: "Issue",
       subject_id: issue.id,
-      content: "There's an issue",
+      text: "There's an issue",
       photos_json: "[]",
       created_at: "2020-01-01T12:00:00.000Z",
       updated_at: "2020-01-01T13:00:00.000Z",
@@ -49,7 +49,7 @@ RSpec.describe UpdateProcessor::VersionedContent do
     params = ActionController::Parameters.new(
       subject_type: ["Issue", "Resolution"],
       subject_id: issue.id,
-      content: "The issue is resolved",
+      text: "The issue is resolved",
       photos_json: "[]",
       created_at: "2020-01-01T12:00:00.000Z",
       updated_at: "2020-01-01T13:00:00.000Z",
@@ -77,7 +77,7 @@ RSpec.describe UpdateProcessor::VersionedContent do
     params = ActionController::Parameters.new(
       subject_type: ["User", "Issue"],
       subject_id: FactoryBot.create(:user).id,
-      content: "I fell out with this user",
+      text: "I fell out with this user",
       photos_json: "[]",
       created_at: "2020-01-01T12:00:00.000Z",
       updated_at: "2020-01-01T13:00:00.000Z",
@@ -91,7 +91,7 @@ RSpec.describe UpdateProcessor::VersionedContent do
     params = ActionController::Parameters.new(
       subject_type: "Issue",
       subject_id: issue.id,
-      content: "There's an issue",
+      text: "There's an issue",
       photos_json: "[]",
       created_at: "2020-01-01T12:00:00.000Z",
       updated_at: "2020-01-01T13:00:00.000Z",

@@ -6,7 +6,7 @@ RSpec.describe IssuePresenter do
     expect(presented).to include(critical: true)
 
     versioned_content = presented.fetch(:versioned_content)
-    expect(versioned_content).to include(content: "Issue content")
+    expect(versioned_content).to include(text: "Issue content")
   end
 
   it "can present with the user" do
@@ -22,9 +22,9 @@ RSpec.describe IssuePresenter do
     FactoryBot.create(:resolution, issue: issue, content: "Resolution content")
 
     presented = described_class.present(issue, resolutions: true)
-    resolution =presented.fetch(:resolutions).first
+    resolution = presented.fetch(:resolutions).first
     versioned_content = resolution.fetch(:versioned_content)
 
-    expect(versioned_content).to include(content: "Resolution content")
+    expect(versioned_content).to include(text: "Resolution content")
   end
 end

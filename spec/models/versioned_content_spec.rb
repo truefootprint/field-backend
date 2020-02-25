@@ -6,8 +6,8 @@ RSpec.describe VersionedContent do
       expect(versioned_content).to be_valid
     end
 
-    it "requires content" do
-      versioned_content.content = " "
+    it "requires text" do
+      versioned_content.text = " "
       expect(versioned_content).to be_invalid
     end
 

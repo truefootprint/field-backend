@@ -16,7 +16,7 @@ class UpdateProcessor
     end
 
     def mandatory_fields
-      %i[subject_type subject_id content photos_json created_at updated_at]
+      %i[subject_type subject_id text photos_json created_at updated_at]
     end
 
     def optional_fields

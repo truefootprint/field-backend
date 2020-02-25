@@ -5,7 +5,7 @@ RSpec.describe ResolutionPresenter do
     presented = described_class.present(resolution)
     versioned_content = presented.fetch(:versioned_content)
 
-    expect(versioned_content).to include(content: "Resolution content")
+    expect(versioned_content).to include(text: "Resolution content")
   end
 
   it "can present with the user" do

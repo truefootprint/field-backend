@@ -32,7 +32,7 @@ RSpec.describe "Issues and resolutions" do
       updated_at: "2020-01-01T13:00:00.000Z",
       subject_type: ["Project", "Issue"],
       subject_id: project.id,
-      content: "The water pump has been stolen",
+      text: "The water pump has been stolen",
       photos_json: "[]",
       parent_id: nil,
     }
@@ -42,16 +42,16 @@ RSpec.describe "Issues and resolutions" do
     get "/my_data"
     expect(response.status).to eq(200)
     issue = all_projects.first.fetch(:issues).first
-    content = issue.fetch(:versioned_content).fetch(:content)
+    text = issue.fetch(:versioned_content).fetch(:text)
     expect(issue.dig(:user, :name)).to eq("Test")
-    expect(content).to eq("The water pump has been stolen")
+    expect(text).to eq("The water pump has been stolen")
 
     content2 = {
       created_at: "2020-01-01T14:00:00.000Z",
       updated_at: "2020-01-01T15:00:00.000Z",
       subject_type: "Issue",
       subject_id: issue.fetch(:id),
-      content: "I contacted the contractor. Here's a photo of the pump:",
+      text: "I contacted the contractor. Here's a photo of the pump:",
       photos_json: [{ uri: "/field-app/md5.jpg" }].to_json,
       parent_id: issue.dig(:versioned_content, :id),
     }
@@ -62,11 +62,11 @@ RSpec.describe "Issues and resolutions" do
     expect(response.status).to eq(200)
     issues = all_projects.first.fetch(:issues)
     versioned_content = issues.first.fetch(:versioned_content)
-    content = versioned_content.fetch(:content)
+    text = versioned_content.fetch(:text)
     photos = JSON.parse(versioned_content.fetch(:photos_json))
 
     expect(issues.size).to eq(1)
-    expect(content).to eq("I contacted the contractor. Here's a photo of the pump:")
+    expect(text).to eq("I contacted the contractor. Here's a photo of the pump:")
     expect(photos.size).to eq(1)
 
     post "/my_photos", image: file
@@ -83,7 +83,7 @@ RSpec.describe "Issues and resolutions" do
       updated_at: "2020-01-01T15:00:00.000Z",
       subject_type: ["Issue", "Resolution"],
       subject_id: issue.fetch(:id),
-      content: "The contractor has returned and fitted the water pump",
+      text: "The contractor has returned and fitted the water pump",
       photos_json: [{ uri: "/field-app/md5.jpg" }].to_json,
       parent_id: versioned_content.fetch(:id),
     }
@@ -95,12 +95,12 @@ RSpec.describe "Issues and resolutions" do
     issue = all_projects.first.fetch(:issues).first
     resolution = issue.fetch(:resolutions).first
 
-    content1 = issue.dig(:versioned_content, :content)
-    content2 = resolution.dig(:versioned_content, :content)
+    text1 = issue.dig(:versioned_content, :text)
+    text2 = resolution.dig(:versioned_content, :text)
     photos = resolution.dig(:versioned_content, :photos)
 
-    expect(content1).to eq("I contacted the contractor. Here's a photo of the pump:")
-    expect(content2).to eq("The contractor has returned and fitted the water pump")
+    expect(text1).to eq("I contacted the contractor. Here's a photo of the pump:")
+    expect(text2).to eq("The contractor has returned and fitted the water pump")
     expect(photos.size).to eq(1)
   end
 end
