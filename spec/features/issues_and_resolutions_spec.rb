@@ -20,7 +20,7 @@ RSpec.describe "Issues and resolutions" do
     expect(response.status).to eq(201)
   end
 
-  scenario "" do
+  scenario "receiving versioned content for issues and responses in /my_updates" do
     get "/my_data"
     expect(response.status).to eq(200)
 
@@ -37,7 +37,7 @@ RSpec.describe "Issues and resolutions" do
       parent_id: nil,
     }
 
-    post_updates([{ period_start: period_start, period_end: period_end, content: [content1] }])
+    post_updates([{ period_start: period_start, period_end: period_end, contents: [content1] }])
 
     get "/my_data"
     expect(response.status).to eq(200)
@@ -56,7 +56,7 @@ RSpec.describe "Issues and resolutions" do
       parent_id: issue.dig(:versioned_content, :id),
     }
 
-    post_updates([{ period_start: period_start, period_end: period_end, content: [content2] }])
+    post_updates([{ period_start: period_start, period_end: period_end, contents: [content2] }])
 
     get "/my_data"
     expect(response.status).to eq(200)
@@ -88,7 +88,7 @@ RSpec.describe "Issues and resolutions" do
       parent_id: versioned_content.fetch(:id),
     }
 
-    post_updates([{ period_start: period_start, period_end: period_end, content: [content3] }])
+    post_updates([{ period_start: period_start, period_end: period_end, contents: [content3] }])
 
     get "/my_data"
     expect(response.status).to eq(200)

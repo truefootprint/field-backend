@@ -8,7 +8,7 @@ class UpdateProcessor
         Response.process(params, period_start, period_end, user)
       end
 
-      contents = chunk.fetch(:content, []).each do |params|
+      contents = chunk.fetch(:contents, []).each do |params|
         VersionedContent.process(params, period_start, period_end, user)
       end
     end
