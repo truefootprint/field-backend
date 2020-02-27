@@ -30,10 +30,6 @@ module PhotoAttachments
     user.exif_data_sets
       .where(filename: filename)
       .each { |r| sync_record!(r) }
-
-    user.versioned_contents
-      .where("photos_json like ?", "%#{filename}%")
-      .each { |r| sync_record!(r) }
   end
 
   private

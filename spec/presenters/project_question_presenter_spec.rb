@@ -89,21 +89,12 @@ RSpec.describe ProjectQuestionPresenter do
 
   it "can present with issues" do
     project_question = FactoryBot.create(:project_question)
-
-    FactoryBot.create(
-      :issue,
-      subject: project_question,
-      content: "Issue content",
-      critical: true,
-    )
+    FactoryBot.create(:issue, subject: project_question, critical: true)
 
     presented = described_class.present(project_question, issues: true)
 
     issue = presented.fetch(:issues).first
-    versioned_content = issue.fetch(:versioned_content)
-
     expect(issue).to include(critical: true)
-    expect(versioned_content).to include(text: "Issue content")
   end
 
   it "can chunk project questions by topic" do

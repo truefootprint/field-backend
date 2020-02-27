@@ -7,7 +7,6 @@ class User < ApplicationRecord
   has_many :responses
   has_many :issues
   has_many :resolutions
-  has_many :versioned_contents
   has_many :exif_data_sets, class_name: :ExifData
 
   validates :name, presence: true

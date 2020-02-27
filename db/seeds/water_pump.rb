@@ -141,46 +141,6 @@ Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
 
 water_pump_stolen = Issue.new(subject: pq1,user: suleman, critical: true)
-water_pump_stolen.update!(versioned_contents: [
-  VersionedContent.new(
-    subject: water_pump_stolen,
-    user: suleman,
-    text: "The water pump has been stolen",
-  ),
-])
-
-resolution = Resolution.new(
-  issue: water_pump_stolen,
-  user: suleman,
-  created_at_issue_content_version: VersionedContent.last,
-)
-
-resolution.update!(versioned_contents: [
-  VersionedContent.new(
-    subject: resolution,
-    user: suleman,
-    text: "The contractor has returned and fitted the water pump",
-    photos_json: [{ uri: "[[[documents]]]/bd00c7bcb4550512146c27dc092aa909.png" }].to_json,
-    photos: [{
-      io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
-      filename: "water-pump-working.png",
-    }],
-  ),
-])
+resolution = Resolution.new(issue: water_pump_stolen, user: suleman)
 
 another_issue = Issue.new(subject: pq1, user: suleman, critical: true)
-another_issue.update!(versioned_contents: [
-  VersionedContent.new(
-    subject: another_issue,
-    user: suleman,
-    text: [
-      "The water pump has been stolen again! It's only been a week since last time.",
-      "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
-    ].join(" "),
-    photos_json: [{ uri: "[[[documents]]]/d1cd76a708872ce4aa870a2a22b480a7.png" }].to_json,
-    photos: [{
-      io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
-      filename: "water-pump-stolen.png",
-    }],
-  ),
-])

@@ -63,14 +63,11 @@ RSpec.describe ProjectPresenter do
 
   it "can present with issues" do
     project = FactoryBot.create(:project)
-    FactoryBot.create(:issue, subject: project, content: "Issue content", critical: true)
+    FactoryBot.create(:issue, subject: project, critical: true)
 
     presented = described_class.present(project, issues: true)
 
     issue = presented.fetch(:issues).first
-    versioned_content = issue.fetch(:versioned_content)
-
     expect(issue).to include(critical: true)
-    expect(versioned_content).to include(text: "Issue content")
   end
 end

@@ -6,11 +6,6 @@ RSpec.describe Issue do
       expect(issue).to be_valid
     end
 
-    it "requires versioned content" do
-      issue.versioned_contents = []
-      expect(issue).to be_invalid
-    end
-
     it "requires whether the issue is critical" do
       issue.critical = nil
       expect(issue).to be_invalid
