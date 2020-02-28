@@ -155,10 +155,21 @@ FactoryBot.define do
     association :subject, factory: :project_activity
     user
     critical { true }
+
+    notes do
+      note ? build_list(:issue_note, 1, text: note) : []
+    end
+
+    transient do
+      note { "The water pump has been stolen" }
+    end
+
+    before(:create) { Issue.factory_bot = true }
+    after(:create) { Issue.factory_bot = false }
   end
 
   factory :issue_note do
-    issue
+    association :issue, factory: :issue, note: nil # Skip the default note
     user
     text { "The water pump has been stolen" }
   end

@@ -6,6 +6,11 @@ RSpec.describe Issue do
       expect(issue).to be_valid
     end
 
+    it "requires an issue note" do
+      issue.notes = []
+      expect(issue).to be_invalid
+    end
+
     it "requires whether the issue is critical" do
       issue.critical = nil
       expect(issue).to be_invalid
