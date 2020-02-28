@@ -157,6 +157,12 @@ FactoryBot.define do
     critical { true }
   end
 
+  factory :issue_note do
+    issue
+    user
+    text { "The water pump has been stolen" }
+  end
+
   factory :resolution do
     issue
     user

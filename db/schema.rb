@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_102332) do
+ActiveRecord::Schema.define(version: 2020_02_28_091859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,20 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_activity_id"], name: "index_involvements_on_project_activity_id"
     t.index ["user_id"], name: "index_involvements_on_user_id"
+  end
+
+  create_table "issue_notes", force: :cascade do |t|
+    t.bigint "issue_id"
+    t.bigint "user_id"
+    t.text "text"
+    t.text "photos_json"
+    t.boolean "resolved", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["issue_id"], name: "index_issue_notes_on_issue_id"
+    t.index ["photos_json"], name: "index_issue_notes_on_photos_json"
+    t.index ["resolved"], name: "index_issue_notes_on_resolved"
+    t.index ["user_id"], name: "index_issue_notes_on_user_id"
   end
 
   create_table "issues", force: :cascade do |t|
@@ -327,23 +341,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_102332) do
     t.index ["encrypted_phone_number_iv"], name: "index_phone_number_iv", unique: true
     t.index ["name"], name: "index_users_on_name"
     t.index ["phone_number_bidx"], name: "index_phone_number_bidx", unique: true
-  end
-
-  create_table "versioned_contents", force: :cascade do |t|
-    t.string "subject_type"
-    t.bigint "subject_id"
-    t.bigint "user_id"
-    t.string "ancestry"
-    t.text "text", null: false
-    t.text "photos_json", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["ancestry"], name: "index_versioned_contents_on_ancestry"
-    t.index ["created_at"], name: "index_versioned_contents_on_created_at"
-    t.index ["photos_json"], name: "index_versioned_contents_on_photos_json"
-    t.index ["subject_type", "subject_id"], name: "index_versioned_contents_on_subject_type_and_subject_id"
-    t.index ["updated_at"], name: "index_versioned_contents_on_updated_at"
-    t.index ["user_id"], name: "index_versioned_contents_on_user_id"
   end
 
   create_table "visibilities", force: :cascade do |t|
