@@ -6,6 +6,16 @@ RSpec.describe Issue do
       expect(issue).to be_valid
     end
 
+    it "requires a uuid" do
+      issue.uuid = " "
+      expect(issue).to be_invalid
+    end
+
+    it "requires a valid uuid" do
+      issue.uuid = "invalid"
+      expect(issue).to be_invalid
+    end
+
     it "requires an issue note" do
       issue.notes = []
       expect(issue).to be_invalid

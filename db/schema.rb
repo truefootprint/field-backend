@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_091859) do
   end
 
   create_table "issues", force: :cascade do |t|
+    t.string "uuid", null: false
     t.string "subject_type"
     t.bigint "subject_id"
     t.bigint "user_id"

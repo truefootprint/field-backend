@@ -152,6 +152,7 @@ FactoryBot.define do
   end
 
   factory :issue do
+    uuid { SecureRandom.uuid }
     association :subject, factory: :project_activity
     user
     critical { true }

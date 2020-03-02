@@ -6,6 +6,7 @@ class Issue < ApplicationRecord
 
   has_many :notes, class_name: :IssueNote
 
+  validates :uuid, presence: true, uuid: true
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
   validates :notes, presence: true, unless: -> { factory_bot }
   validates :critical, inclusion: { in: [true, false] }
