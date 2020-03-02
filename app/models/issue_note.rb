@@ -4,7 +4,7 @@ class IssueNote < ApplicationRecord
 
   has_many_attached :photos, dependent: :destroy
 
-  validate :either_text_or_photos_json_present
+  validate :either_text_photos_or_resolved_present
 
   after_initialize do
     self.photos_json = "[]" if photos_json.blank?
@@ -20,10 +20,11 @@ class IssueNote < ApplicationRecord
 
   private
 
-  def either_text_or_photos_json_present
+  def either_text_photos_or_resolved_present
     return if text.present?
     return if photo_references.present?
+    return if resolved
 
-    errors.add(:base, "must include either text or photos json")
+    errors.add(:base, "must include either text, photos json or be resolved")
   end
 end

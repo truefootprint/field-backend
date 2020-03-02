@@ -6,7 +6,7 @@ RSpec.describe IssueNote do
       expect(issue_note).to be_valid
     end
 
-    it "requires either text or photos json" do
+    it "requires either text, photos json or resolved" do
       issue_note.text = " "
       issue_note.photos_json = "[]"
       expect(issue_note).to be_invalid
@@ -16,6 +16,10 @@ RSpec.describe IssueNote do
 
       issue_note.text = " "
       issue_note.photos_json = [{ uri: "image.jpg" }].to_json
+      expect(issue_note).to be_valid
+
+      issue_note.photos_json = "[]"
+      issue_note.resolved = true
       expect(issue_note).to be_valid
     end
   end
