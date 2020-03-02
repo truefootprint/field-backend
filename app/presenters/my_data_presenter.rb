@@ -34,14 +34,17 @@ class MyDataPresenter < ApplicationPresenter
               },
               issues: {
                 user: true,
+                notes: true,
               },
             },
             issues: {
               user: true,
+              notes: true,
             },
           },
           issues: {
             user: true,
+            notes: true,
           },
         },
       )

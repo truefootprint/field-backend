@@ -1,0 +1,2 @@
+class IssueNotePresenter < ApplicationPresenter
+end

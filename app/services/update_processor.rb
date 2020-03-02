@@ -7,6 +7,10 @@ class UpdateProcessor
       chunk.fetch(:responses, []).each do |params|
         Response.process(params, period_start, period_end, user)
       end
+
+      chunk.fetch(:issue_notes, []).each do |params|
+        IssueNote.process(params, period_start, period_end, user)
+      end
     end
   end
 
