@@ -263,17 +263,6 @@ ActiveRecord::Schema.define(version: 2020_02_28_091859) do
     t.index ["unit_id"], name: "index_questions_on_unit_id"
   end
 
-  create_table "resolutions", force: :cascade do |t|
-    t.bigint "issue_id"
-    t.bigint "user_id"
-    t.bigint "created_at_issue_content_version_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["created_at_issue_content_version_id"], name: "index_resolutions_on_created_at_issue_content_version_id"
-    t.index ["issue_id"], name: "index_resolutions_on_issue_id"
-    t.index ["user_id"], name: "index_resolutions_on_user_id"
-  end
-
   create_table "responses", force: :cascade do |t|
     t.bigint "project_question_id"
     t.bigint "user_id"

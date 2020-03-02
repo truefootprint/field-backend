@@ -18,7 +18,6 @@ CRUD_RESOURCES = %i[
   project_types
   projects
   questions
-  resolutions
   responses
   roles
   source_materials

@@ -141,6 +141,4 @@ Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
 
 water_pump_stolen = Issue.new(subject: pq1,user: suleman, critical: true)
-resolution = Resolution.new(issue: water_pump_stolen, user: suleman)
-
 another_issue = Issue.new(subject: pq1, user: suleman, critical: true)

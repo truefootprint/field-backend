@@ -174,11 +174,6 @@ FactoryBot.define do
     text { "The water pump has been stolen" }
   end
 
-  factory :resolution do
-    issue
-    user
-  end
-
   factory :unit do
     sequence(:name) do |n|
       %w[meter centimeter millimeter kilometer inch foot yard mile][n - 1]

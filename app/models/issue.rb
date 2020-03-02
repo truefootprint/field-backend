@@ -4,7 +4,6 @@ class Issue < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :user
 
-  has_many :resolutions
   has_many :notes, class_name: :IssueNote
 
   validates :subject_type, inclusion: { in: SUBJECT_TYPES }
