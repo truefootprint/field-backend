@@ -27,6 +27,10 @@ module PhotoAttachments
       .where("value like ?", "%#{filename}%")
       .each { |r| sync_record!(r) }
 
+    user.issue_notes
+      .where("photos_json like ?", "%#{filename}%")
+      .each { |r| sync_record!(r) }
+
     user.exif_data_sets
       .where(filename: filename)
       .each { |r| sync_record!(r) }

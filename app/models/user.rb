@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :roles, through: :user_roles
   has_many :responses
   has_many :issues
+  has_many :issue_notes
   has_many :exif_data_sets, class_name: :ExifData
 
   validates :name, presence: true

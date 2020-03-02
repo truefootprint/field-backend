@@ -103,6 +103,16 @@ RSpec.describe PhotoAttachments do
       expect(response.photos.last.filename).to eq("water-pump-stolen.png")
     end
 
+    it "attaches image blobs to issue notes" do
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      issue_note = FactoryBot.create(:issue_note, photos_json: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, issue_note.user) }
+        .to change { issue_note.reload.photos.count }.by(1)
+    end
+
     it "attaches image blobs to exif data records" do
       image = create_image_blob("water-pump-stolen.png")
 
@@ -133,6 +143,17 @@ RSpec.describe PhotoAttachments do
 
       expect { PhotoAttachments.sync_image!(image, response.user) }
         .not_to change { response.reload.photos.count }
+    end
+
+    it "is scoped to the current user's issue notes" do
+      another_user = FactoryBot.create(:user)
+      image = create_image_blob("water-pump-stolen.png")
+
+      image_references = [{ uri: "/documents/water-pump-stolen.png" }].to_json
+      issue_note = FactoryBot.create(:issue_note, photos_json: image_references)
+
+      expect { PhotoAttachments.sync_image!(image, another_user) }
+        .not_to change { issue_note.reload.photos.count }
     end
 
     it "is scoped to the current user's exif data" do
