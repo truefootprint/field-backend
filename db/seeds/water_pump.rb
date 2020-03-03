@@ -117,10 +117,22 @@ ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_
 # Users
 
 suleman = User.create!(name: "Suleman", country_code: "+250", phone_number: "55555")
+ekon = User.create!(name: "Ekon", country_code: "+250", phone_number: "66666")
+jafari = User.create!(
+  name: "Jafari, with a really long name that spans multiple lines",
+  country_code: "+250",
+  phone_number: "77777",
+)
+
 monitor = Role.create!(name: "monitor")
 
-user_role = UserRole.create!(user: suleman, role: monitor)
-Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role)
+user_role1 = UserRole.create!(user: suleman, role: monitor)
+user_role2 = UserRole.create!(user: ekon, role: monitor)
+user_role3 = UserRole.create!(user: jafari, role: monitor)
+
+Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role1)
+Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role2)
+Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role3)
 
 # Data Collection
 
@@ -142,23 +154,43 @@ Visibility.create(subject: water, visible_to: monitor)
 
 water_pump_stolen = Issue.new(subject: pq1,user: suleman, critical: true, uuid: SecureRandom.uuid)
 water_pump_stolen.update!(notes: [
+  IssueNote.new(issue: water_pump_stolen, user: suleman, text: "The water pump has been stolen."),
   IssueNote.new(
     issue: water_pump_stolen,
     user: suleman,
-    text: "The water pump has been stolen",
+    photos_json: [{ uri: "[[[documents]]]/d1cd76a708872ce4aa870a2a22b480a7.png" }].to_json,
+    photos: [{
+      io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
+      filename: "water-pump-stolen.png",
+    }],
   ),
+  IssueNote.new(issue: water_pump_stolen, user: ekon, text: "Oh no!"),
+  IssueNote.new(issue: water_pump_stolen, user: ekon, text: "Shall I contact them?"),
+  IssueNote.new(issue: water_pump_stolen, user: jafari, text: "I'll do it."),
 
   IssueNote.new(
     issue: water_pump_stolen,
     user: suleman,
-    text: "The contractor has returned and fitted the water pump",
-    resolved: true,
+    text: "The contractor has returned and fitted the water pump.",
     photos_json: [{ uri: "[[[documents]]]/c5ecfe8b2617b6b44d0ebd2ea3a0d1fa.png" }].to_json,
     photos: [{
       io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
       filename: "water-pump-working.png",
     }],
   ),
+
+  IssueNote.new(issue: water_pump_stolen, user: ekon, text: "Ok, great. Can confirm."),
+  IssueNote.new(issue: water_pump_stolen, user: jafari, text: "I can confirm, too."),
+  IssueNote.new(issue: water_pump_stolen, user: ekon, text: "Should I resolve this issue now?"),
+  IssueNote.new(
+    issue: water_pump_stolen,
+    user: suleman,
+    text: "Yes. Actually, I'll do it.",
+    resolved: true,
+  ),
+
+  IssueNote.new(issue: water_pump_stolen, user: ekon, text: "Great, thanks!"),
+  IssueNote.new(issue: water_pump_stolen, user: suleman, text: "No problem."),
 ])
 
 another_issue = Issue.new(subject: pq1, user: suleman, critical: true, uuid: SecureRandom.uuid)
@@ -171,9 +203,9 @@ another_issue.update!(notes: [
       "I can't believe the contractor would steal the same pump he fitted just a few days earlier.",
     ].join(" "),
     photos_json: [{ uri: "[[[documents]]]/d1cd76a708872ce4aa870a2a22b480a7.png" }].to_json,
-    photos: [{
-      io: Rails.root.join("spec/fixtures/files/water-pump-stolen.png").open,
-      filename: "water-pump-stolen.png",
-    }],
   )
 ])
+
+IssueNote.last.photos.attach(
+  ActiveStorage::Blob.find_by!(filename: "water-pump-stolen.png")
+)
