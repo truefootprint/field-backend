@@ -11,5 +11,7 @@ class Issue < ApplicationRecord
   validates :notes, presence: true, unless: -> { factory_bot }
   validates :critical, inclusion: { in: [true, false] }
 
+  scope :resolved, -> { where(exists(IssueNote.resolved.where("issue_id = issues.id"))) }
+
   cattr_accessor :factory_bot
 end

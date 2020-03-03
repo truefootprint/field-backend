@@ -6,6 +6,8 @@ class IssueNote < ApplicationRecord
 
   validate :either_text_photos_or_resolved_present
 
+  scope :resolved, -> { where(resolved: true) }
+
   after_initialize do
     self.photos_json = "[]" if photos_json.blank?
   end

@@ -31,4 +31,15 @@ RSpec.describe Issue do
       expect(issue).to be_invalid
     end
   end
+
+  describe "scopes" do
+    it "has a scope for resolved issues" do
+      issue1 = FactoryBot.create(:issue)
+      issue2 = FactoryBot.create(:issue)
+
+      issue1.notes.first.update!(resolved: true)
+
+      expect(Issue.resolved).to eq [issue1]
+    end
+  end
 end
