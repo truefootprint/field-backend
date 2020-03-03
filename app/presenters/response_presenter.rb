@@ -6,7 +6,7 @@ class ResponsePresenter < ApplicationPresenter
   end
 
   def modify_scope(scope)
-    scope.order(created_at: :desc)
+    scope.order(created_at: :asc)
   end
 
   def present_unit(record)
