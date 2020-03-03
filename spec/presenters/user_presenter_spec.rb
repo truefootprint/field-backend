@@ -1,8 +1,8 @@
 RSpec.describe UserPresenter do
-  it "presents the user's name and nothing else (no encrypted fields)" do
+  it "presents the user's id and name (no encrypted fields)" do
     user = FactoryBot.create(:user, name: "User name")
 
     presented = described_class.present(user)
-    expect(presented).to eq(name: "User name")
+    expect(presented).to eq(id: user.id, name: "User name")
   end
 end

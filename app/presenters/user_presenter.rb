@@ -1,5 +1,5 @@
 class UserPresenter < ApplicationPresenter
   def present(record)
-    { name: record.name }
+    { id: record.id, name: record.name }
   end
 end

@@ -1,6 +1,14 @@
 class MyDataPresenter < ApplicationPresenter
   def present_scope(projects)
+    present_projects(projects).merge(present_user)
+  end
+
+  def present_projects(projects)
     present_nested(:projects, ProjectPresenter) { projects }
+  end
+
+  def present_user
+    present_nested(:user, UserPresenter) { |opts| opts.fetch(:for_user) }
   end
 
   class WithEverything < self
@@ -8,6 +16,9 @@ class MyDataPresenter < ApplicationPresenter
       viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
+        user: {
+          for_user: viewpoint.user,
+        },
         projects: {
           visible: true,
           project_summary: true,
