@@ -64,7 +64,7 @@ RSpec.describe "Sync'ing photos" do
     photo_response = all_responses.first
     expect(photo_response.fetch(:photos)).to match_array(hash_including(
       name: "md5.jpg",
-      md5: "bd00c7bcb4550512146c27dc092aa909",
+      md5: "c5ecfe8b2617b6b44d0ebd2ea3a0d1fa",
       url: a_string_ending_with("/md5.jpg"),
     ))
 
@@ -88,7 +88,7 @@ RSpec.describe "Sync'ing photos" do
     photo_response = all_responses.first
     expect(photo_response.fetch(:photos)).to match_array(hash_including(
       name: "md5.jpg",
-      md5: "bd00c7bcb4550512146c27dc092aa909",
+      md5: "c5ecfe8b2617b6b44d0ebd2ea3a0d1fa",
       url: a_string_ending_with("/md5.jpg"),
     ))
   end

@@ -153,7 +153,7 @@ water_pump_stolen.update!(notes: [
     user: suleman,
     text: "The contractor has returned and fitted the water pump",
     resolved: true,
-    photos_json: [{ uri: "[[[documents]]]/bd00c7bcb4550512146c27dc092aa909.png" }].to_json,
+    photos_json: [{ uri: "[[[documents]]]/c5ecfe8b2617b6b44d0ebd2ea3a0d1fa.png" }].to_json,
     photos: [{
       io: Rails.root.join("spec/fixtures/files/water-pump-working.png").open,
       filename: "water-pump-working.png",
