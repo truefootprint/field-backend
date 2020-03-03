@@ -3,7 +3,7 @@ RSpec.describe IssuePresenter do
     issue = FactoryBot.create(:issue, critical: true)
 
     presented = described_class.present(issue)
-    expect(presented).to include(critical: true)
+    expect(presented).to include(critical: true, resolved: false)
   end
 
   it "can present with the user" do

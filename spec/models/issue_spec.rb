@@ -42,4 +42,16 @@ RSpec.describe Issue do
       expect(Issue.resolved).to eq [issue1]
     end
   end
+
+  describe "#resolved?" do
+    it "returns whether the issue has a resolved note" do
+      issue1 = FactoryBot.create(:issue)
+      issue2 = FactoryBot.create(:issue)
+
+      issue1.notes.first.update!(resolved: true)
+
+      expect(issue1.resolved?).to eq(true)
+      expect(issue2.resolved?).to eq(false)
+    end
+  end
 end

@@ -14,4 +14,8 @@ class Issue < ApplicationRecord
   scope :resolved, -> { where(exists(IssueNote.resolved.where("issue_id = issues.id"))) }
 
   cattr_accessor :factory_bot
+
+  def resolved?
+    notes.resolved.exists?
+  end
 end
