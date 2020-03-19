@@ -13,5 +13,8 @@ module ReporterBackend
     config.load_defaults 6.0
     config.api_only = true
     config.autoload_paths += Dir["#{config.root}/app/models/**"]
+
+    # Use English for validation errors.
+    config.i18n.fallbacks = [:en]
   end
 end
