@@ -1,6 +1,8 @@
 class MyDataPresenter < ApplicationPresenter
   def present_scope(projects)
-    present_projects(projects).merge(present_user)
+    present_projects(projects)
+      .merge(present_user)
+      .merge(present_user_interface_text)
   end
 
   def present_projects(projects)
@@ -11,11 +13,20 @@ class MyDataPresenter < ApplicationPresenter
     present_nested(:user, UserPresenter) { |opts| opts.fetch(:for_user) }
   end
 
+  def present_user_interface_text
+    present_nested(:user_interface_text, UserInterfaceTextPresenter) do
+      UserInterfaceText.all
+    end
+  end
+
   class WithEverything < self
     def initialize(object, options = {})
       viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
+        user_interface_text: {
+          for_locale: I18n.locale,
+        },
         user: {
           for_user: viewpoint.user,
         },
