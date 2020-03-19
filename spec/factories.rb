@@ -193,4 +193,9 @@ FactoryBot.define do
     filename { |n| "md5-#{n}.jpg" }
     data { { "GPS Latitude": 123, "GPS Longitude": 456 }.to_json }
   end
+
+  factory :user_interface_text do
+    sequence(:key) { |n| "key_#{n}" }
+    value { "value" }
+  end
 end

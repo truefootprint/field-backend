@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_091859) do
+ActiveRecord::Schema.define(version: 2020_03_19_124759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,14 @@ ActiveRecord::Schema.define(version: 2020_02_28_091859) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_units_on_name", unique: true
     t.index ["type"], name: "index_units_on_type"
+  end
+
+  create_table "user_interface_text", force: :cascade do |t|
+    t.string "key", null: false
+    t.jsonb "value", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_user_interface_text_on_key", unique: true
   end
 
   create_table "user_roles", force: :cascade do |t|
