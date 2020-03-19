@@ -1,3 +1,4 @@
+load "db/seeds/user_interface_text.rb"
 load "db/seeds/admin_user.rb"
 load "db/seeds/frontend_testing.rb"
 load "db/seeds/water_pump.rb"
