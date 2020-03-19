@@ -11,6 +11,7 @@ gem "rack-cors", "~> 1.0.3"
 gem "unitwise", "~> 2.2"
 gem "attr_encrypted", "~> 3.1"
 gem "blind_index", "~> 1.0"
+gem "mobility", "~> 0.8"
 
 group :development, :test do
   gem "rspec-rails", "~> 3.8.2"
