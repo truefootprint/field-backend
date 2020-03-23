@@ -1,5 +1,5 @@
 key_values = {
-  :"en-GB" => {
+  en: {
     "n_of_m"               => "%{n} of %{m}",
     "project_summary"      => "Project summary",
     "project_contract"     => "Project contract",
@@ -23,7 +23,7 @@ key_values = {
     "download_failed"      => "Download failed",
     "no_wifi"              => "No WiFi, please connect to WiFi.",
   },
-  :"fr-FR" => {
+  fr: {
     "n_of_m"               => "%{n} sur %{m}",
     "project_summary"      => "Résumé du projet",
     "project_contract"     => "Contrat de projet",
@@ -47,7 +47,7 @@ key_values = {
     "download_failed"      => "Échec du téléchargement",
     "no_wifi"              => "Pas de WiFi, veuillez vous connecter au WiFi.",
   },
-  :"sw-KE" => {
+  sw: {
     "n_of_m"               => "%{n} ya %{m}",
     "project_summary"      => "Muhtasari wa Mradi",
     "project_contract"     => "Mkataba wa mradi",
