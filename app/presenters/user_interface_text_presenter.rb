@@ -4,6 +4,6 @@ class UserInterfaceTextPresenter < ApplicationPresenter
   end
 
   def with_locale(&block)
-    I18n.with_locale(options.fetch(:for_locale), &block)
+    I18n.with_locale(options.fetch(:for_locale, I18n.locale), &block)
   end
 end

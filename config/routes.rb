@@ -9,6 +9,7 @@ CRUD_RESOURCES = %i[
   expected_values
   follow_up_activities
   involvements
+  issue_notes
   issues
   multi_choice_options
   programmes
@@ -23,6 +24,7 @@ CRUD_RESOURCES = %i[
   source_materials
   topics
   units
+  user_interface_text
   user_roles
   users
   visibilities
