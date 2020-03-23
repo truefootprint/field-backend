@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
     t.string "device_year_class"
     t.string "app_version"
     t.string "app_version_code"
+    t.string "locale"
+    t.string "time_zone"
     t.integer "times_used", default: 0, null: false
     t.datetime "last_used_at"
     t.datetime "created_at", precision: 6, null: false

@@ -11,6 +11,8 @@ class CreateApiTokens < ActiveRecord::Migration[6.0]
       t.string :device_year_class
       t.string :app_version
       t.string :app_version_code
+      t.string :locale
+      t.string :time_zone
 
       t.integer :times_used, null: false, default: 0
       t.datetime :last_used_at

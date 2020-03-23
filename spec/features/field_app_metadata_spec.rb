@@ -17,6 +17,9 @@ RSpec.describe "FieldApp metadata" do
       app_version_code: "123",
     }.to_json)
 
+    header("Accept-Language", "en-GB,fr-FR")
+    header("Time-Zone", "Europe/London")
+
     get "/my_data"
     expect(response.status).to eq(200)
 
@@ -26,6 +29,8 @@ RSpec.describe "FieldApp metadata" do
     expect(api_token.device_year_class).to eq("2020")
     expect(api_token.app_version).to eq("1.2.3")
     expect(api_token.app_version_code).to eq("123")
+    expect(api_token.locale).to eq("en-GB,fr-FR")
+    expect(api_token.time_zone).to eq("Europe/London")
     expect(api_token.times_used).to eq(1)
     expect(api_token.last_used_at).to be_present
   end

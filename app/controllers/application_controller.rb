@@ -49,8 +49,20 @@ class ApplicationController < ActionController::API
     head :bad_request
   end
 
+  def locale
+    request.get_header("HTTP_ACCEPT_LANGUAGE") || request.env["Accept-Language"]
+  end
+
+  def time_zone
+    request.get_header("HTTP_TIME_ZONE") || request.env["Time-Zone"]
+  end
+
   def save_metadata
-    api_token.just_used!(field_app_params.select { |_, v| v.present? })
+    api_token.just_used!(combined_params.select { |_, v| v.present? })
+  end
+
+  def combined_params
+    field_app_params.merge(locale: locale, time_zone: time_zone)
   end
 
   def field_app_params
