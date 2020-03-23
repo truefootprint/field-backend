@@ -48,7 +48,7 @@ Mobility.configure do |config|
   # whatever is defined by +I18n.fallbacks+ (if defined), or alternatively will
   # fallback to your +I18n.default_locale+.
   #
-  # config.default_options[:fallbacks] = true
+  config.default_options[:fallbacks] = true
 
   # The Presence plugin converts empty strings to nil when fetching and setting
   # translations. By default it is on, uncomment this line to turn it off.

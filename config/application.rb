@@ -14,7 +14,8 @@ module ReporterBackend
     config.api_only = true
     config.autoload_paths += Dir["#{config.root}/app/models/**"]
 
-    # Use English for validation errors.
-    config.i18n.fallbacks = [:en]
+    # Fall back to English for UI text / validation errors.
+    config.i18n.fallbacks = %i[en-GB en]
+    config.i18n.enforce_available_locales = false
   end
 end

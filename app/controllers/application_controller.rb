@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   before_action :authenticate
   before_action :save_metadata
   around_action :set_viewpoint
+  around_action :set_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
@@ -26,6 +27,14 @@ class ApplicationController < ActionController::API
     yield
   ensure
     Viewpoint.current = nil
+  end
+
+  def set_locale
+    previous = I18n.locale
+    I18n.locale = locale
+    yield
+  ensure
+    I18n.locale = previous
   end
 
   def admins_only
