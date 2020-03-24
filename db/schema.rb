@@ -305,11 +305,13 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   end
 
   create_table "units", force: :cascade do |t|
-    t.text "name", null: false
+    t.text "official_name", null: false
     t.string "type", null: false
+    t.jsonb "singular", default: {}, null: false
+    t.jsonb "plural", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_units_on_name", unique: true
+    t.index ["official_name"], name: "index_units_on_official_name", unique: true
     t.index ["type"], name: "index_units_on_type"
   end
 

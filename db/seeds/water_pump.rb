@@ -1,6 +1,11 @@
 # Definitions
 
-meter = Unit.create!(name: "meter", type: "length")
+meter = Unit.create!(
+  official_name: "meter",
+  type: "length",
+  singular: "meter",
+  plural: "meters"
+)
 
 water_pump = ProjectType.create!(name: "Water pump")
 

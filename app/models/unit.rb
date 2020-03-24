@@ -7,26 +7,30 @@ class Unit < ApplicationRecord
 
   self.inheritance_column = :_disabled
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  translates :singular, :plural
+
+  validates :singular, presence: true
+  validates :plural, presence: true
+  validates :official_name, presence: true, uniqueness: { case_sensitive: false }
   validates :type, inclusion: { in: TYPES }
 
-  validate :name_is_recognised
+  validate :official_name_is_recognised
   validate :type_matches_property
 
-  def name_is_recognised
+  def official_name_is_recognised
     return if errors.present? || unitwise_unit
-    errors.add(:name, "must be a recognised unit (lower-case, singular)")
+    errors.add(:official_name, "must be a recognised unit (lower-case, singular)")
   end
 
   def type_matches_property
     return if errors.present? || type == unitwise_property
-    errors.add(:type, "is #{type} but #{name} is a #{unitwise_property}")
+    errors.add(:type, "is #{type} but #{official_name} is a #{unitwise_property}")
   end
 
   private
 
   def unitwise_unit
-    @unitwise_unit ||= Unitwise.search(name).first if name.present?
+    @unitwise_unit ||= Unitwise.search(official_name).first if official_name.present?
   end
 
   def unitwise_atom

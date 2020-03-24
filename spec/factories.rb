@@ -176,11 +176,14 @@ FactoryBot.define do
   end
 
   factory :unit do
-    sequence(:name) do |n|
+    sequence(:official_name) do |n|
       %w[meter centimeter millimeter kilometer inch foot yard mile][n - 1]
     end
 
     type { "length" }
+
+    singular { "singular" }
+    plural { "plural" }
   end
 
   factory :api_token do

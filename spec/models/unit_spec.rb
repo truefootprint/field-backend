@@ -6,20 +6,30 @@ RSpec.describe Unit do
       expect(unit).to be_valid
     end
 
-    it "requires a name" do
-      unit.name = " "
+    it "requires a singular" do
+      unit.singular = " "
       expect(unit).to be_invalid
     end
 
-    it "requires a unique name" do
-      FactoryBot.create(:unit, name: "meter")
-
-      unit.name = "meter"
+    it "requires a plural" do
+      unit.plural = " "
       expect(unit).to be_invalid
     end
 
-    it "requires a name recognised by the Unitwise gem" do
-      unit.name = "unknown"
+    it "requires an official name" do
+      unit.official_name = " "
+      expect(unit).to be_invalid
+    end
+
+    it "requires a unique official name" do
+      FactoryBot.create(:unit, official_name: "meter")
+
+      unit.official_name = "meter"
+      expect(unit).to be_invalid
+    end
+
+    it "requires an official name recognised by the Unitwise gem" do
+      unit.official_name = "unknown"
       expect(unit).to be_invalid
     end
 
@@ -29,7 +39,7 @@ RSpec.describe Unit do
     end
 
     it "requires a type that matches the Unitwise property" do
-      unit.name = "meter"
+      unit.official_name = "meter"
       unit.type = "weight"
 
       expect(unit).to be_invalid
