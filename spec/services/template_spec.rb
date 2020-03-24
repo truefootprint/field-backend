@@ -137,6 +137,23 @@ RSpec.describe Template do
       expect(expected_value.project_question).to eq(project_question)
     end
 
+    it "copies all translations from the default expected value to the expected value" do
+      default_question = FactoryBot.create(:default_question, activity: activity)
+
+      default_expected_value = FactoryBot.create(
+        :default_expected_value,
+        question: default_question.question,
+        text_en: "english",
+        text_fr: "french",
+      )
+
+      subject.create_records(project)
+      expected_value = ExpectedValue.last
+
+      expect(expected_value.text_en).to eq("english")
+      expect(expected_value.text_fr).to eq("french")
+    end
+
     it "returns the created project activity" do
       project_activity = subject.create_records(project)
       expect(project_activity).to eq(ProjectActivity.last)
