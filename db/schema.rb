@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
 
   create_table "project_summaries", force: :cascade do |t|
     t.bigint "project_id"
-    t.text "text", null: false
+    t.jsonb "text", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_project_summaries_on_project_id", unique: true
