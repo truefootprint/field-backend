@@ -129,7 +129,7 @@ ProjectQuestion.create!(project_activity: educate_children_pa, question: questio
 
 # Users
 
-suleman = User.find_by!(name: "Suleman")
+suleman = User.where(name: "Suleman").order(id: :asc).first
 monitor = Role.find_by!(name: "monitor")
 
 user_role = UserRole.find_by!(user: suleman, role: monitor)

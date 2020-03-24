@@ -88,6 +88,37 @@ question_14 = FreeTextQuestion.create!(
     order: 2, question: question)
 end
 
+# Templating
+
+DefaultActivity.create!(activity: digging_the_hole, project_type: water_pump, order: 1)
+DefaultActivity.create!(activity: installing_pump, project_type: water_pump, order: 2)
+DefaultActivity.create!(activity: using_the_pump, project_type: water_pump, order: 3)
+
+DefaultQuestion.create!(activity: digging_the_hole, question: question_1, order: 1)
+DefaultQuestion.create!(activity: digging_the_hole, question: question_2, order: 2)
+DefaultQuestion.create!(activity: digging_the_hole, question: question_3, order: 3)
+DefaultQuestion.create!(activity: digging_the_hole, question: question_4, order: 4)
+DefaultQuestion.create!(activity: digging_the_hole, question: question_5, order: 5)
+
+DefaultQuestion.create!(activity: installing_pump, question: question_6, order: 1)
+DefaultQuestion.create!(activity: installing_pump, question: question_7, order: 2)
+DefaultQuestion.create!(activity: installing_pump, question: question_8, order: 3)
+DefaultQuestion.create!(activity: installing_pump, question: question_9, order: 4)
+DefaultQuestion.create!(activity: installing_pump, question: question_10, order: 5)
+
+DefaultQuestion.create!(activity: using_the_pump, question: question_11, order: 1)
+DefaultQuestion.create!(activity: using_the_pump, question: question_12, order: 2)
+DefaultQuestion.create!(activity: using_the_pump, question: question_13, order: 3)
+DefaultQuestion.create!(activity: using_the_pump, question: question_14, order: 4)
+
+DefaultExpectedValue.create!(
+  text_translations: { en: "It should be 5 meters.", fr: "Elle devrait mesurer 5 mètres." },
+  activity: digging_the_hole, question: question_1, unit: meter, value: 5)
+
+DefaultExpectedValue.create!(
+  text_translations: { en: "It should be 1 meter.", fr: "Elle devrait mesurer 1 mètre." },
+  activity: digging_the_hole, question: question_2, unit: meter, value: 1)
+
 # Projects
 
 programme = Programme.create!(
@@ -95,14 +126,9 @@ programme = Programme.create!(
   description_translations: { en: "Install some water pumps", fr: "Installer des pompes à eau" },
 )
 
-rusinda_hand_pump = Project.create!(
-  name_translations: {
-    en: "Install a hand pump in north-west Burindi",
-    fr: "Installer une pompe à main dans le nord-ouest de Burindi",
-  },
-  programme: programme,
-  project_type: water_pump,
-)
+project_name = "Install a hand pump in north-west Burindi"
+rusinda_hand_pump = Template.for(water_pump).create_records(programme, project_name)
+rusinda_hand_pump.update!(name_fr: "Installer une pompe à main dans le nord-ouest de Burindi")
 
 ProjectSummary.create!(
   project: rusinda_hand_pump,
@@ -121,55 +147,19 @@ ProjectSummary.create!(
   }
 )
 
-
 contract = Rails.root.join("spec/fixtures/files/water-pump-contract.pdf").open
 document = Document.create!(file: { io: contract, filename: "contract.pdf" })
 
 SourceMaterial.create!(subject: rusinda_hand_pump, document: document)
 
-digging_the_hole_pa = ProjectActivity.create!(
-  activity: digging_the_hole,
-  project: rusinda_hand_pump,
-  order: 1,
-)
-
-installing_pump_pa = ProjectActivity.create!(
-  activity: installing_pump,
-  project: rusinda_hand_pump,
-  order: 2,
-)
-
-using_the_pump_pa = ProjectActivity.create!(
-  activity: using_the_pump,
-  project: rusinda_hand_pump,
-  order: 3,
-)
-
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_1, order: 1)
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_2, order: 2)
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_3, order: 3)
-pq4 = ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_4, order: 4)
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_5, order: 5)
-
-ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_6, order: 1)
-ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_7, order: 2)
-ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_8, order: 3)
-ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_9, order: 4)
-ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_10, order: 5)
-
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_11, order: 1)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_12, order: 2)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_13, order: 3)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_14, order: 4)
-
 # Users
 
 suleman = User.create!(name: "Suleman", country_code: "+250", phone_number: "55555")
-ekon = User.create!(name: "Ekon", country_code: "+250", phone_number: "66666")
+ekon = User.create!(name: "Ekon", country_code: "+250", phone_number: "77777")
 jafari = User.create!(
   name: "Jafari, with a really long name that spans multiple lines",
   country_code: "+250",
-  phone_number: "77777",
+  phone_number: "88888",
 )
 
 monitor = Role.create!(name: "monitor")
@@ -196,6 +186,8 @@ Visibility.create!(subject: using_the_pump, visible_to: monitor)
 Visibility.create(subject: hole, visible_to: monitor)
 Visibility.create(subject: pump, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
+
+pq4 = ProjectQuestion.find_by!(question: question_4)
 
 water_pump_stolen = Issue.new(subject: pq4 ,user: suleman, critical: true, uuid: SecureRandom.uuid)
 water_pump_stolen.update!(notes: [
@@ -254,3 +246,34 @@ another_issue.update!(notes: [
 IssueNote.last.photos.attach(
   ActiveStorage::Blob.find_by!(filename: "water-pump-stolen.png")
 )
+
+
+# Create a copy of the project without the issue notes so there isn't a clash of french and english
+# when we demo the field app's language capabilities.
+
+rusinda_hand_pump_2 = Template.for(water_pump).create_records(programme, project_name)
+rusinda_hand_pump_2.update!(name_fr: "Installer une pompe à main dans le nord-ouest de Burindi")
+
+ProjectSummary.create!(
+  project: rusinda_hand_pump_2,
+  text_translations: {
+    en: [
+      "This project is to install a water pump in the Rusinda area of",
+      "north-west Burundi. It is vital to the local communities and to the",
+      "farmers who depend on access to water for their crops.",
+    ].join(" "),
+
+    fr: [
+      "Ce projet consiste à installer une pompe à eau dans la région de",
+      "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
+      "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
+    ].join(" "),
+  }
+)
+
+SourceMaterial.create!(subject: rusinda_hand_pump_2, document: document)
+
+suleman_2 = User.create!(name: "Suleman", country_code: "+250", phone_number: "66666")
+user_role = UserRole.create!(user: suleman_2, role: monitor)
+
+Visibility.create!(subject: rusinda_hand_pump_2, visible_to: user_role)
