@@ -86,7 +86,7 @@ Mobility.configure do |config|
   #
   # Note: The dirty plugin enables fallthrough_accessors by default.
   #
-  # config.default_options[:fallthrough_accessors] = true
+  config.default_options[:fallthrough_accessors] = true
 
   # You can also include backend-specific default options. For example, if you
   # want to default to using the text-type translation table with the KeyValue
