@@ -61,6 +61,14 @@ Mobility.configure do |config|
   #
   # config.default_options[:default] = ...
 
+  # Make the #attributes method return the translated text:
+  #
+  # { name: "foo" } rather than
+  # { name: { en: "foo", fr: "bar" } }
+  #
+  # Adds an #untranslated_attributes method if you actually want the latter.
+  config.default_options[:attribute_methods] = true
+
   # Uncomment to enable locale_accessors by default on models. A true value
   # will use the locales defined either in
   # Rails.application.config.i18n.available_locales or I18n.available_locales.

@@ -8,11 +8,17 @@ RSpec.describe UserInterfaceTextPresenter do
       UserInterfaceText.last.update!(value: "swahili")
     end
 
+    # This test relies on attribute_methods configuration option being enabled
+    # for the mobility translation gem. See config/initializers/mobility.rb
 
-    presented = described_class.present(UserInterfaceText.last, for_locale: "en-GB")
-    expect(presented).to include(key: "key", value: "english")
+    I18n.with_locale(:"en-GB") do
+      presented = described_class.present(UserInterfaceText.last)
+      expect(presented).to include(key: "key", value: "english")
+    end
 
-    presented = described_class.present(UserInterfaceText.last, for_locale: "sw-KE")
-    expect(presented).to include(key: "key", value: "swahili")
+    I18n.with_locale(:"sw-KE") do
+      presented = described_class.present(UserInterfaceText.last)
+      expect(presented).to include(key: "key", value: "swahili")
+    end
   end
 end

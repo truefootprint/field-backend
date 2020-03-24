@@ -24,9 +24,7 @@ class MyDataPresenter < ApplicationPresenter
       viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
-        user_interface_text: {
-          for_locale: I18n.locale,
-        },
+        user_interface_text: true,
         user: {
           for_user: viewpoint.user,
         },
