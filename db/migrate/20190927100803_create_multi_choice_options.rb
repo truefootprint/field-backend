@@ -2,7 +2,7 @@ class CreateMultiChoiceOptions < ActiveRecord::Migration[6.0]
   def change
     create_table :multi_choice_options do |t|
       t.belongs_to :question
-      t.text :text, null: false
+      t.jsonb :text, null: false, default: {}
       t.integer :order, null: false
       t.timestamps
     end

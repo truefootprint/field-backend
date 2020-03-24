@@ -1,4 +1,6 @@
 class DefaultExpectedValue < ApplicationRecord
+  translates :text
+
   belongs_to :question
   belongs_to :activity, optional: true
   belongs_to :unit, optional: true

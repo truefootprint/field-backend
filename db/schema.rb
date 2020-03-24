@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   end
 
   create_table "activities", force: :cascade do |t|
-    t.text "name", null: false
+    t.jsonb "name", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_activities_on_name", unique: true
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
     t.bigint "activity_id"
     t.bigint "unit_id"
     t.text "value", null: false
-    t.text "text", null: false
+    t.jsonb "text", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_default_expected_values_on_activity_id"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
     t.bigint "project_question_id"
     t.bigint "unit_id"
     t.text "value", null: false
-    t.text "text", null: false
+    t.jsonb "text", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_question_id"], name: "index_expected_values_on_project_question_id", unique: true
@@ -185,7 +185,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
 
   create_table "multi_choice_options", force: :cascade do |t|
     t.bigint "question_id"
-    t.text "text", null: false
+    t.jsonb "text", default: {}, null: false
     t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -195,8 +195,8 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   end
 
   create_table "programmes", force: :cascade do |t|
-    t.text "name"
-    t.text "description"
+    t.jsonb "name", default: {}, null: false
+    t.jsonb "description", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   create_table "projects", force: :cascade do |t|
     t.bigint "programme_id"
     t.bigint "project_type_id"
-    t.text "name", null: false
+    t.jsonb "name", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_projects_on_name"
@@ -254,7 +254,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
     t.bigint "unit_id"
     t.string "type", null: false
     t.string "data_type", null: false
-    t.text "text", null: false
+    t.jsonb "text", default: {}, null: false
     t.integer "expected_length"
     t.boolean "multiple_answers", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   end
 
   create_table "topics", force: :cascade do |t|
-    t.text "name", null: false
+    t.jsonb "name", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_topics_on_name", unique: true

@@ -2,6 +2,8 @@ class Question < ApplicationRecord
   TYPES = %w[FreeTextQuestion MultiChoiceQuestion PhotoUploadQuestion].freeze
   DATA_TYPES = %w[boolean number photo string].freeze
 
+  translates :text
+
   belongs_to :topic
   belongs_to :unit, optional: true
   has_one :completion_question

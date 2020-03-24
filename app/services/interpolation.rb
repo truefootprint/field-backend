@@ -2,7 +2,7 @@ module Interpolation
   PATTERN = '%{(.*?)}'
 
   def self.args_scope(scope, column)
-    scope.select("regexp_matches(#{column}, '#{PATTERN}', 'g')")
+    scope.select("regexp_matches(#{column}::text, '#{PATTERN}', 'g')")
       .flat_map(&:regexp_matches).map(&:strip).uniq
   end
 

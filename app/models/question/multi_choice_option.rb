@@ -1,4 +1,6 @@
 class MultiChoiceOption < ApplicationRecord
+  translates :text
+
   belongs_to :question, class_name: :MultiChoiceQuestion
 
   validate :belongs_to_multi_choice_question

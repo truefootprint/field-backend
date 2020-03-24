@@ -1,8 +1,8 @@
 class CreateProgrammes < ActiveRecord::Migration[6.0]
   def change
     create_table :programmes do |t|
-      t.text :name
-      t.text :description
+      t.jsonb :name, null: false, default: {}
+      t.jsonb :description, null: false, default: {}
       t.timestamps
     end
   end
