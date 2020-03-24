@@ -177,7 +177,7 @@ FactoryBot.define do
 
   factory :unit do
     sequence(:official_name) do |n|
-      %w[meter centimeter millimeter kilometer inch foot yard mile][n - 1]
+      %w[meter centimeter millimeter kilometer inch foot yard mile].cycle.lazy.drop(n - 1).first
     end
 
     type { "length" }

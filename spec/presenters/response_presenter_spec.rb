@@ -16,11 +16,11 @@ RSpec.describe ResponsePresenter do
   end
 
   it "can present with the unit" do
-    unit = FactoryBot.create(:unit, name: "meter", type: "length")
+    unit = FactoryBot.create(:unit, official_name: "meter", type: "length")
     response = FactoryBot.create(:response, unit: unit)
 
     presented = described_class.present(response, unit: true)
-    expect(presented).to include(unit: hash_including(name: "meter", type: "length"))
+    expect(presented).to include(unit: hash_including(official_name: "meter", type: "length"))
   end
 
   it "can present with the photos" do
