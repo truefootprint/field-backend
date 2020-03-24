@@ -3,68 +3,124 @@
 meter = Unit.create!(
   official_name: "meter",
   type: "length",
-  singular: "meter",
-  plural: "meters"
+  singular_translations: { en: "meter", fr: "mètre" },
+  plural_translations: { en: "meters", fr: "mètres" },
 )
 
 water_pump = ProjectType.create!(name: "Water pump")
 
-clearing_space = Activity.create!(name: "Clearing space")
-digging_the_hole = Activity.create!(name: "Digging the hole")
-installing_pump = Activity.create!(name: "Installing the pump")
-installing_platform = Activity.create!(name: "Installing the platform")
-using_the_pump = Activity.create!(name: "Using the pump")
+digging_the_hole = Activity.create!(
+  name_translations: { en: "Digging the hole", fr: "Creuser le trou" },
+)
 
-hole = Topic.create!(name: "Hole")
+installing_pump = Activity.create!(
+  name_translations: { en: "Installing the pump", fr: "Installation de la pompe" },
+)
 
-question_1 = FreeTextQuestion.create!(text: "Depth in meters", data_type: "number", topic: hole, unit: meter)
-question_2 = FreeTextQuestion.create!(text: "Diameter in cm", data_type: "number", topic: hole)
-question_3 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: hole)
-question_4 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: hole)
-question_5 = FreeTextQuestion.create!(text: "Has the hole been dug?", data_type: "string", topic: hole)
+using_the_pump = Activity.create!(
+  name_translations: { en: "Using the pump", fr: "Utilisation de la pompe" },
+)
+
+hole = Topic.create!(name_translations: { en: "Hole", fr: "Trou" })
+
+question_1 = FreeTextQuestion.create!(
+  text_translations: { en: "What is its depth?", fr: "Quelle est sa profondeur?" },
+  data_type: "number", topic: hole, unit: meter)
+question_2 = FreeTextQuestion.create!(
+  text_translations: { en: "What is its diameter?", fr: "Quel est son diamètre?" },
+  data_type: "number", topic: hole, unit: meter)
+question_3 = PhotoUploadQuestion.create!(
+  text_translations: { en: "Upload a photo:", fr: "Télécharger une photo:" },
+  data_type: "photo", topic: hole)
+question_4 = FreeTextQuestion.create!(
+  text_translations: { en: "Any other comments?", fr: "D'autres commentaires?" },
+  data_type: "string", topic: hole)
+question_5 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Has the hole been dug?", fr: "Le trou a-t-il été creusé?" },
+  data_type: "string", topic: hole)
 
 CompletionQuestion.create!(question: question_5, completion_value: "yes")
 
-pump = Topic.create!(name: "Pump")
+pump = Topic.create!(name_translations: { en: "Pump", fr: "Pompe" })
 
-question_6 = FreeTextQuestion.create!(text: "Plastic pipe", data_type: "boolean", topic: pump)
-question_7 = FreeTextQuestion.create!(text: "Handpump present", data_type: "boolean", topic: pump)
-question_8 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: pump)
-question_9 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: pump)
-question_10 = FreeTextQuestion.create!(text: "Is the pump installed?", data_type: "boolean", topic: pump)
+question_6 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Is the pipe made of plastic?", fr: "Le tuyau est-il en plastique?" },
+  data_type: "boolean", topic: pump)
+question_7 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Is the handpump present?", fr: "La pompe à main est-elle présente?" },
+  data_type: "boolean", topic: pump)
+question_8 = PhotoUploadQuestion.create!(
+  text_translations: { en: "Upload a photo:", fr: "Télécharger une photo:" },
+  data_type: "photo", topic: pump)
+question_9 = FreeTextQuestion.create!(
+  text_translations: { en: "Any other comments?", fr: "D'autres commentaires?" },
+  data_type: "string", topic: pump)
+question_10 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Is the pump installed?", fr: "La pompe est-elle installée?" },
+  data_type: "boolean", topic: pump)
 
 CompletionQuestion.create!(question: question_10, completion_value: "yes")
 
-platform = Topic.create!(name: "Platform")
+water = Topic.create!(name_translations: { en: "Water", fr: "Eau" })
 
-question_11 = FreeTextQuestion.create!(text: "Width cement block in cm", data_type: "number", topic: platform)
-question_12 = FreeTextQuestion.create!(text: "Length cement block in cm", data_type: "number", topic: platform)
-question_13 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: platform)
-question_14 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: platform)
-question_15 = FreeTextQuestion.create!(text: "Is the platform built?", data_type: "boolean", topic: platform)
+question_11 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Is the handpump working?", fr: "La pompe à main fonctionne-t-elle?" },
+  data_type: "boolean", topic: water)
+question_12 = MultiChoiceQuestion.create!(
+  text_translations: { en: "Is the water clear?", fr: "L'eau est-elle claire?" },
+  data_type: "boolean", topic: water)
+question_13 = PhotoUploadQuestion.create!(
+  text_translations: { en: "Upload a photo:", fr: "Télécharger une photo:" },
+  data_type: "photo", topic: water)
+question_14 = FreeTextQuestion.create!(
+  text_translations: { en: "Any other comments?", fr: "D'autres commentaires?" },
+  data_type: "string", topic: water)
 
-CompletionQuestion.create!(question: question_15, completion_value: "yes")
+[
+  question_5, question_6, question_7, question_10, question_11, question_12
+].each do |question|
+  MultiChoiceOption.create!(
+    text_translations: { en: "Yes", fr: "Oui" },
+    order: 1, question: question)
 
-water = Topic.create!(name: "Water")
-
-question_16 = FreeTextQuestion.create!(text: "Volume", data_type: "number", topic: water)
-question_17 = FreeTextQuestion.create!(text: "Clear", data_type: "boolean", topic: water)
-question_18 = FreeTextQuestion.create!(text: "Handpump working", data_type: "boolean", topic: water)
-question_19 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: water)
-question_20 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: water)
+  MultiChoiceOption.create!(
+    text_translations: { en: "No", fr: "Non" },
+    order: 2, question: question)
+end
 
 # Projects
 
 programme = Programme.create!(
-  name: "Water pump programme",
-  description: "Install some water pumps",
+  name_translations: { en: "Water pump programme", fr: " Programme de pompe à eau" },
+  description_translations: { en: "Install some water pumps", fr: "Installer des pompes à eau" },
 )
 
 rusinda_hand_pump = Project.create!(
-  name: "Hand pump in the Rusinda area in north-west Burundi",
+  name_translations: {
+    en: "Install a hand pump in north-west Burindi",
+    fr: "Installer une pompe à main dans le nord-ouest de Burindi",
+  },
   programme: programme,
   project_type: water_pump,
 )
+
+ProjectSummary.create!(
+  project: rusinda_hand_pump,
+  text_translations: {
+    en: [
+      "This project is to install a water pump in the Rusinda area of",
+      "north-west Burundi. It is vital to the local communities and to the",
+      "farmers who depend on access to water for their crops.",
+    ].join(" "),
+
+    fr: [
+      "Ce projet consiste à installer une pompe à eau dans la région de",
+      "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
+      "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
+    ].join(" "),
+  }
+)
+
 
 contract = Rails.root.join("spec/fixtures/files/water-pump-contract.pdf").open
 document = Document.create!(file: { io: contract, filename: "contract.pdf" })
@@ -83,22 +139,16 @@ installing_pump_pa = ProjectActivity.create!(
   order: 2,
 )
 
-installing_platform_pa = ProjectActivity.create!(
-  activity: installing_platform,
+using_the_pump_pa = ProjectActivity.create!(
+  activity: using_the_pump,
   project: rusinda_hand_pump,
   order: 3,
 )
 
-using_the_pump_pa = ProjectActivity.create!(
-  activity: using_the_pump,
-  project: rusinda_hand_pump,
-  order: 4,
-)
-
-pq1 = ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_1, order: 1)
+ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_1, order: 1)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_2, order: 2)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_3, order: 3)
-ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_4, order: 4)
+pq4 = ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_4, order: 4)
 ProjectQuestion.create!(project_activity: digging_the_hole_pa, question: question_5, order: 5)
 
 ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_6, order: 1)
@@ -107,17 +157,10 @@ ProjectQuestion.create!(project_activity: installing_pump_pa, question: question
 ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_9, order: 4)
 ProjectQuestion.create!(project_activity: installing_pump_pa, question: question_10, order: 5)
 
-ProjectQuestion.create!(project_activity: installing_platform_pa, question: question_11, order: 1)
-ProjectQuestion.create!(project_activity: installing_platform_pa, question: question_12, order: 2)
-ProjectQuestion.create!(project_activity: installing_platform_pa, question: question_13, order: 3)
-ProjectQuestion.create!(project_activity: installing_platform_pa, question: question_14, order: 4)
-ProjectQuestion.create!(project_activity: installing_platform_pa, question: question_15, order: 5)
-
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_16, order: 1)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_17, order: 2)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_18, order: 3)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_19, order: 4)
-ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_20, order: 5)
+ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_11, order: 1)
+ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_12, order: 2)
+ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_13, order: 3)
+ProjectQuestion.create!(project_activity: using_the_pump_pa, question: question_14, order: 4)
 
 # Users
 
@@ -146,18 +189,15 @@ Response.create!(project_question: ProjectQuestion.first, user: suleman, value: 
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4", unit: meter)
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2", unit: meter)
 
-Visibility.create!(subject: clearing_space, visible_to: monitor)
 Visibility.create!(subject: digging_the_hole, visible_to: monitor)
 Visibility.create!(subject: installing_pump, visible_to: monitor)
-Visibility.create!(subject: installing_platform, visible_to: monitor)
 Visibility.create!(subject: using_the_pump, visible_to: monitor)
 
 Visibility.create(subject: hole, visible_to: monitor)
 Visibility.create(subject: pump, visible_to: monitor)
-Visibility.create(subject: platform, visible_to: monitor)
 Visibility.create(subject: water, visible_to: monitor)
 
-water_pump_stolen = Issue.new(subject: pq1,user: suleman, critical: true, uuid: SecureRandom.uuid)
+water_pump_stolen = Issue.new(subject: pq4 ,user: suleman, critical: true, uuid: SecureRandom.uuid)
 water_pump_stolen.update!(notes: [
   IssueNote.new(issue: water_pump_stolen, user: suleman, text: "The water pump has been stolen."),
   IssueNote.new(
@@ -198,7 +238,7 @@ water_pump_stolen.update!(notes: [
   IssueNote.new(issue: water_pump_stolen, user: suleman, text: "No problem."),
 ])
 
-another_issue = Issue.new(subject: pq1, user: suleman, critical: true, uuid: SecureRandom.uuid)
+another_issue = Issue.new(subject: pq4, user: suleman, critical: true, uuid: SecureRandom.uuid)
 another_issue.update!(notes: [
   IssueNote.new(
     issue: another_issue,

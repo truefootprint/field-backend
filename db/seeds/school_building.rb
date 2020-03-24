@@ -59,7 +59,10 @@ programme = Programme.create!(
 )
 
 bilobilo_school = Project.create!(
-  name: "School construction in the Bilobilo village",
+  name_translations: {
+    en: "School construction in the Bilobilo village",
+    fr: "Construction d'une école dans le village de Bilobilo",
+  },
   programme: programme,
   project_type: school_building,
 )
