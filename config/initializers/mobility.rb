@@ -69,6 +69,19 @@ Mobility.configure do |config|
   # Adds an #untranslated_attributes method if you actually want the latter.
   config.default_options[:attribute_methods] = true
 
+  # Adds #{name}_translations methods to get/set all translations for a field.
+  # This plugin is located in this project: app/helpers/mobility/plugins
+  #
+  # MyModel.first.name_translations #=> { en: "foo", fr: "bar" }
+  # MyModel.first.update!(name_translations: { fr: "baz" })
+  #
+  # MyModel.first.name_translations #=> { en: "foo", fr: "baz" }
+  #
+  # Note: This does not clear out translations omitted from the updates hash,
+  # i.e. the 'en' translation is not removed in the example above.
+  config.plugins << :mass_assign
+  config.default_options[:mass_assign] = true
+
   # Uncomment to enable locale_accessors by default on models. A true value
   # will use the locales defined either in
   # Rails.application.config.i18n.available_locales or I18n.available_locales.
