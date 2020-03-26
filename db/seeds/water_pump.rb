@@ -112,11 +112,11 @@ DefaultQuestion.create!(activity: using_the_pump, question: question_13, order: 
 DefaultQuestion.create!(activity: using_the_pump, question: question_14, order: 4)
 
 DefaultExpectedValue.create!(
-  text_translations: { en: "It should be 5 meters.", fr: "Elle devrait mesurer 5 mètres." },
+  text_translations: { en: "It should be %{value} %{units}.", fr: "Elle devrait mesurer %{value} %{units}." },
   activity: digging_the_hole, question: question_1, unit: meter, value: 5)
 
 DefaultExpectedValue.create!(
-  text_translations: { en: "It should be 1 meter.", fr: "Elle devrait mesurer 1 mètre." },
+  text_translations: { en: "It should be %{value} %{units}.", fr: "Elle devrait mesurer %{value} %{units}." },
   activity: digging_the_hole, question: question_2, unit: meter, value: 1)
 
 # Projects

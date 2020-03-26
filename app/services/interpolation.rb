@@ -14,18 +14,17 @@ module Interpolation
     string.gsub(/#{PATTERN}/) { |s| block.call(s[2..-2].strip) }
   end
 
-  class Context
+  class ProjectActivityContext
     attr_accessor :project_activity, :involved_users
 
     def initialize(project_activity)
       self.project_activity = project_activity
-      self.involved_users = lookup_involved_users
-    end
+      self.involved_users = lookup_involved_users end
 
     def apply(string)
       Interpolation.interpolate(string) do |role_name|
         involved_users.fetch(role_name).name
-      end
+      end.strip
     end
 
     private
@@ -52,6 +51,45 @@ module Interpolation
 
     def involvement_for(role)
       Involvement.where(project_activity: project_activity).find_by_role!(role)
+    end
+  end
+
+  class ExpectedValueContext
+    attr_accessor :expected_value
+
+    def initialize(expected_value)
+      self.expected_value = expected_value
+    end
+
+    # TODO: maybe this should get the data type from the question and use the
+    # DataTypeParser. We could then do fancier things like:
+    #
+    # %{true: "It should have been...", false: "It should not have been..." }
+    #
+    # i.e. some way to swap out the text for true/false cases or other values?
+
+    def apply(string)
+      Interpolation.interpolate(string) do |arg|
+        next value if arg == "value" || arg == "values" || arg == "n"
+        next units if arg == "units" || arg == "unit"
+      end.strip
+    end
+
+    def units
+      return "" unless unit
+      singular? ? unit.singular : unit.plural
+    end
+
+    def singular?
+      value.to_f == 1
+    end
+
+    def unit
+      expected_value.unit
+    end
+
+    def value
+      expected_value.value
     end
   end
 end

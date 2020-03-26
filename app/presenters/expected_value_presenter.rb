@@ -1,6 +1,9 @@
 class ExpectedValuePresenter < ApplicationPresenter
   def present(record)
+    context = Interpolation::ExpectedValueContext.new(record)
+
     super
+      .merge(text: context.apply(record.text))
       .merge(present_unit(record))
       .merge(present_source_materials(record))
   end

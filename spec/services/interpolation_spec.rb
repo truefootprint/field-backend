@@ -37,7 +37,7 @@ RSpec.describe Interpolation do
     end
   end
 
-  describe described_class::Context do
+  describe described_class::ProjectActivityContext do
     let(:activity) { FactoryBot.create(:activity, name: "%{farmer}'s ongoing farming") }
     let(:project_activity) { FactoryBot.create(:project_activity, activity: activity) }
 
@@ -65,8 +65,41 @@ RSpec.describe Interpolation do
     subject(:context) { described_class.new(project_activity) }
 
     it "interpolates users' names into the string according to their roles" do
-      result = context.apply("%{monitor}'s rating of %{farmer}'s farming")
+      result = context.apply("%{monitor}'s rating of %{farmer}'s farming    ")
       expect(result).to eq("Tefo's rating of Azizi's farming")
+    end
+  end
+
+  describe described_class::ExpectedValueContext do
+    let(:unit) { FactoryBot.create(:unit, singular: "meter", plural: "meters") }
+    let(:expected_value) { FactoryBot.create(:expected_value, value: "5", unit: unit) }
+
+    subject(:context) { described_class.new(expected_value) }
+
+    it "interpolates the 'value' and 'units' arguments" do
+      result = context.apply("It should be %{value} %{units}")
+      expect(result).to eq("It should be 5 meters")
+    end
+
+    it "uses the singular unit name if the number is equal to one" do
+      expected_value.update!(value: 1)
+
+      result = context.apply("It should be %{value} %{units}")
+      expect(result).to eq("It should be 1 meter")
+    end
+
+    it "is lenient towards admin user error" do
+      result = context.apply("It should be %{n} %{unit}")
+      expect(result).to eq("It should be 5 meters")
+
+      result = context.apply("It should be %{value} %{units} %{invalid}")
+      expect(result).to eq("It should be 5 meters")
+
+      unit.destroy
+      expected_value.reload
+
+      result = context.apply("It should be %{n} %{unit}")
+      expect(result).to eq("It should be 5")
     end
   end
 end
