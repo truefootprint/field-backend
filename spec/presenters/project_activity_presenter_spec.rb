@@ -74,8 +74,11 @@ RSpec.describe ProjectActivityPresenter do
     FactoryBot.create(:involvement, user: user, project_activity: project_activity)
     FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
 
-    presented = described_class.present(project_activity)
+    presented = described_class.present(project_activity, interpolate: true)
     expect(presented).to include(name: "Activity about User name")
+
+    presented = described_class.present(project_activity)
+    expect(presented).to include(name: "Activity about %{Role name}")
   end
 
   it "passes the interpolation context down to other presenters" do

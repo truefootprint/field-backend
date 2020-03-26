@@ -3,7 +3,7 @@ class ProjectActivityPresenter < ApplicationPresenter
     context = Interpolation::ProjectActivityContext.new(record)
 
     super
-      .merge(name: context.apply(record.name))
+      .merge(present_name(record, context))
       .merge(present_source_materials(record))
       .merge(present_questions(record, context))
       .merge(present_issues(record))
@@ -14,6 +14,14 @@ class ProjectActivityPresenter < ApplicationPresenter
     scope = scope.visible if options[:visible]
 
     scope
+  end
+
+  def present_name(record, context)
+    if options[:interpolate]
+      { name: context.apply(record.name) }
+    else
+      { name: record.name }
+    end
   end
 
   def present_source_materials(record)

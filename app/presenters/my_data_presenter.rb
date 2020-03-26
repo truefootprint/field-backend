@@ -37,6 +37,7 @@ class MyDataPresenter < ApplicationPresenter
           },
           project_activities: {
             visible: true,
+            interpolate: true,
             source_materials: true,
             project_questions: {
               visible: true,
@@ -44,6 +45,7 @@ class MyDataPresenter < ApplicationPresenter
               completion_question: true,
               unit: true,
               expected_value: {
+                interpolate: true,
                 source_materials: true,
                 unit: true,
               },

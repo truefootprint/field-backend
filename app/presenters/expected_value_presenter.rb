@@ -1,11 +1,16 @@
 class ExpectedValuePresenter < ApplicationPresenter
   def present(record)
-    context = Interpolation::ExpectedValueContext.new(record)
-
     super
-      .merge(text: context.apply(record.text))
+      .merge(present_text(record))
       .merge(present_unit(record))
       .merge(present_source_materials(record))
+  end
+
+  def present_text(record)
+    return {} unless options[:interpolate]
+
+    context = Interpolation::ExpectedValueContext.new(record)
+    { text: context.apply(record.text) }
   end
 
   def present_unit(record)

@@ -9,8 +9,11 @@ RSpec.describe ExpectedValuePresenter do
     text = "It should be %{value} %{units}"
 
     expected_value = FactoryBot.create(:expected_value, text: text, value: "5", unit: unit)
-    presented = described_class.present(expected_value)
 
+    presented = described_class.present(expected_value, interpolate: true)
     expect(presented).to include(text: "It should be 5 meters")
+
+    presented = described_class.present(expected_value)
+    expect(presented).to include(text: "It should be %{value} %{units}")
   end
 end
