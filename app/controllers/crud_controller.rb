@@ -27,7 +27,7 @@ class CrudController < ApplicationController
   private
 
   def present(object)
-    presenter.present(object, presentation)
+    presenter.present(object, presentation.merge(for_user: current_user))
   end
 
   def presenter
@@ -48,7 +48,7 @@ class CrudController < ApplicationController
   end
 
   def model_params
-    params.permit!.slice(*(model.column_names + %i[file photo]))
+    params.permit!.slice(*(model.column_names + %i[file photo phone_number country_code]))
   end
 
   def model
