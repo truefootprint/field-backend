@@ -5,4 +5,5 @@ class UserInterfaceText < ApplicationRecord
 
   validates :key, presence: true, uniqueness: { case_sensitive: false }
   validates :value, presence: true
+  validates :pre_login, inclusion: { in: [true, false] }
 end

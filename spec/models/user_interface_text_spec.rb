@@ -22,5 +22,10 @@ RSpec.describe UserInterfaceText do
       user_interface_text.value = " "
       expect(user_interface_text).to be_invalid
     end
+
+    it "requires whether the user-interface text shows pre-login" do
+      user_interface_text.pre_login = nil
+      expect(user_interface_text).to be_invalid
+    end
   end
 end

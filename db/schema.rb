@@ -318,9 +318,11 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
   create_table "user_interface_text", force: :cascade do |t|
     t.string "key", null: false
     t.jsonb "value", default: {}, null: false
+    t.boolean "pre_login", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["key"], name: "index_user_interface_text_on_key", unique: true
+    t.index ["pre_login"], name: "index_user_interface_text_on_pre_login"
   end
 
   create_table "user_roles", force: :cascade do |t|
