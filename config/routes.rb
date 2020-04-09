@@ -58,4 +58,5 @@ Rails.application.routes.draw do
 
   resources :tokens, only: :create
   resources :registrations, only: :create
+  resources :translations, only: :index
 end

@@ -6,4 +6,8 @@ class UserInterfaceText < ApplicationRecord
   validates :key, presence: true, uniqueness: { case_sensitive: false }
   validates :value, presence: true
   validates :pre_login, inclusion: { in: [true, false] }
+
+  def self.locales
+    select("distinct jsonb_object_keys(value) as locale").map(&:locale)
+  end
 end
