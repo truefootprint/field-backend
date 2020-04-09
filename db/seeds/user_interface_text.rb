@@ -1,9 +1,11 @@
 key_values = {
   en: {
+    "login.prompt"         => "What’s your mobile number?",
+    "login.failed"         => "Login failed. Unrecognised mobile number.",
+    "login.placeholder"    => "e.g. 0123456789",
     "n_of_m"               => "%{n} of %{m}",
     "project_summary"      => "Project summary",
     "project_contract"     => "Project contract",
-    "n_activities"         => "This project has %{n} activities to monitor",
     "view_details"         => "View details",
     "add_notes"            => "Add your notes...",
     "photo.take"           => "Take photo",
@@ -20,15 +22,22 @@ key_values = {
     "submit"               => "Submit",
     "cancel"               => "Cancel",
     "loading"              => "Loading...",
+    "version"              => "FieldApp version %{n}",
     "try_again"            => "Try again",
     "download_failed"      => "Download failed",
-    "no_wifi"              => "No WiFi, please connect to WiFi.",
+    "error.network.title"  => "Network error",
+    "error.network.body"   => "Sorry, there seems to be a problem with our computers. Please try again later.",
+    "error.unknown.title"  => "Unexpected error",
+    "error.unknown.body"   => "Sorry, there seems to be a problem. If it keeps happening, try reinstalling the app.",
+    "error.details"        => "Error details:",
   },
   fr: {
+    "login.prompt"         => "Quel est ton numéro de portable?",
+    "login.failed"         => "Échec de la connexion. Numéro de mobile non reconnu.",
+    "login.placeholder"    => "par ex. 0123456789",
     "n_of_m"               => "%{n} sur %{m}",
     "project_summary"      => "Résumé du projet",
     "project_contract"     => "Contrat de projet",
-    "n_activities"         => "Ce projet a %{n} activités à suivre",
     "view_details"         => "Voir les détails",
     "add_notes"            => "Ajoutez vos notes...",
     "photo.take"           => "Prendre une photo",
@@ -45,42 +54,34 @@ key_values = {
     "submit"               => "Soumettre",
     "cancel"               => "Annuler",
     "loading"              => "Chargement...",
+    "version"              => "FieldApp version %{n}",
     "try_again"            => "Réessayer",
     "download_failed"      => "Échec du téléchargement",
-    "no_wifi"              => "Pas de WiFi, veuillez vous connecter au WiFi.",
-  },
-  sw: {
-    "n_of_m"               => "%{n} ya %{m}",
-    "project_summary"      => "Muhtasari wa Mradi",
-    "project_contract"     => "Mkataba wa mradi",
-    "n_activities"         => "Mradi huu una shughuli %{n} za kufuatilia",
-    "view_details"         => "Angalia maelezo",
-    "add_notes"            => "Ongeza maelezo yako...",
-    "photo.take"           => "Piga picha",
-    "photo.choose"         => "Chagua kutoka maktaba",
-    "photo.remove"         => "Ondoa picha",
-    "issue.record"         => "Rekodi suala",
-    "issue.recorded"       => "Suala lililorekodiwa",
-    "issue.is_it_resolved" => "Je! Suala hili limatatuliwa?",
-    "issue.are_you_sure"   => "Je! Una uhakika suala hili limetatuliwa?",
-    "issue.yes_resolved"   => "Ndio, imeamuliwa",
-    "issue.resolved"       => "Suala litatatuliwa",
-    "yes"                  => "Ndio",
-    "no"                   => "Hapana",
-    "submit"               => "Peana",
-    "cancel"               => "Ghairi",
-    "loading"              => "Kupakia...",
-    "try_again"            => "Jaribu tena",
-    "download_failed"      => "Upakuaji umeshindwa",
-    "no_wifi"              => "Hakuna WiFi, tafadhali unganisha na WiFi.",
+    "error.network.title"  => "Erreur réseau",
+    "error.network.body"   => "Désolé, il semble y avoir un problème avec nos ordinateurs. Veuillez réessayer plus tard.",
+    "error.unknown.title"  => "Erreur inattendue",
+    "error.unknown.body"   => "Désolé, il semble y avoir un problème. Si cela continue, essayez de réinstaller l'application.",
+    "error.details"        => "Détails de l'erreur:",
   },
 }
+
+pre_login_keys = %w[
+  loading
+  login.prompt
+  login.failed
+  login.placeholder
+  error.network.title
+  error.network.body
+  error.unknown.title
+  error.unknown.body
+  error.details
+]
 
 key_values.each do |locale, translations|
   I18n.with_locale(locale) do
     translations.each do |key, value|
       record = UserInterfaceText.find_or_initialize_by(key: key)
-      record.update!(value: value)
+      record.update!(value: value, pre_login: pre_login_keys.include?(key))
     end
   end
 end
