@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_165553) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["role_id"], name: "index_default_visibilities_on_role_id"
+    t.index ["subject_type", "subject_id", "role_id"], name: "default_visibilities_index", unique: true
     t.index ["subject_type", "subject_id"], name: "index_default_visibilities_on_subject_type_and_subject_id"
   end
 
@@ -382,6 +383,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_165553) do
     t.bigint "visible_to_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id", "visible_to_type", "visible_to_id"], name: "visibilities_index", unique: true
     t.index ["subject_type", "subject_id"], name: "index_visibilities_on_subject_type_and_subject_id"
     t.index ["visible_to_type", "visible_to_id"], name: "index_visibilities_on_visible_to_type_and_visible_to_id"
   end

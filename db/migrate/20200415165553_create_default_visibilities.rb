@@ -5,5 +5,8 @@ class CreateDefaultVisibilities < ActiveRecord::Migration[6.0]
       t.belongs_to :role
       t.timestamps
     end
+
+    add_index :default_visibilities, %i[subject_type subject_id role_id],
+      name: "default_visibilities_index", unique: true
   end
 end
