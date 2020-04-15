@@ -10,7 +10,8 @@ RSpec.describe "Uploading documents" do
   let(:file2) { Rack::Test::UploadedFile.new(evidence) }
 
   before do
-    FactoryBot.create(:user_role, user: user, role: role)
+    project_role = FactoryBot.create(:project_role, role: role)
+    FactoryBot.create(:registration, project_role: project_role, user: user)
 
     basic_authorize("", api_token.token)
   end

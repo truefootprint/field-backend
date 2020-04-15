@@ -11,7 +11,8 @@ RSpec.describe UserPresenter do
     admin_user = FactoryBot.create(:user, name: "admin")
 
     admin = FactoryBot.create(:role, name: "admin")
-    FactoryBot.create(:user_role, user: admin_user, role: admin)
+    project_role = FactoryBot.create(:project_role, role: admin)
+    FactoryBot.create(:registration, user: admin_user, project_role: project_role)
 
     presented = described_class.present(user, for_user: admin_user)
     expect(presented).to include(phone_number: "12345", country_code: "+44")

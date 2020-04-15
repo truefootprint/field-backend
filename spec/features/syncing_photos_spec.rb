@@ -16,7 +16,9 @@ RSpec.describe "Sync'ing photos" do
   let(:admin_token) { ApiToken.generate_for!(admin_user) }
 
   before do
-    FactoryBot.create(:user_role, user: admin_user, role: admin_role)
+    project_role = FactoryBot.create(:project_role, role: admin_role)
+    FactoryBot.create(:registration, project_role: project_role, user: admin_user)
+
     user_role = FactoryBot.create(:user_role, user: user, role: role)
 
     [project, project_activity, project_question].each do |subject|

@@ -4,7 +4,8 @@ RSpec.describe "Listing types" do
   let(:api_token) { FactoryBot.create(:api_token, user: user) }
 
   before do
-    FactoryBot.create(:user_role, user: user, role: role)
+    project_role = FactoryBot.create(:project_role, role: role)
+    FactoryBot.create(:registration, project_role: project_role, user: user)
 
     basic_authorize("", api_token.token)
   end
@@ -69,8 +70,7 @@ RSpec.describe "Listing types" do
 
     expect(parsed_json).to eq [
       { id: "User" },
-      { id: "Role" },
-      { id: "UserRole" },
+      { id: "ProjectRole" },
     ]
   end
 
