@@ -25,6 +25,9 @@ RSpec.describe "Follow up activities" do
 
     FactoryBot.create(:visibility, subject: follow_up, visible_to: monitor)
 
+    # TODO: replace user_role with project_role
+    # TODO: create default visibility for the follow up activity for the monitor
+
     FactoryBot.create(:visibility, subject: q1, visible_to: farmer)
     FactoryBot.create(:visibility, subject: q2, visible_to: monitor)
 
