@@ -95,6 +95,7 @@ FactoryBot.define do
   factory :project_role do
     project
     role
+    order { 1 }
   end
 
   factory :response do
@@ -124,15 +125,16 @@ FactoryBot.define do
     order { 1 }
   end
 
+  factory :default_role do
+    project_type
+    role
+    order { 1 }
+  end
+
   factory :default_expected_value do
     question
     value { "yes" }
     text { "It should be 'yes'" }
-  end
-
-  factory :default_role do
-    project_type
-    role
   end
 
   factory :involvement do

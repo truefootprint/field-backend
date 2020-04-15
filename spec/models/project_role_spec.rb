@@ -14,5 +14,18 @@ RSpec.describe ProjectRole do
 
       expect(project_role).to be_invalid
     end
+
+    it "requires an order" do
+      project_role.order = nil
+      expect(project_role).to be_invalid
+    end
+
+    it "requires a natural number for order" do
+      project_role.order = 1.5
+      expect(project_role).to be_invalid
+
+      project_role.order = 0
+      expect(project_role).to be_invalid
+    end
   end
 end

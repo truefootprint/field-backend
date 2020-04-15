@@ -14,5 +14,18 @@ RSpec.describe DefaultRole do
 
       expect(default_role).to be_invalid
     end
+
+    it "requires an order" do
+      default_role.order = nil
+      expect(default_role).to be_invalid
+    end
+
+    it "requires a natural number for order" do
+      default_role.order = 1.5
+      expect(default_role).to be_invalid
+
+      default_role.order = 0
+      expect(default_role).to be_invalid
+    end
   end
 end

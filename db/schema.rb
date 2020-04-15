@@ -115,8 +115,10 @@ ActiveRecord::Schema.define(version: 2020_04_15_112533) do
   create_table "default_roles", force: :cascade do |t|
     t.bigint "project_type_id"
     t.bigint "role_id"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order"], name: "index_default_roles_on_order"
     t.index ["project_type_id", "role_id"], name: "index_default_roles_on_project_type_id_and_role_id", unique: true
     t.index ["project_type_id"], name: "index_default_roles_on_project_type_id"
     t.index ["role_id"], name: "index_default_roles_on_role_id"
@@ -236,8 +238,10 @@ ActiveRecord::Schema.define(version: 2020_04_15_112533) do
   create_table "project_roles", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "role_id"
+    t.integer "order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order"], name: "index_project_roles_on_order"
     t.index ["project_id", "role_id"], name: "index_project_roles_on_project_id_and_role_id", unique: true
     t.index ["project_id"], name: "index_project_roles_on_project_id"
     t.index ["role_id"], name: "index_project_roles_on_role_id"
