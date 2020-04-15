@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_115059) do
+ActiveRecord::Schema.define(version: 2020_04_15_165553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,16 @@ ActiveRecord::Schema.define(version: 2020_04_15_115059) do
     t.index ["project_type_id", "role_id"], name: "index_default_roles_on_project_type_id_and_role_id", unique: true
     t.index ["project_type_id"], name: "index_default_roles_on_project_type_id"
     t.index ["role_id"], name: "index_default_roles_on_role_id"
+  end
+
+  create_table "default_visibilities", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.bigint "role_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["role_id"], name: "index_default_visibilities_on_role_id"
+    t.index ["subject_type", "subject_id"], name: "index_default_visibilities_on_subject_type_and_subject_id"
   end
 
   create_table "documents", force: :cascade do |t|

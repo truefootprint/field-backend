@@ -126,6 +126,11 @@ FactoryBot.define do
     order { 1 }
   end
 
+  factory :default_visibility do
+    association :subject, factory: :project_type
+    role
+  end
+
   factory :default_expected_value do
     question
     value { "yes" }

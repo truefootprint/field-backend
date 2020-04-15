@@ -29,7 +29,7 @@ RSpec.describe Visibility do
       expect(visibility).to be_invalid
     end
 
-    it "requires project role to belongs to the same project as the subject" do
+    it "requires project role that belongs to the same project as the subject" do
       visibility.visible_to = FactoryBot.create(:project_role)
       expect(visibility).to be_invalid
 
