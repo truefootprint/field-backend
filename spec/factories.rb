@@ -142,9 +142,14 @@ FactoryBot.define do
     user
   end
 
+  factory :registration do
+    user
+    project_role
+  end
+
   factory :visibility do
-    association :subject, factory: :question
-    association :visible_to, factory: :user_role
+    association :subject, factory: :project
+    association :visible_to, factory: :user
   end
 
   factory :document do
