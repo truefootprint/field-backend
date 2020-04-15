@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_124759) do
+ActiveRecord::Schema.define(version: 2020_04_15_090951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,6 +221,16 @@ ActiveRecord::Schema.define(version: 2020_03_19_124759) do
     t.index ["order"], name: "index_project_questions_on_order"
     t.index ["project_activity_id"], name: "index_project_questions_on_project_activity_id"
     t.index ["question_id"], name: "index_project_questions_on_question_id"
+  end
+
+  create_table "project_roles", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "role_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id", "role_id"], name: "index_project_roles_on_project_id_and_role_id", unique: true
+    t.index ["project_id"], name: "index_project_roles_on_project_id"
+    t.index ["role_id"], name: "index_project_roles_on_role_id"
   end
 
   create_table "project_summaries", force: :cascade do |t|

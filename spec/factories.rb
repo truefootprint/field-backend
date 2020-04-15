@@ -92,6 +92,11 @@ FactoryBot.define do
     role
   end
 
+  factory :project_role do
+    project
+    role
+  end
+
   factory :response do
     project_question
     user
