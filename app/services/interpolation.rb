@@ -15,21 +15,22 @@ module Interpolation
   end
 
   class ProjectActivityContext
-    attr_accessor :project_activity, :involved_users
+    attr_accessor :project_activity, :registered_users
 
     def initialize(project_activity)
       self.project_activity = project_activity
-      self.involved_users = lookup_involved_users end
+      self.registered_users = lookup_registered_users
+    end
 
     def apply(string)
       Interpolation.interpolate(string) do |role_name|
-        involved_users.fetch(role_name).name
+        registered_users.fetch(role_name).name
       end.strip
     end
 
     private
 
-    def lookup_involved_users
+    def lookup_registered_users
       role_names.map { |n| [n, user_for(n)] }.to_h
     end
 
@@ -45,12 +46,20 @@ module Interpolation
       project_activity.project_questions.joins(:question)
     end
 
-    def user_for(role_name)
-      involvement_for(Role.find_by!(name: role_name)).user
+    def project_roles
+      project_activity.project.project_roles
     end
 
-    def involvement_for(role)
-      Involvement.where(project_activity: project_activity).find_by_role!(role)
+    def registrations
+      Registration.where(project_activity: project_activity)
+    end
+
+    def user_for(role_name)
+      role = Role.find_by!(name: role_name)
+      project_role = project_roles.find_by!(role: role)
+      registration = registrations.find_by!(project_role: project_role)
+
+      registration.user
     end
   end
 

@@ -40,6 +40,7 @@ RSpec.describe Interpolation do
   describe described_class::ProjectActivityContext do
     let(:activity) { FactoryBot.create(:activity, name: "%{farmer}'s ongoing farming") }
     let(:project_activity) { FactoryBot.create(:project_activity, activity: activity) }
+    let(:project) { project_activity.project }
 
     let(:topic) { FactoryBot.create(:topic, name: "%{monitor}'s rating of %{farmer}'s farming") }
     let(:question) { FactoryBot.create(:question, topic: topic, text: "%{farmer}'s use of pesticide") }
@@ -53,13 +54,11 @@ RSpec.describe Interpolation do
       tefo = FactoryBot.create(:user, name: "Tefo")
       monitor = FactoryBot.create(:role, name: "monitor")
 
-      user_role = FactoryBot.create(:user_role, user: azizi, role: farmer)
-      FactoryBot.create(:involvement, user: azizi, project_activity: project_activity)
-      FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
+      project_role1 = FactoryBot.create(:project_role, project: project, role: farmer)
+      project_role2 = FactoryBot.create(:project_role, project: project, role: monitor)
 
-      user_role = FactoryBot.create(:user_role, user: tefo, role: monitor)
-      FactoryBot.create(:involvement, user: tefo, project_activity: project_activity)
-      FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
+      FactoryBot.create(:registration, user: azizi, project_role: project_role1, project_activity: project_activity)
+      FactoryBot.create(:registration, user: tefo, project_role: project_role2, project_activity: project_activity)
     end
 
     subject(:context) { described_class.new(project_activity) }

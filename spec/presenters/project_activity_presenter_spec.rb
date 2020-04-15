@@ -66,13 +66,13 @@ RSpec.describe ProjectActivityPresenter do
   it "can interpolate user names into project activity name" do
     activity = FactoryBot.create(:activity, name: "Activity about %{Role name}")
     project_activity = FactoryBot.create(:project_activity, activity: activity)
+    project = project_activity.project
+
+    role = FactoryBot.create(:role, name: "Role name")
+    project_role = FactoryBot.create(:project_role, project: project, role: role)
 
     user = FactoryBot.create(:user, name: "User name")
-    role = FactoryBot.create(:role, name: "Role name")
-
-    user_role = FactoryBot.create(:user_role, user: user, role: role)
-    FactoryBot.create(:involvement, user: user, project_activity: project_activity)
-    FactoryBot.create(:visibility, subject: project_activity.project, visible_to: user_role)
+    FactoryBot.create(:registration, user: user, project_role: project_role, project_activity: project_activity)
 
     presented = described_class.present(project_activity, interpolate: true)
     expect(presented).to include(name: "Activity about User name")
