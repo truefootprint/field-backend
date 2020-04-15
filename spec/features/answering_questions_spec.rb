@@ -6,14 +6,14 @@ RSpec.describe "Answering questions", type: :feature do
   let(:project_question) { FactoryBot.create(:project_question, question: question) }
   let(:project_activity) { project_question.project_activity }
   let(:project) { project_activity.project }
+  let(:project_role) { FactoryBot.create(:project_role, project: project, role: role) }
 
   before do
-    user_role = FactoryBot.create(:user_role, user: user, role: role)
-
+    FactoryBot.create(:registration, user: user, project_role: project_role)
     FactoryBot.create(:completion_question, question: question, completion_value: "yes")
 
     [project, project_activity, project_question].each do |subject|
-      FactoryBot.create(:visibility, subject: subject, visible_to: user_role)
+      FactoryBot.create(:visibility, subject: subject, visible_to: project_role)
     end
   end
 

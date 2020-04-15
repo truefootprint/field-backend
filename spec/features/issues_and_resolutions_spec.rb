@@ -3,10 +3,11 @@ RSpec.describe "Issues and resolutions" do
   let(:role) { FactoryBot.create(:role, name: "Test") }
 
   let(:project) { FactoryBot.create(:project) }
+  let(:project_role) { FactoryBot.create(:project_role, project: project, role: role) }
 
   before do
-    user_role = FactoryBot.create(:user_role, user: user, role: role)
-    FactoryBot.create(:visibility, subject: project, visible_to: user_role)
+    FactoryBot.create(:registration, user: user, project_role: project_role)
+    FactoryBot.create(:visibility, subject: project, visible_to: project_role)
 
     authenticate_as(user)
   end
@@ -67,11 +68,9 @@ RSpec.describe "Issues and resolutions" do
 
     # Post a note as another user on the same project:
     another_user = FactoryBot.create(:user, name: "Another user")
-    user_role = FactoryBot.create(:user_role, user: another_user, role: role)
+    FactoryBot.create(:registration, user: another_user, project_role: project_role)
 
-    FactoryBot.create(:visibility, subject: project, visible_to: user_role)
     authenticate_as(another_user)
-
     post_updates([{ period_start: period_start, period_end: period_end, issue_notes: [note2] }])
 
     get "/my_data"

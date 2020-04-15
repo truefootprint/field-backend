@@ -19,10 +19,11 @@ RSpec.describe "Sync'ing photos" do
     project_role = FactoryBot.create(:project_role, role: admin_role)
     FactoryBot.create(:registration, project_role: project_role, user: admin_user)
 
-    user_role = FactoryBot.create(:user_role, user: user, role: role)
+    project_role = FactoryBot.create(:project_role, role: role, project: project)
+    FactoryBot.create(:registration, project_role: project_role, user: user)
 
     [project, project_activity, project_question].each do |subject|
-      FactoryBot.create(:visibility, subject: subject, visible_to: user_role)
+      FactoryBot.create(:visibility, subject: subject, visible_to: project_role)
     end
 
     allow(file).to receive(:original_filename).and_return("md5.jpg")

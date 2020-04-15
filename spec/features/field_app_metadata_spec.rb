@@ -4,7 +4,9 @@ RSpec.describe "FieldApp metadata" do
   let(:api_token) { FactoryBot.create(:api_token, user: user) }
 
   before do
-    user_role = FactoryBot.create(:user_role, user: user, role: role)
+    project_role = FactoryBot.create(:project_role, role: role)
+    FactoryBot.create(:registration, user: user, project_role: project_role)
+
     basic_authorize("", api_token.token)
   end
 
