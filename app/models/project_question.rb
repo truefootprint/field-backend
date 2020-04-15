@@ -13,9 +13,7 @@ class ProjectQuestion < ApplicationRecord
   delegate :text, :type, :data_type, to: :question
 
   scope :visible, -> { visible_to(Viewpoint.current) }
-  scope :visible_to, -> (viewpoint) {
-    viewpoint.scope(self).or(where(question_id: Question.visible_to(viewpoint)))
-  }
+  scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
   validates :order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 

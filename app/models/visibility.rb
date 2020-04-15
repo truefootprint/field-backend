@@ -1,16 +1,12 @@
 class Visibility < ApplicationRecord
   SUBJECT_TYPES = %w[
-    Activity
     Involvement
     Project
     ProjectActivity
     ProjectQuestion
-    ProjectType
-    Question
-    Topic
   ].freeze
 
-  VISIBLE_TO_TYPES = %w[User Role UserRole ProjectRole].freeze
+  VISIBLE_TO_TYPES = %w[User ProjectRole].freeze
 
   belongs_to :subject, polymorphic: true
   belongs_to :visible_to, polymorphic: true

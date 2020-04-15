@@ -34,24 +34,4 @@ RSpec.describe Question do
       expect(question).to be_valid
     end
   end
-
-  describe ".visible_to" do
-    it "returns questions visible to the viewpoint" do
-      question1, _question2 = FactoryBot.create_list(:question, 2)
-      visibility = FactoryBot.create(:visibility, subject: question1)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(Question.visible_to(viewpoint)).to eq [question1]
-    end
-
-    it "includes questions whose topic is visible" do
-      question1, _question2 = FactoryBot.create_list(:question, 2)
-      visibility = FactoryBot.create(:visibility, subject: question1.topic)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(Question.visible_to(viewpoint)).to eq [question1]
-    end
-  end
 end

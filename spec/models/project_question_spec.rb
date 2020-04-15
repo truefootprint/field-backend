@@ -29,15 +29,6 @@ RSpec.describe ProjectQuestion do
 
       expect(ProjectQuestion.visible_to(viewpoint)).to eq [pq1]
     end
-
-    it "includes project_questions whose question is visible" do
-      pq1, _pq2 = FactoryBot.create_list(:project_question, 2)
-      visibility = FactoryBot.create(:visibility, subject: pq1.question)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(ProjectQuestion.visible_to(viewpoint)).to eq [pq1]
-    end
   end
 
   describe ".topics" do

@@ -11,9 +11,7 @@ class Project < ApplicationRecord
   has_one :project_summary
 
   scope :visible, -> { visible_to(Viewpoint.current) }
-  scope :visible_to, -> (viewpoint) {
-    viewpoint.scope(self).or(where(project_type_id: ProjectType.visible_to(viewpoint)))
-  }
+  scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
   validates :name, presence: true
 end

@@ -18,15 +18,4 @@ RSpec.describe Topic do
       expect(topic).to be_invalid
     end
   end
-
-  describe ".visible_to" do
-    it "returns topics visible to the viewpoint" do
-      topic1, _topic2 = FactoryBot.create_list(:topic, 2)
-      visibility = FactoryBot.create(:visibility, subject: topic1)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(Topic.visible_to(viewpoint)).to eq [topic1]
-    end
-  end
 end

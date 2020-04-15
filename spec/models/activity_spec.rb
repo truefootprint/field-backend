@@ -27,15 +27,4 @@ RSpec.describe Activity do
       expect(activity).to be_invalid
     end
   end
-
-  describe ".visible_to" do
-    it "returns activities visible to the viewpoint" do
-      activity1, _activity2 = FactoryBot.create_list(:activity, 2)
-      visibility = FactoryBot.create(:visibility, subject: activity1)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(Activity.visible_to(viewpoint)).to eq [activity1]
-    end
-  end
 end

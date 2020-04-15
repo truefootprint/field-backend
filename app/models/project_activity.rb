@@ -9,10 +9,7 @@ class ProjectActivity < ApplicationRecord
   delegate :name, to: :activity
 
   scope :visible, -> { visible_to(Viewpoint.current) }
-
-  scope :visible_to, -> (viewpoint) {
-    viewpoint.scope(self).or(where(activity_id: Activity.visible_to(viewpoint)))
-  }
+  scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
   scope :with_visible_project_questions, -> (viewpoint) {
     joins(:project_questions).merge(ProjectQuestion.visible_to(viewpoint))

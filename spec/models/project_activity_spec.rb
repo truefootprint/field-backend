@@ -29,15 +29,6 @@ RSpec.describe ProjectActivity do
 
       expect(ProjectActivity.visible_to(viewpoint)).to eq [pa1]
     end
-
-    it "includes project_activities whose activity is visible" do
-      pa1, _pa2 = FactoryBot.create_list(:project_activity, 2)
-      visibility = FactoryBot.create(:visibility, subject: pa1.activity)
-
-      viewpoint = Viewpoint.new(users: visibility.visible_to)
-
-      expect(ProjectActivity.visible_to(viewpoint)).to eq [pa1]
-    end
   end
 
   describe ".with_visible_project_questions" do
