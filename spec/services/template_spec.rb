@@ -3,12 +3,15 @@ RSpec.describe Template do
     it "returns the template for the object" do
       project_type = FactoryBot.create(:project_type)
       activity = FactoryBot.create(:activity)
+      question = FactoryBot.create(:free_text_question)
 
       template1 = described_class.for(project_type)
       template2 = described_class.for(activity)
+      template3 = described_class.for(question)
 
       expect(template1).to be_a(described_class::ProjectType)
       expect(template2).to be_a(described_class::Activity)
+      expect(template3).to be_a(described_class::Question)
     end
   end
 
@@ -43,6 +46,21 @@ RSpec.describe Template do
       expect(project_role.project).to eq(Project.last)
       expect(project_role.role).to eq(role2)
       expect(project_role.order).to eq(2)
+    end
+
+    it "create visibilities for the project" do
+      role = FactoryBot.create(:role)
+
+      FactoryBot.create(:default_role, project_type: project_type, role: role, order: 1)
+      FactoryBot.create(:default_visibility, subject: project_type, role: role)
+
+      expect { subject.create_records(programme, "Project name") }
+        .to change(Visibility, :count).by(1)
+
+      visibility = Visibility.last
+
+      expect(visibility.subject).to eq(Project.last)
+      expect(visibility.visible_to).to eq(ProjectRole.last)
     end
 
     it "uses the activity template to create project activities, questions, etc" do
@@ -101,6 +119,21 @@ RSpec.describe Template do
       expect(ProjectActivity.last.order).to eq(1)
     end
 
+    it "create visibilities for the project activity" do
+      role = FactoryBot.create(:role)
+
+      FactoryBot.create(:project_role, project: project, role: role)
+      FactoryBot.create(:default_visibility, subject: activity, role: role)
+
+      expect { subject.create_records(project) }
+        .to change(Visibility, :count).by(1)
+
+      visibility = Visibility.last
+
+      expect(visibility.subject).to eq(ProjectActivity.last)
+      expect(visibility.visible_to).to eq(ProjectRole.last)
+    end
+
     it "creates project questions for the project activity" do
       FactoryBot.create(:default_question, activity: activity)
       FactoryBot.create(:default_question, activity: activity)
@@ -114,19 +147,65 @@ RSpec.describe Template do
       expect(project_question.project_activity).to eq(project_activity)
     end
 
+    it "uses the question template to create project questions, etc" do
+      question = FactoryBot.create(:question)
+
+      FactoryBot.create(:default_question, activity: activity)
+
+      expect { subject.create_records(project) }
+        .to change(ProjectQuestion, :count).by(1)
+    end
+
+    it "returns the created project activity" do
+      project_activity = subject.create_records(project)
+      expect(project_activity).to eq(ProjectActivity.last)
+    end
+  end
+
+  describe described_class::Question do
+    subject(:template) { described_class.new(question) }
+
+    let(:question) { FactoryBot.create(:question) }
+    let(:project_activity) { FactoryBot.create(:project_activity) }
+    let(:activity) { project_activity.activity }
+
+    it "creates a project question for the project activity" do
+      expect { subject.create_records(project_activity) }
+        .to change(ProjectQuestion, :count).by(1)
+
+      project_question = ProjectQuestion.last
+
+      expect(project_question.project_activity).to eq(project_activity)
+      expect(project_question.question).to eq(question)
+    end
+
+    it "create visibilities for the project activity" do
+      role = FactoryBot.create(:role)
+
+      FactoryBot.create(:project_role, project: project_activity.project, role: role)
+      FactoryBot.create(:default_visibility, subject: question, role: role)
+
+      expect { subject.create_records(project_activity) }
+        .to change(Visibility, :count).by(1)
+
+      visibility = Visibility.last
+
+      expect(visibility.subject).to eq(ProjectQuestion.last)
+      expect(visibility.visible_to).to eq(ProjectRole.last)
+    end
+
     it "creates expected values for the project questions" do
-      default = FactoryBot.create(:default_question, activity: activity)
       unit = FactoryBot.create(:unit)
 
       FactoryBot.create(
         :default_expected_value,
-        question: default.question,
+        question: question,
         value: "yes",
         text: "It should be 'yes'",
         unit: unit,
       )
 
-      expect { subject.create_records(project) }
+      expect { subject.create_records(project_activity) }
         .to change(ExpectedValue, :count).by(1)
 
       project_question = ProjectQuestion.last
@@ -139,12 +218,10 @@ RSpec.describe Template do
     end
 
     it "uses the default expected value specialised to the activity if it exists" do
-      default = FactoryBot.create(:default_question, activity: activity)
+      FactoryBot.create(:default_expected_value, question: question, value: "yes")
+      FactoryBot.create(:default_expected_value, question: question, activity: activity, value: "no")
 
-      FactoryBot.create(:default_expected_value, question: default.question, value: "yes")
-      FactoryBot.create(:default_expected_value, question: default.question, activity: activity, value: "no")
-
-      expect { subject.create_records(project) }
+      expect { subject.create_records(project_activity) }
         .to change(ExpectedValue, :count).by(1)
 
       project_question = ProjectQuestion.last
@@ -155,25 +232,18 @@ RSpec.describe Template do
     end
 
     it "copies all translations from the default expected value to the expected value" do
-      default_question = FactoryBot.create(:default_question, activity: activity)
-
       default_expected_value = FactoryBot.create(
         :default_expected_value,
-        question: default_question.question,
+        question: question,
         text_en: "english",
         text_fr: "french",
       )
 
-      subject.create_records(project)
+      subject.create_records(project_activity)
       expected_value = ExpectedValue.last
 
       expect(expected_value.text_en).to eq("english")
       expect(expected_value.text_fr).to eq("french")
-    end
-
-    it "returns the created project activity" do
-      project_activity = subject.create_records(project)
-      expect(project_activity).to eq(ProjectActivity.last)
     end
   end
 end

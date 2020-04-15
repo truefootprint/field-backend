@@ -1,6 +1,9 @@
 module Template
   def self.for(object)
-    "Template::#{object.class.name}".constantize.new(object)
+    name = object.class.name
+    name = "Question" if name.include?("Question")
+
+    "Template::#{name}".constantize.new(object)
   end
 
   class ProjectType
@@ -17,12 +20,17 @@ module Template
         name: project_name,
       )
 
-      default_roles.each do |default|
+      default_roles.map do |default|
         ProjectRole.create!(
           project: project,
           role: default.role,
           order: default.order,
         )
+      end
+
+      default_visibilities.each do |default|
+        project_role = project.project_roles.detect { |r| r.role == default.role }
+        Visibility.create!(subject: project, visible_to: project_role)
       end
 
       default_activities.each do |default|
@@ -34,6 +42,10 @@ module Template
 
     def default_roles
       DefaultRole.where(project_type: project_type).order(:order)
+    end
+
+    def default_visibilities
+      DefaultVisibility.where(subject: project_type)
     end
 
     def default_activities
@@ -55,23 +67,13 @@ module Template
         order: default_activity(project)&.order || 1,
       )
 
+      default_visibilities.each do |default|
+        project_role = project.project_roles.detect { |r| r.role == default.role }
+        Visibility.create!(subject: project_activity, visible_to: project_role)
+      end
+
       default_questions.each do |default|
-        project_question = ProjectQuestion.create!(
-          project_activity: project_activity,
-          question: default.question,
-          order: default.order,
-        )
-
-        default_expected_value(project_question).yield_self do |default|
-          break unless default
-
-          ExpectedValue.create!(
-            project_question: project_question,
-            text_translations: default.text_translations,
-            value: default.value,
-            unit: default.unit,
-          )
-        end
+        Template.for(default.question).create_records(project_activity)
       end
 
       project_activity
@@ -87,6 +89,55 @@ module Template
 
     def default_expected_value(project_question)
       DefaultExpectedValue.for(question: project_question.question, activity: activity)
+    end
+
+    def default_visibilities
+      DefaultVisibility.where(subject: activity)
+    end
+  end
+
+  class Question
+    attr_accessor :question
+
+    def initialize(question)
+      self.question = question
+    end
+
+    def create_records(project_activity)
+      project_question = ProjectQuestion.create!(
+        project_activity: project_activity,
+        question: question,
+        order: 999,
+      )
+
+      default_visibilities.each do |default|
+        project_roles = project_question.project.project_roles
+        project_role = project_roles.detect { |r| r.role == default.role }
+
+        Visibility.create!(subject: project_question, visible_to: project_role)
+      end
+
+      default_expected_value(project_question).yield_self do |default|
+        break unless default
+
+        ExpectedValue.create!(
+          project_question: project_question,
+          text_translations: default.text_translations,
+          value: default.value,
+          unit: default.unit,
+        )
+      end
+
+      project_question
+    end
+
+    def default_visibilities
+      DefaultVisibility.where(subject: question)
+    end
+
+    def default_expected_value(project_question)
+      activity = project_question.project_activity.activity
+      DefaultExpectedValue.for(question: question, activity: activity)
     end
   end
 end
