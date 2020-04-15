@@ -28,6 +28,14 @@ RSpec.describe Visibility do
       visibility.visible_to_type = "unknown"
       expect(visibility).to be_invalid
     end
+
+    it "requires project role to belongs to the same project as the subject" do
+      visibility.visible_to = FactoryBot.create(:project_role)
+      expect(visibility).to be_invalid
+
+      visibility.visible_to = FactoryBot.create(:project_role, project: visibility.subject)
+      expect(visibility).to be_valid
+    end
   end
 
   describe ".subject_ids" do
@@ -52,30 +60,35 @@ RSpec.describe Visibility do
   describe ".union" do
     let!(:users) { FactoryBot.create_list(:user, 2) }
     let!(:project_roles) { FactoryBot.create_list(:project_role, 2) }
-    let!(:questions) { FactoryBot.create_list(:question, 3) }
+    let!(:projects) { FactoryBot.create_list(:project, 3) }
+
+    before do
+      project_roles.first.update(project: projects.first)
+      project_roles.second.update(project: projects.second)
+    end
 
     it "returns visibilities for the user" do
-      visibility = FactoryBot.create(:visibility, subject: questions.first, visible_to: users.first)
+      visibility = FactoryBot.create(:visibility, subject: projects.first, visible_to: users.first)
       visibilities = Visibility.union(users: users.first)
 
       expect(visibilities).to eq [visibility]
     end
 
     it "returns visibilities for the project_role" do
-      visibility = FactoryBot.create(:visibility, subject: questions.first, visible_to: project_roles.first)
+      visibility = FactoryBot.create(:visibility, subject: projects.first, visible_to: project_roles.first)
       visibilities = Visibility.union(project_roles: project_roles.first)
 
       expect(visibilities).to eq [visibility]
     end
 
     it "returns visibilities for the union of users and project_roles" do
-      v1 = FactoryBot.create(:visibility, subject: questions.first, visible_to: users.first)
-      v2 = FactoryBot.create(:visibility, subject: questions.second, visible_to: project_roles.first)
-      v3 = FactoryBot.create(:visibility, subject: questions.third, visible_to: project_roles.last)
+      v1 = FactoryBot.create(:visibility, subject: projects.first, visible_to: project_roles.first)
+      v2 = FactoryBot.create(:visibility, subject: projects.second, visible_to: project_roles.second)
+      v3 = FactoryBot.create(:visibility, subject: projects.third, visible_to: users.first)
 
       visibilities = Visibility.union(users: users.first, project_roles: project_roles.first)
 
-      expect(visibilities).to eq [v1, v2]
+      expect(visibilities).to eq [v1, v3]
     end
 
     it "does not use nil values when building the scope" do

@@ -2,7 +2,7 @@ RSpec.describe Viewpoint do
   describe "#scope" do
     it "returns the visible items of a given class" do
       project_role = FactoryBot.create(:project_role)
-      project1, _project2 = FactoryBot.create_list(:project, 2)
+      project1, _project2 = [project_role.project] * 2
 
       FactoryBot.create(:visibility, subject: project1, visible_to: project_role)
 
@@ -19,15 +19,16 @@ RSpec.describe Viewpoint do
       project_role = FactoryBot.create(:project_role)
       FactoryBot.create(:registration, user: user, project_role: project_role)
 
-      question1, question2 = FactoryBot.create_list(:question, 2)
+      project1 = FactoryBot.create(:project)
+      project2 = project_role.project
 
-      FactoryBot.create(:visibility, subject: question1, visible_to: user)
-      FactoryBot.create(:visibility, subject: question2, visible_to: project_role)
+      FactoryBot.create(:visibility, subject: project1, visible_to: user)
+      FactoryBot.create(:visibility, subject: project2, visible_to: project_role)
 
       viewpoint = Viewpoint.for_user(user)
-      questions = viewpoint.scope(Question)
+      projects = viewpoint.scope(Project)
 
-      expect(questions).to match_array [question1, question2]
+      expect(projects).to match_array [project1, project2]
     end
   end
 end
