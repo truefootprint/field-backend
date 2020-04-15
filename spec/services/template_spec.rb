@@ -28,6 +28,23 @@ RSpec.describe Template do
       expect(project.project_type).to eq(project_type)
     end
 
+    it "creates project roles for the project" do
+      role1 = FactoryBot.create(:role)
+      role2 = FactoryBot.create(:role)
+
+      FactoryBot.create(:default_role, project_type: project_type, role: role1, order: 1)
+      FactoryBot.create(:default_role, project_type: project_type, role: role2, order: 2)
+
+      expect { subject.create_records(programme, "Project name") }
+        .to change(ProjectRole, :count).by(2)
+
+      project_role = ProjectRole.last
+
+      expect(project_role.project).to eq(Project.last)
+      expect(project_role.role).to eq(role2)
+      expect(project_role.order).to eq(2)
+    end
+
     it "uses the activity template to create project activities, questions, etc" do
       activity = FactoryBot.create(:activity)
 

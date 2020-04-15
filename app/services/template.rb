@@ -17,11 +17,23 @@ module Template
         name: project_name,
       )
 
+      default_roles.each do |default|
+        ProjectRole.create!(
+          project: project,
+          role: default.role,
+          order: default.order,
+        )
+      end
+
       default_activities.each do |default|
         Template.for(default.activity).create_records(project)
       end
 
       project
+    end
+
+    def default_roles
+      DefaultRole.where(project_type: project_type).order(:order)
     end
 
     def default_activities
