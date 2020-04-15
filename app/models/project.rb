@@ -3,7 +3,9 @@ class Project < ApplicationRecord
 
   belongs_to :programme
   belongs_to :project_type
+
   has_many :project_activities
+  has_many :project_roles
 
   has_many :source_materials, class_name: :SourceMaterial, as: :subject, inverse_of: :subject
   has_many :issues, class_name: :Issue, as: :subject, inverse_of: :subject
