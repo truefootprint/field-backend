@@ -1,6 +1,5 @@
 class Visibility < ApplicationRecord
   SUBJECT_TYPES = %w[
-    Involvement
     Project
     ProjectActivity
     ProjectQuestion

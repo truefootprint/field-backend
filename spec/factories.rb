@@ -137,11 +137,6 @@ FactoryBot.define do
     text { "It should be 'yes'" }
   end
 
-  factory :involvement do
-    project_activity
-    user
-  end
-
   factory :registration do
     user
     project_role
