@@ -1,4 +1,17 @@
 RSpec.describe User do
+  describe "associations" do
+    subject(:user) { FactoryBot.build(:user) }
+
+    it "can access its project roles and roles through registrations" do
+      role = FactoryBot.create(:role)
+      project_role = FactoryBot.create(:project_role, role: role)
+
+      FactoryBot.create(:registration, user: user, project_role: project_role)
+
+      expect(user.roles).to eq [role]
+    end
+  end
+
   describe "validations" do
     subject(:user) { FactoryBot.build(:user) }
 

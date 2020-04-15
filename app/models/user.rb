@@ -2,8 +2,10 @@ class User < ApplicationRecord
   attr_encrypted :phone_number, key: ENV.fetch("KEY")
   blind_index :phone_number
 
-  has_many :user_roles
-  has_many :roles, through: :user_roles
+  has_many :registrations
+  has_many :project_roles, through: :registrations
+  has_many :roles, through: :project_roles
+
   has_many :responses
   has_many :issues
   has_many :issue_notes
