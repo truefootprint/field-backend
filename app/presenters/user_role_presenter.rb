@@ -1,2 +1,0 @@
-class UserRolePresenter < ApplicationPresenter
-end

@@ -352,15 +352,6 @@ ActiveRecord::Schema.define(version: 2020_04_15_115059) do
     t.index ["pre_login"], name: "index_user_interface_text_on_pre_login"
   end
 
-  create_table "user_roles", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["role_id"], name: "index_user_roles_on_role_id"
-    t.index ["user_id"], name: "index_user_roles_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "country_code", null: false

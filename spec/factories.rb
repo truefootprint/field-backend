@@ -87,11 +87,6 @@ FactoryBot.define do
     sequence(:name) { |n| "Role #{n}" }
   end
 
-  factory :user_role do
-    user
-    role
-  end
-
   factory :project_role do
     project
     role
