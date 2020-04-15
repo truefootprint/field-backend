@@ -2,15 +2,14 @@ class Viewpoint
   thread_mattr_accessor :current
 
   def self.for_user(user)
-    new(users: user, roles: user.roles, user_roles: user.user_roles)
+    new(users: user, project_roles: user.project_roles)
   end
 
-  attr_accessor :users, :roles, :user_roles
+  attr_accessor :users, :project_roles
 
-  def initialize(users: nil, roles: nil, user_roles: nil)
+  def initialize(users: nil, project_roles: nil)
     self.users = [users].flatten
-    self.roles = [roles].flatten
-    self.user_roles = user_roles
+    self.project_roles = project_roles
   end
 
   def scope(klass)
@@ -22,15 +21,15 @@ class Viewpoint
     users.first
   end
 
-  def role
-    raise AmbiguousError, "there is more than one role" if roles.size > 1
-    roles.first
+  def project_role
+    raise AmbiguousError, "there is more than one project_role" if project_roles.size > 1
+    project_roles.first
   end
 
   private
 
   def visibilities
-    @visibilities ||= Visibility.union(users: users, roles: roles, user_roles: user_roles)
+    @visibilities ||= Visibility.union(users: users, project_roles: project_roles)
   end
 
   class AmbiguousError < StandardError; end
