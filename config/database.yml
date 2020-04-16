@@ -5,13 +5,13 @@ default: &default
 
 development:
   <<: *default
-  database: reporter-backend_development
+  database: field-backend_development
 
 test:
   <<: *default
-  database: reporter-backend_test
+  database: field-backend_test
 
 production:
   <<: *default
-  database: reporter-backend_production
+  database: field-backend_production
   username: postgres
