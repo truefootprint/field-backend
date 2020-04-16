@@ -20,26 +20,31 @@ RSpec.describe "Follow up activities" do
     q1 = FactoryBot.create(:question, text: "How would you rate the workshop?")
     q2 = FactoryBot.create(:question, text: "Rate %{farmer}'s use of pesticide", topic: topic)
 
-    FactoryBot.create(:project_question, project_activity: workshop, question: q1)
+    farmer_pr = FactoryBot.create(:project_role, project: project, role: farmer)
+    monitor_pr = FactoryBot.create(:project_role, project: project, role: monitor)
+
+    pq = FactoryBot.create(:project_question, project_activity: workshop, question: q1)
+
+    # Make question 1 visible to all users with the farmer role for the project.
+    FactoryBot.create(:visibility, subject: pq, visible_to: farmer_pr)
+
+    # Make the follow up activity and question 2 visible to the monitors.
     FactoryBot.create(:default_question, activity: follow_up, question: q2)
+    FactoryBot.create(:default_visibility, subject: q2, role: monitor)
+    FactoryBot.create(:default_visibility, subject: follow_up, role: monitor)
 
-    FactoryBot.create(:visibility, subject: follow_up, visible_to: monitor)
+    # Both project roles can see the project:
+    FactoryBot.create(:visibility, subject: project, visible_to: farmer_pr)
+    FactoryBot.create(:visibility, subject: project, visible_to: monitor_pr)
 
-    # TODO: replace user_role with project_role
-    # TODO: create default visibility for the follow up activity for the monitor
-
-    FactoryBot.create(:visibility, subject: q1, visible_to: farmer)
-    FactoryBot.create(:visibility, subject: q2, visible_to: monitor)
-
-    [[user1, farmer], [user2, farmer], [user3, monitor]].each do |user, role|
-      user_role = FactoryBot.create(:user_role, user: user, role: role)
-      FactoryBot.create(:visibility, subject: project, visible_to: user_role)
+    [[user1, farmer_pr], [user2, farmer_pr], [user3, monitor_pr]].each do |user, project_role|
+      FactoryBot.create(:registration, user: user, project_role: project_role)
     end
   end
 
-  def register_for_workshop(name)
+  def register_for_workshop(name, role_name)
     authenticate_as(User.find_by!(name: name))
-    post "/registrations", id: workshop.id
+    post "/registrations", id: workshop.id, role: role_name
     expect(response.status).to eq(204)
   end
 
@@ -67,7 +72,7 @@ RSpec.describe "Follow up activities" do
     get_my_data("Tefo")
     expect(project_activities).to be_empty
 
-    register_for_workshop("Azizi")
+    register_for_workshop("Azizi", "farmer")
 
     get_my_data("Azizi")
     expect(project_activities.size).to eq(1)
@@ -80,7 +85,7 @@ RSpec.describe "Follow up activities" do
     expect(project_activities.size).to eq(1)
     expect(project_activities.first.fetch(:name)).to eq("Azizi applying knowledge")
 
-    register_for_workshop("Nyah")
+    register_for_workshop("Nyah", "farmer")
 
     get_my_data("Nyah")
     expect(project_activities.size).to eq(1)
