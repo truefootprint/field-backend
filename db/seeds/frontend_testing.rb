@@ -38,33 +38,39 @@ project = Project.create!(name: "Test Project", programme: programme, project_ty
 project_activity1 = ProjectActivity.create!(activity: activity1, project: project, order: 1)
 project_activity2 = ProjectActivity.create!(activity: activity2, project: project, order: 2)
 
-ProjectQuestion.create!(project_activity: project_activity1, question: question_1, order: 1)
-ProjectQuestion.create!(project_activity: project_activity1, question: question_2, order: 2)
-ProjectQuestion.create!(project_activity: project_activity1, question: question_3, order: 3)
-ProjectQuestion.create!(project_activity: project_activity1, question: question_4, order: 4)
+pq1 = ProjectQuestion.create!(project_activity: project_activity1, question: question_1, order: 1)
+pq2 = ProjectQuestion.create!(project_activity: project_activity1, question: question_2, order: 2)
+pq3 = ProjectQuestion.create!(project_activity: project_activity1, question: question_3, order: 3)
+pq4 = ProjectQuestion.create!(project_activity: project_activity1, question: question_4, order: 4)
 
-ProjectQuestion.create!(project_activity: project_activity2, question: question_5, order: 1)
-ProjectQuestion.create!(project_activity: project_activity2, question: question_6, order: 2)
-ProjectQuestion.create!(project_activity: project_activity2, question: question_7, order: 3)
-ProjectQuestion.create!(project_activity: project_activity2, question: question_8, order: 4)
+pq5 = ProjectQuestion.create!(project_activity: project_activity2, question: question_5, order: 1)
+pq6 = ProjectQuestion.create!(project_activity: project_activity2, question: question_6, order: 2)
+pq7 = ProjectQuestion.create!(project_activity: project_activity2, question: question_7, order: 3)
+pq8 = ProjectQuestion.create!(project_activity: project_activity2, question: question_8, order: 4)
 
 # Users
 
 test_user = User.create!(name: "Test", country_code: "+44", phone_number: "11111")
 test_role = Role.create!(name: "Test")
 
-test_user_role = UserRole.create!(user: test_user, role: test_role)
+project_role = ProjectRole.create!(project: project, role: test_role, order: 1)
+Registration.create!(user: test_user, project_role: project_role)
 
 ApiToken.generate_for!(test_user)
 
 # Visibility
 
-Visibility.create!(subject: project, visible_to: test_user_role)
+Visibility.create!(subject: project, visible_to: project_role)
 
-Visibility.create!(subject: activity1, visible_to: test_user_role)
-Visibility.create!(subject: activity2, visible_to: test_user_role)
+Visibility.create!(subject: project_activity1, visible_to: project_role)
+Visibility.create!(subject: project_activity2, visible_to: project_role)
 
-Visibility.create!(subject: topic1, visible_to: test_role)
-Visibility.create!(subject: topic2, visible_to: test_role)
-Visibility.create!(subject: topic3, visible_to: test_role)
-Visibility.create!(subject: topic4, visible_to: test_role)
+Visibility.create!(subject: pq1, visible_to: project_role)
+Visibility.create!(subject: pq2, visible_to: project_role)
+Visibility.create!(subject: pq3, visible_to: project_role)
+Visibility.create!(subject: pq4, visible_to: project_role)
+
+Visibility.create!(subject: pq5, visible_to: project_role)
+Visibility.create!(subject: pq6, visible_to: project_role)
+Visibility.create!(subject: pq7, visible_to: project_role)
+Visibility.create!(subject: pq8, visible_to: project_role)

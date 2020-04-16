@@ -39,19 +39,17 @@ RSpec.describe ProjectActivityRegistration do
     expect(second.project_activity).to eq(ProjectActivity.last)
   end
 
-  it "creates visibility of the main project activity for the user" do
+  it "creates visibility of the main activity and each follow up activity" do
     expect { described_class.process(project_activity, user, role) }
-      .to change(Visibility, :count).by(1)
+      .to change(Visibility, :count).by(2)
 
-    visibility = Visibility.last
+    first, second = Visibility.last(2)
 
-    expect(visibility.subject).to eq(project_activity)
-    expect(visibility.visible_to).to eq(user)
+    expect(first.visible_to).to eq(user)
+    expect(second.visible_to).to eq(user)
 
-    # We don't create visibility for of follow up project activities because
-    # those questions might not be for the registering user. For example, the
-    # monitor might visit the attendees farm and be asked questions about it.
-    # If they should have visibility, we can add a default_visibility record.
+    expect(first.subject).to eq(project_activity)
+    expect(second.subject).to eq(ProjectActivity.last)
   end
 
   it "does not allow the user to register if they do not have that role on the project" do

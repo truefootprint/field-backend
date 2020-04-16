@@ -119,6 +119,31 @@ DefaultExpectedValue.create!(
   text_translations: { en: "It should be %{value} %{units}.", fr: "Elle devrait mesurer %{value} %{units}." },
   activity: digging_the_hole, question: question_2, unit: meter, value: 1)
 
+monitor = Role.create!(name: "monitor")
+
+DefaultRole.create!(project_type: water_pump, role: monitor, order: 1)
+
+DefaultVisibility.create!(subject: water_pump, role: monitor)
+
+DefaultVisibility.create!(subject: digging_the_hole, role: monitor)
+DefaultVisibility.create!(subject: installing_pump, role: monitor)
+DefaultVisibility.create!(subject: using_the_pump, role: monitor)
+
+DefaultVisibility.create!(subject: question_1, role: monitor)
+DefaultVisibility.create!(subject: question_2, role: monitor)
+DefaultVisibility.create!(subject: question_3, role: monitor)
+DefaultVisibility.create!(subject: question_4, role: monitor)
+DefaultVisibility.create!(subject: question_5, role: monitor)
+DefaultVisibility.create!(subject: question_6, role: monitor)
+DefaultVisibility.create!(subject: question_7, role: monitor)
+DefaultVisibility.create!(subject: question_8, role: monitor)
+DefaultVisibility.create!(subject: question_9, role: monitor)
+DefaultVisibility.create!(subject: question_10, role: monitor)
+DefaultVisibility.create!(subject: question_11, role: monitor)
+DefaultVisibility.create!(subject: question_12, role: monitor)
+DefaultVisibility.create!(subject: question_13, role: monitor)
+DefaultVisibility.create!(subject: question_14, role: monitor)
+
 # Projects
 
 programme = Programme.create!(
@@ -156,21 +181,11 @@ SourceMaterial.create!(subject: rusinda_hand_pump, document: document)
 
 suleman = User.create!(name: "Suleman", country_code: "+250", phone_number: "55555")
 ekon = User.create!(name: "Ekon", country_code: "+250", phone_number: "77777")
-jafari = User.create!(
-  name: "Jafari, with a really long name that spans multiple lines",
-  country_code: "+250",
-  phone_number: "88888",
-)
+jafari = User.create!(name: "Jafari", country_code: "+250", phone_number: "88888")
 
-monitor = Role.create!(name: "monitor")
-
-user_role1 = UserRole.create!(user: suleman, role: monitor)
-user_role2 = UserRole.create!(user: ekon, role: monitor)
-user_role3 = UserRole.create!(user: jafari, role: monitor)
-
-Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role1)
-Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role2)
-Visibility.create!(subject: rusinda_hand_pump, visible_to: user_role3)
+Registration.create!(user: suleman, project_role: rusinda_hand_pump.project_roles.first)
+Registration.create!(user: ekon, project_role: rusinda_hand_pump.project_roles.first)
+Registration.create!(user: jafari, project_role: rusinda_hand_pump.project_roles.first)
 
 # Data Collection
 
@@ -178,14 +193,6 @@ Response.create!(project_question: ProjectQuestion.first, user: suleman, value: 
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "3", unit: meter)
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4", unit: meter)
 Response.create!(project_question: ProjectQuestion.first, user: suleman, value: "4.2", unit: meter)
-
-Visibility.create!(subject: digging_the_hole, visible_to: monitor)
-Visibility.create!(subject: installing_pump, visible_to: monitor)
-Visibility.create!(subject: using_the_pump, visible_to: monitor)
-
-Visibility.create(subject: hole, visible_to: monitor)
-Visibility.create(subject: pump, visible_to: monitor)
-Visibility.create(subject: water, visible_to: monitor)
 
 pq4 = ProjectQuestion.find_by!(question: question_4)
 
@@ -274,6 +281,4 @@ ProjectSummary.create!(
 SourceMaterial.create!(subject: rusinda_hand_pump_2, document: document)
 
 suleman_2 = User.create!(name: "Suleman", country_code: "+250", phone_number: "66666")
-user_role = UserRole.create!(user: suleman_2, role: monitor)
-
-Visibility.create!(subject: rusinda_hand_pump_2, visible_to: user_role)
+Registration.create!(user: suleman_2, project_role: rusinda_hand_pump_2.project_roles.first)

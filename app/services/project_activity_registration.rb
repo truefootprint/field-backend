@@ -24,6 +24,7 @@ class ProjectActivityRegistration
     follow_up_activities.each do |follow_up|
       project_activity = create_records_from_template(follow_up)
       create_registration(project_activity)
+      make_visible(project_activity)
     end
   end
 

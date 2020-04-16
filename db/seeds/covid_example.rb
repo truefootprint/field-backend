@@ -63,6 +63,17 @@ DefaultQuestion.create!(activity: elizabeth_center, question: question_2, order:
 DefaultQuestion.create!(activity: elizabeth_center, question: question_3, order: 3)
 DefaultQuestion.create!(activity: elizabeth_center, question: question_4, order: 4)
 
+monitor = Role.find_by!(name: "monitor")
+
+DefaultRole.create!(project_type: covid, role: monitor, order: 1)
+
+DefaultVisibility.create!(subject: covid, role: monitor)
+DefaultVisibility.create!(subject: elizabeth_center, role: monitor)
+DefaultVisibility.create!(subject: question_1, role: monitor)
+DefaultVisibility.create!(subject: question_2, role: monitor)
+DefaultVisibility.create!(subject: question_3, role: monitor)
+DefaultVisibility.create!(subject: question_4, role: monitor)
+
 # Projects
 
 programme = Programme.create!(
@@ -89,11 +100,5 @@ ProjectSummary.create!(
   }
 )
 
-monitor = Role.find_by!(name: "monitor")
-
 natalena = User.create!(name: "Natalena", country_code: "+250", phone_number: "99999")
-user_role = UserRole.create!(user: natalena, role: monitor)
-
-Visibility.create!(subject: covid_19, visible_to: user_role)
-Visibility.create!(subject: elizabeth_center, visible_to: natalena)
-Visibility.create!(subject: health_center, visible_to: natalena)
+Registration.create!(user: natalena, project_role: covid_19.project_roles.first)

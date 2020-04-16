@@ -48,82 +48,6 @@ question_26 = FreeTextQuestion.create!(text: "Any other comments?", data_type: "
 
 CompletionQuestion.create!(question: question_11, completion_value: "yes")
 
-# Projects
-
-programme = Programme.create!(
-  name: "Farming programme",
-  description: "A series of workshops to train farmers",
-)
-
-ololu_workshop = Project.create!(
-  name: "Farming workshop at Ololulung'a Junction",
-  programme: programme,
-  project_type: farming_workshop,
-)
-
-ProjectSummary.create!(
-  project: ololu_workshop,
-  text: <<~TEXT.squish
-    This project is about teaching farmers good practices to produce better
-    yields and be more environmentally friendly. There will be a workshop and
-    then some follow up activities where a monitor will visit each individual
-    farm and see how well each farmer is applying the lessons of the workshop.
-  TEXT
-)
-
-attending_workshop_pa = ProjectActivity.create!(
-  activity: attending_workshop,
-  project: ololu_workshop,
-  order: 1,
-)
-
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_1, order: 1)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_2, order: 2)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_3, order: 3)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_4, order: 4)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_5, order: 5)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_6, order: 6)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_7, order: 7)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_8, order: 8)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_9, order: 9)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_10, order: 10)
-ProjectQuestion.create!(project_activity: attending_workshop_pa, question: question_11, order: 11)
-
-DefaultActivity.create!(project_type: farming_workshop, activity: applying_knowledge, order: 2)
-
-DefaultQuestion.create!(activity: applying_knowledge, question: question_12, order: 1)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_13, order: 2)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_14, order: 3)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_15, order: 4)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_16, order: 5)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_17, order: 6)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_18, order: 7)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_19, order: 8)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_20, order: 9)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_21, order: 10)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_22, order: 11)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_23, order: 12)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_24, order: 13)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_25, order: 14)
-DefaultQuestion.create!(activity: applying_knowledge, question: question_26, order: 15)
-
-# Users
-
-azizi = User.create!(name: "Azizi", country_code: "+250", phone_number: "22222")
-nyah = User.create!(name: "Nyah", country_code: "+250", phone_number: "33333")
-tefo = User.create!(name: "Tefo", country_code: "+250", phone_number: "44444")
-
-farmer = Role.create!(name: "farmer")
-monitor = Role.find_by!(name: "monitor")
-
-user_role1 = UserRole.create!(user: azizi, role: farmer)
-user_role2 = UserRole.create!(user: nyah, role: farmer)
-user_role3 = UserRole.create!(user: tefo, role: monitor)
-
-Visibility.create!(subject: ololu_workshop, visible_to: user_role1)
-Visibility.create!(subject: ololu_workshop, visible_to: user_role2)
-Visibility.create!(subject: ololu_workshop, visible_to: user_role3)
-
 # Set up questions for the monitor:
 
 air_quality = Topic.create!(name: "Air quality in the village")
@@ -151,6 +75,38 @@ question_40 = FreeTextQuestion.create!(text: "Are there children working?", data
 question_41 = PhotoUploadQuestion.create!(text: "Photo", data_type: "photo", topic: farm)
 question_42 = FreeTextQuestion.create!(text: "Any other comments", data_type: "string", topic: farm)
 
+# Templating
+
+DefaultActivity.create!(project_type: farming_workshop, activity: attending_workshop, order: 1)
+
+DefaultQuestion.create!(activity: attending_workshop, question: question_1, order: 1)
+DefaultQuestion.create!(activity: attending_workshop, question: question_2, order: 2)
+DefaultQuestion.create!(activity: attending_workshop, question: question_3, order: 3)
+DefaultQuestion.create!(activity: attending_workshop, question: question_4, order: 4)
+DefaultQuestion.create!(activity: attending_workshop, question: question_5, order: 5)
+DefaultQuestion.create!(activity: attending_workshop, question: question_6, order: 6)
+DefaultQuestion.create!(activity: attending_workshop, question: question_7, order: 7)
+DefaultQuestion.create!(activity: attending_workshop, question: question_8, order: 8)
+DefaultQuestion.create!(activity: attending_workshop, question: question_9, order: 9)
+DefaultQuestion.create!(activity: attending_workshop, question: question_10, order: 10)
+DefaultQuestion.create!(activity: attending_workshop, question: question_11, order: 11)
+
+DefaultQuestion.create!(activity: applying_knowledge, question: question_12, order: 1)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_13, order: 2)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_14, order: 3)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_15, order: 4)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_16, order: 5)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_17, order: 6)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_18, order: 7)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_19, order: 8)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_20, order: 9)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_21, order: 10)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_22, order: 11)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_23, order: 12)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_24, order: 13)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_25, order: 14)
+DefaultQuestion.create!(activity: applying_knowledge, question: question_26, order: 15)
+
 DefaultQuestion.create!(activity: applying_knowledge, question: question_27, order: 1)
 DefaultQuestion.create!(activity: applying_knowledge, question: question_28, order: 2)
 DefaultQuestion.create!(activity: applying_knowledge, question: question_29, order: 3)
@@ -168,25 +124,93 @@ DefaultQuestion.create!(activity: applying_knowledge, question: question_40, ord
 DefaultQuestion.create!(activity: applying_knowledge, question: question_41, order: 15)
 DefaultQuestion.create!(activity: applying_knowledge, question: question_42, order: 16)
 
-Visibility.create!(subject: group, visible_to: farmer)
-Visibility.create!(subject: tools, visible_to: farmer)
-Visibility.create!(subject: overall, visible_to: farmer)
+farmer = Role.create!(name: "farmer")
+monitor = Role.find_by!(name: "monitor")
 
-Visibility.create!(subject: inputs, visible_to: farmer)
-Visibility.create!(subject: outputs, visible_to: farmer)
+DefaultRole.create!(project_type: farming_workshop, role: farmer, order: 1)
+DefaultRole.create!(project_type: farming_workshop, role: monitor, order: 2)
 
-Visibility.create!(subject: air_quality, visible_to: monitor)
-Visibility.create!(subject: water_quality, visible_to: monitor)
-Visibility.create!(subject: farm, visible_to: monitor)
+DefaultVisibility.create!(subject: farming_workshop, role: farmer)
+DefaultVisibility.create!(subject: farming_workshop, role: monitor)
+DefaultVisibility.create!(subject: applying_knowledge, role: monitor)
 
-Visibility.create!(subject: applying_knowledge, visible_to: monitor)
+DefaultVisibility.create!(subject: question_1, role: farmer)
+DefaultVisibility.create!(subject: question_2, role: farmer)
+DefaultVisibility.create!(subject: question_3, role: farmer)
+DefaultVisibility.create!(subject: question_4, role: farmer)
+DefaultVisibility.create!(subject: question_5, role: farmer)
+DefaultVisibility.create!(subject: question_6, role: farmer)
+DefaultVisibility.create!(subject: question_7, role: farmer)
+DefaultVisibility.create!(subject: question_8, role: farmer)
+DefaultVisibility.create!(subject: question_9, role: farmer)
+DefaultVisibility.create!(subject: question_10, role: farmer)
+DefaultVisibility.create!(subject: question_11, role: farmer)
+DefaultVisibility.create!(subject: question_12, role: farmer)
+DefaultVisibility.create!(subject: question_13, role: farmer)
+DefaultVisibility.create!(subject: question_14, role: farmer)
+DefaultVisibility.create!(subject: question_15, role: farmer)
+DefaultVisibility.create!(subject: question_16, role: farmer)
+DefaultVisibility.create!(subject: question_17, role: farmer)
+DefaultVisibility.create!(subject: question_18, role: farmer)
+DefaultVisibility.create!(subject: question_19, role: farmer)
+DefaultVisibility.create!(subject: question_20, role: farmer)
+DefaultVisibility.create!(subject: question_21, role: farmer)
+DefaultVisibility.create!(subject: question_22, role: farmer)
+DefaultVisibility.create!(subject: question_23, role: farmer)
+DefaultVisibility.create!(subject: question_24, role: farmer)
+DefaultVisibility.create!(subject: question_25, role: farmer)
+DefaultVisibility.create!(subject: question_26, role: farmer)
 
-Registration.process(
-  viewpoint: Viewpoint.new(users: azizi, roles: farmer),
-  subject: attending_workshop_pa,
+DefaultVisibility.create!(subject: question_27, role: monitor)
+DefaultVisibility.create!(subject: question_28, role: monitor)
+DefaultVisibility.create!(subject: question_29, role: monitor)
+DefaultVisibility.create!(subject: question_30, role: monitor)
+DefaultVisibility.create!(subject: question_31, role: monitor)
+DefaultVisibility.create!(subject: question_32, role: monitor)
+DefaultVisibility.create!(subject: question_33, role: monitor)
+DefaultVisibility.create!(subject: question_34, role: monitor)
+DefaultVisibility.create!(subject: question_35, role: monitor)
+DefaultVisibility.create!(subject: question_36, role: monitor)
+DefaultVisibility.create!(subject: question_37, role: monitor)
+DefaultVisibility.create!(subject: question_38, role: monitor)
+DefaultVisibility.create!(subject: question_39, role: monitor)
+DefaultVisibility.create!(subject: question_40, role: monitor)
+DefaultVisibility.create!(subject: question_41, role: monitor)
+DefaultVisibility.create!(subject: question_42, role: monitor)
+
+# Projects
+
+programme = Programme.create!(
+  name: "Farming programme",
+  description: "A series of workshops to train farmers",
 )
 
-Registration.process(
-  viewpoint: Viewpoint.new(users: nyah, roles: farmer),
-  subject: attending_workshop_pa,
+name = "Farming workshop at Ololulung'a Junction"
+ololu_workshop = Template.for(farming_workshop).create_records(programme, name)
+
+ProjectSummary.create!(
+  project: ololu_workshop,
+  text: <<~TEXT.squish
+    This project is about teaching farmers good practices to produce better
+    yields and be more environmentally friendly. There will be a workshop and
+    then some follow up activities where a monitor will visit each individual
+    farm and see how well each farmer is applying the lessons of the workshop.
+  TEXT
 )
+
+# Users
+
+azizi = User.create!(name: "Azizi", country_code: "+250", phone_number: "22222")
+nyah = User.create!(name: "Nyah", country_code: "+250", phone_number: "33333")
+tefo = User.create!(name: "Tefo", country_code: "+250", phone_number: "44444")
+
+Registration.create!(user: azizi, project_role: ololu_workshop.project_roles.first) # farmer
+Registration.create!(user: nyah, project_role: ololu_workshop.project_roles.first) # farmer
+Registration.create!(user: tefo, project_role: ololu_workshop.project_roles.last) # monitor
+
+# Register Azizi and Nyah as attendees of the workshop (the specific project activity).
+
+pa = ProjectActivity.find_by!(activity: attending_workshop)
+
+ProjectActivityRegistration.process(pa, azizi, farmer)
+ProjectActivityRegistration.process(pa, nyah, farmer)

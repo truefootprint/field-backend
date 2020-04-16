@@ -74,8 +74,11 @@ RSpec.describe "Follow up activities" do
 
     register_for_workshop("Azizi", "farmer")
 
+    # Azizi can see the follow-up activity even though we don't direct any questions to
+    # him in this scenario. This is a blanket rule but we might want to control this later.
+
     get_my_data("Azizi")
-    expect(project_activities.size).to eq(1)
+    expect(project_activities.size).to eq(2)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
     get_my_data("Nyah")
@@ -88,7 +91,7 @@ RSpec.describe "Follow up activities" do
     register_for_workshop("Nyah", "farmer")
 
     get_my_data("Nyah")
-    expect(project_activities.size).to eq(1)
+    expect(project_activities.size).to eq(2)
     expect(project_activities.first.fetch(:name)).to eq("Farming workshop")
 
     get_my_data("Tefo")
