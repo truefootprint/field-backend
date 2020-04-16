@@ -39,6 +39,21 @@ RSpec.describe ProjectActivityRegistration do
     expect(second.project_activity).to eq(ProjectActivity.last)
   end
 
+  it "creates visibility of the main project activity for the user" do
+    expect { described_class.process(project_activity, user, role) }
+      .to change(Visibility, :count).by(1)
+
+    visibility = Visibility.last
+
+    expect(visibility.subject).to eq(project_activity)
+    expect(visibility.visible_to).to eq(user)
+
+    # We don't create visibility for of follow up project activities because
+    # those questions might not be for the registering user. For example, the
+    # monitor might visit the attendees farm and be asked questions about it.
+    # If they should have visibility, we can add a default_visibility record.
+  end
+
   it "does not allow the user to register if they do not have that role on the project" do
     another_role = FactoryBot.create(:role)
     another_project_role = FactoryBot.create(:project_role, project: project, role: another_role)

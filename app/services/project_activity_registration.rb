@@ -17,7 +17,9 @@ class ProjectActivityRegistration
 
   def process
     raise_if_user_is_not_registered_on_project_with_role
+
     create_registration(project_activity)
+    make_visible(project_activity)
 
     follow_up_activities.each do |follow_up|
       project_activity = create_records_from_template(follow_up)
@@ -29,6 +31,10 @@ class ProjectActivityRegistration
 
   def create_registration(project_activity)
     Registration.create!(user: user, project_role: project_role, project_activity: project_activity)
+  end
+
+  def make_visible(project_activity)
+    Visibility.create!(subject: project_activity, visible_to: user)
   end
 
   def project_role
