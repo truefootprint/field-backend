@@ -213,4 +213,10 @@ FactoryBot.define do
     sequence(:key) { |n| "key_#{n}" }
     value { "value" }
   end
+
+  factory :personalised_text do
+    project_role
+    user_interface_text
+    value { "value" }
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_165553) do
+ActiveRecord::Schema.define(version: 2020_04_20_111951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,17 @@ ActiveRecord::Schema.define(version: 2020_04_15_165553) do
     t.index ["order"], name: "index_multi_choice_options_on_order"
     t.index ["question_id", "text"], name: "index_multi_choice_options_on_question_id_and_text", unique: true
     t.index ["question_id"], name: "index_multi_choice_options_on_question_id"
+  end
+
+  create_table "personalised_text", force: :cascade do |t|
+    t.bigint "project_role_id"
+    t.bigint "user_interface_text_id"
+    t.jsonb "value", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_role_id"], name: "index_personalised_text_on_project_role_id"
+    t.index ["user_interface_text_id", "project_role_id"], name: "personalised_text_index", unique: true
+    t.index ["user_interface_text_id"], name: "index_personalised_text_on_user_interface_text_id"
   end
 
   create_table "programmes", force: :cascade do |t|
