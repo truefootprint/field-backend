@@ -14,9 +14,9 @@ class MyDataPresenter < ApplicationPresenter
   end
 
   def present_user_interface_text
-    present_nested(:user_interface_text, UserInterfaceTextPresenter) do
-      UserInterfaceText.all
-    end
+    user = options.dig(:user_interface_text, :for_user) or return {}
+
+    { user_interface_text: TextPersonalisation.ordered_list(user) }
   end
 
   class WithEverything < self
@@ -24,7 +24,9 @@ class MyDataPresenter < ApplicationPresenter
       viewpoint = options.fetch(:viewpoint)
 
       options = options.merge(
-        user_interface_text: true,
+        user_interface_text: {
+          for_user: viewpoint.user,
+        },
         user: {
           for_user: viewpoint.user,
         },
