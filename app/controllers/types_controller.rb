@@ -1,6 +1,10 @@
 class TypesController < ApplicationController
   before_action :admins_only
 
+  def default_visibility_subject_types
+    render_types(DefaultVisibility::SUBJECT_TYPES)
+  end
+
   def question_types
     render_types(Question::TYPES)
   end

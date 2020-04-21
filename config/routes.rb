@@ -4,6 +4,8 @@ CRUD_RESOURCES = %i[
   default_activities
   default_expected_values
   default_questions
+  default_roles
+  default_visibilities
   documents
   exif_data_sets
   expected_values
@@ -12,25 +14,28 @@ CRUD_RESOURCES = %i[
   issue_notes
   issues
   multi_choice_options
+  personalised_text
   programmes
   project_activities
   project_questions
+  project_roles
   project_summaries
   project_types
   projects
   questions
+  registrations
   responses
   roles
   source_materials
   topics
   units
   user_interface_text
-  user_roles
   users
   visibilities
 ]
 
 TYPE_RESOURCES = %i[
+  default_visibility_subject_types
   question_types
   question_data_types
   issue_subject_types

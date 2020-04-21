@@ -1,0 +1,2 @@
+class PersonalisedTextPresenter < ApplicationPresenter
+end

@@ -1,0 +1,2 @@
+class DefaultVisibilityPresenter < ApplicationPresenter
+end
