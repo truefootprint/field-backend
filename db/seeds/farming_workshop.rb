@@ -188,15 +188,18 @@ programme = Programme.create!(
 name = "Farming workshop at Ololulung'a Junction"
 ololu_workshop = Template.for(farming_workshop).create_records(programme, name)
 
-ProjectSummary.create!(
-  project: ololu_workshop,
-  text: <<~TEXT.squish
-    This project is about teaching farmers good practices to produce better
-    yields and be more environmentally friendly. There will be a workshop and
-    then some follow up activities where a monitor will visit each individual
-    farm and see how well each farmer is applying the lessons of the workshop.
-  TEXT
-)
+ololu_workshop.project_roles.each do |project_role|
+  user_interface_text = UserInterfaceText.find_by!(key: "summary.body")
+  PersonalisedText.create!(
+    project_role: project_role, user_interface_text: user_interface_text,
+    value: <<~TEXT.squish
+      This project is about teaching farmers good practices to produce better
+      yields and be more environmentally friendly. There will be a workshop and
+      then some follow up activities where a monitor will visit each individual
+      farm and see how well each farmer is applying the lessons of the workshop.
+    TEXT
+  )
+end
 
 # Users
 

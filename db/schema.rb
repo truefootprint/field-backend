@@ -260,14 +260,6 @@ ActiveRecord::Schema.define(version: 2020_04_20_111951) do
     t.index ["role_id"], name: "index_project_roles_on_role_id"
   end
 
-  create_table "project_summaries", force: :cascade do |t|
-    t.bigint "project_id"
-    t.jsonb "text", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_project_summaries_on_project_id", unique: true
-  end
-
   create_table "project_types", force: :cascade do |t|
     t.text "name", null: false
     t.datetime "created_at", precision: 6, null: false

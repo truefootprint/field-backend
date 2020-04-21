@@ -15,14 +15,6 @@ RSpec.describe ProjectPresenter do
     expect(presented.map { |h| h.fetch(:id) }).to eq [111]
   end
 
-  it "can present with the project summary" do
-    project = FactoryBot.create(:project)
-    FactoryBot.create(:project_summary, project: project, text: "Project summary text")
-
-    presented = described_class.present(project, project_summary: true)
-    expect(presented.dig(:project_summary, :text)).to eq("Project summary text")
-  end
-
   it "can present with source materials" do
     project = FactoryBot.create(:project)
     document = FactoryBot.create(:document, filename: "contract.pdf")

@@ -155,22 +155,25 @@ project_name = "Install a hand pump in north-west Burindi"
 rusinda_hand_pump = Template.for(water_pump).create_records(programme, project_name)
 rusinda_hand_pump.update!(name_fr: "Installer une pompe à main dans le nord-ouest de Burindi")
 
-ProjectSummary.create!(
-  project: rusinda_hand_pump,
-  text_translations: {
-    en: [
-      "This project is to install a water pump in the Rusinda area of",
-      "north-west Burundi. It is vital to the local communities and to the",
-      "farmers who depend on access to water for their crops.",
-    ].join(" "),
+rusinda_hand_pump.project_roles.each do |project_role|
+  user_interface_text = UserInterfaceText.find_by!(key: "summary.body")
+  PersonalisedText.create!(
+    project_role: project_role, user_interface_text: user_interface_text,
+    value_translations: {
+      en: [
+        "This project is to install a water pump in the Rusinda area of",
+        "north-west Burundi. It is vital to the local communities and to the",
+        "farmers who depend on access to water for their crops.",
+      ].join(" "),
 
-    fr: [
-      "Ce projet consiste à installer une pompe à eau dans la région de",
-      "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
-      "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
-    ].join(" "),
-  }
-)
+      fr: [
+        "Ce projet consiste à installer une pompe à eau dans la région de",
+        "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
+        "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
+      ].join(" "),
+    },
+  )
+end
 
 contract = Rails.root.join("spec/fixtures/files/water-pump-contract.pdf").open
 document = Document.create!(file: { io: contract, filename: "contract.pdf" })
@@ -261,22 +264,25 @@ IssueNote.last.photos.attach(
 rusinda_hand_pump_2 = Template.for(water_pump).create_records(programme, project_name)
 rusinda_hand_pump_2.update!(name_fr: "Installer une pompe à main dans le nord-ouest de Burindi")
 
-ProjectSummary.create!(
-  project: rusinda_hand_pump_2,
-  text_translations: {
-    en: [
-      "This project is to install a water pump in the Rusinda area of",
-      "north-west Burundi. It is vital to the local communities and to the",
-      "farmers who depend on access to water for their crops.",
-    ].join(" "),
+rusinda_hand_pump_2.project_roles.each do |project_role|
+  user_interface_text = UserInterfaceText.find_by!(key: "summary.body")
+  PersonalisedText.create!(
+    project_role: project_role, user_interface_text: user_interface_text,
+    value_translations: {
+      en: [
+        "This project is to install a water pump in the Rusinda area of",
+        "north-west Burundi. It is vital to the local communities and to the",
+        "farmers who depend on access to water for their crops.",
+      ].join(" "),
 
-    fr: [
-      "Ce projet consiste à installer une pompe à eau dans la région de",
-      "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
-      "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
-    ].join(" "),
-  }
-)
+      fr: [
+        "Ce projet consiste à installer une pompe à eau dans la région de",
+        "Rusinda nord-ouest du Burundi. Il est vital pour les communautés locales",
+        "et les agriculteurs qui dépendent de l'accès à l'eau pour leurs récoltes.",
+      ].join(" "),
+    },
+  )
+end
 
 SourceMaterial.create!(subject: rusinda_hand_pump_2, document: document)
 

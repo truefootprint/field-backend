@@ -1,2 +1,0 @@
-class ProjectSummaryPresenter < ApplicationPresenter
-end

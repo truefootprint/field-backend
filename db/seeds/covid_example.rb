@@ -83,22 +83,25 @@ programme = Programme.create!(
 
 covid_19 = Template.for(covid).create_records(programme, "COVID-19")
 
-ProjectSummary.create!(
-  project: covid_19,
-  text_translations: {
-    en: [
-      "The COVID-19 pandemic is putting health systems under enormous strain.",
-      "But you can help by monitoring if what should be there is there.",
-      "On a daily basis.",
-    ].join(" "),
+covid_19.project_roles.each do |project_role|
+  user_interface_text = UserInterfaceText.find_by!(key: "summary.body")
+  PersonalisedText.create!(
+    project_role: project_role, user_interface_text: user_interface_text,
+    value_translations: {
+      en: [
+        "The COVID-19 pandemic is putting health systems under enormous strain.",
+        "But you can help by monitoring if what should be there is there.",
+        "On a daily basis.",
+      ].join(" "),
 
-    fr: [
-      "La pandémie de COVID-19 met les systèmes de santé à rude épreuve.",
-      "Mais vous pouvez aider en vérifiant si ce qui devrait y être existe.",
-      "Sur une base quotidienne.",
-    ].join(" "),
-  }
-)
+      fr: [
+        "La pandémie de COVID-19 met les systèmes de santé à rude épreuve.",
+        "Mais vous pouvez aider en vérifiant si ce qui devrait y être existe.",
+        "Sur une base quotidienne.",
+      ].join(" "),
+    },
+  )
+end
 
 natalena = User.create!(name: "Natalena", country_code: "+250", phone_number: "99999")
 Registration.create!(user: natalena, project_role: covid_19.project_roles.first)
