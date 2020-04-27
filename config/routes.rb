@@ -56,12 +56,12 @@ Rails.application.routes.draw do
 
   resources :my_data, only: :index
   resources :my_updates, only: :create
+  resources :my_registrations, only: :create
 
   resources :my_photos, only: [:show, :create] do
     member { get :exists }
   end
 
   resources :tokens, only: :create
-  resources :registrations, only: :create
   resources :translations, only: :index
 end

@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class MyRegistrationsController < ApplicationController
   def create
     subject = ProjectActivity.find(params.fetch(:id))
     role = Role.find_by(name: params.fetch(:role))

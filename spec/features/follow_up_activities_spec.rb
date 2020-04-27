@@ -44,7 +44,7 @@ RSpec.describe "Follow up activities" do
 
   def register_for_workshop(name, role_name)
     authenticate_as(User.find_by!(name: name))
-    post "/registrations", id: workshop.id, role: role_name
+    post "/my_registrations", id: workshop.id, role: role_name
     expect(response.status).to eq(204)
   end
 
