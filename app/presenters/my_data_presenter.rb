@@ -32,6 +32,9 @@ class MyDataPresenter < ApplicationPresenter
         },
         projects: {
           visible: true,
+          project_roles: {
+            simplified: true,
+          },
           source_materials: true,
           current_project_activity: {
             for_viewpoint: viewpoint,

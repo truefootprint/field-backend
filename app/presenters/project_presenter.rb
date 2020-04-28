@@ -1,6 +1,7 @@
 class ProjectPresenter < ApplicationPresenter
   def present(record)
     super
+      .merge(present_project_roles(record))
       .merge(present_source_materials(record))
       .merge(present_current_activity(record))
       .merge(present_activities(record))
@@ -9,6 +10,12 @@ class ProjectPresenter < ApplicationPresenter
 
   def modify_scope(scope)
     options[:visible] ? scope.visible : scope
+  end
+
+  def present_project_roles(record)
+    present_nested(:project_roles, ProjectRolePresenter) do
+      record.project_roles.order(:order).select(&:user_selectable?)
+    end
   end
 
   def present_source_materials(record)

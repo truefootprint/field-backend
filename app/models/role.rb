@@ -4,4 +4,12 @@ class Role < ApplicationRecord
   def admin?
     name == "admin"
   end
+
+  def unspecified?
+    name == "unspecified"
+  end
+
+  def user_selectable?
+    !admin? && !unspecified?
+  end
 end
