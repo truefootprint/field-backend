@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     member { get :exists }
   end
 
+  resources :change_roles, only: :create
   resources :tokens, only: :create
   resources :translations, only: :index
 end
