@@ -124,7 +124,7 @@ DefaultQuestion.create!(activity: applying_knowledge, question: question_40, ord
 DefaultQuestion.create!(activity: applying_knowledge, question: question_41, order: 15)
 DefaultQuestion.create!(activity: applying_knowledge, question: question_42, order: 16)
 
-farmer = Role.create!(name: "farmer")
+farmer = Role.create!(name: "farmer", display_name: "Farmer")
 monitor = Role.find_by!(name: "monitor")
 
 DefaultRole.create!(project_type: farming_workshop, role: farmer, order: 1)

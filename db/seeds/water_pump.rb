@@ -119,7 +119,7 @@ DefaultExpectedValue.create!(
   text_translations: { en: "It should be %{value} %{units}.", fr: "Elle devrait mesurer %{value} %{units}." },
   activity: digging_the_hole, question: question_2, unit: meter, value: 1)
 
-monitor = Role.create!(name: "monitor")
+monitor = Role.create!(name: "monitor", display_name: "Monitor")
 
 DefaultRole.create!(project_type: water_pump, role: monitor, order: 1)
 

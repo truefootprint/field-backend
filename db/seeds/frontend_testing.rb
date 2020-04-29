@@ -51,7 +51,7 @@ pq8 = ProjectQuestion.create!(project_activity: project_activity2, question: que
 # Users
 
 test_user = User.create!(name: "Test", country_code: "+44", phone_number: "11111")
-test_role = Role.create!(name: "Test")
+test_role = Role.create!(name: "Test", display_name: "Test")
 
 project_role = ProjectRole.create!(project: project, role: test_role, order: 1)
 Registration.create!(user: test_user, project_role: project_role)

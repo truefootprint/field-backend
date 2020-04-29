@@ -80,6 +80,7 @@ FactoryBot.define do
 
   factory :role do
     sequence(:name) { |n| "Role #{n}" }
+    display_name { "Display Name" }
   end
 
   factory :project_role do

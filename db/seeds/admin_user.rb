@@ -11,7 +11,7 @@ programme = Programme.create!(
 
 project_type = ProjectType.create!(name: "Admin project type")
 project = Project.create!(name: "Admin project", programme: programme, project_type: project_type)
-role = Role.create!(name: "admin")
+role = Role.create!(name: "admin", display_name: "Admin")
 project_role = ProjectRole.create!(project: project, role: role, order: 1)
 
 Registration.create!(user: user, project_role: project_role)

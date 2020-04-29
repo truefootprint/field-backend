@@ -17,5 +17,10 @@ RSpec.describe Role do
       role.name = "name"
       expect(role).to be_invalid
     end
+
+    it "requires a display name" do
+      role.display_name = " "
+      expect(role).to be_invalid
+    end
   end
 end
