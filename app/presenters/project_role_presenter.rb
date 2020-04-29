@@ -4,6 +4,6 @@ class ProjectRolePresenter < ApplicationPresenter
   end
 
   def present_simplified(record)
-    { id: record.id, name: record.role.name }
+    { id: record.id, display_name: record.role.display_name }
   end
 end

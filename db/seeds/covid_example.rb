@@ -64,8 +64,12 @@ DefaultQuestion.create!(activity: elizabeth_center, question: question_3, order:
 DefaultQuestion.create!(activity: elizabeth_center, question: question_4, order: 4)
 
 monitor = Role.find_by!(name: "monitor")
+worker = Role.create!(name: "health_worker", display_name: "Health worker")
+unspecified = Role.create!(name: "unspecified", display_name: "Unspecified")
 
 DefaultRole.create!(project_type: covid, role: monitor, order: 1)
+DefaultRole.create!(project_type: covid, role: worker, order: 1)
+DefaultRole.create!(project_type: covid, role: unspecified, order: 1)
 
 DefaultVisibility.create!(subject: covid, role: monitor)
 DefaultVisibility.create!(subject: elizabeth_center, role: monitor)
@@ -73,6 +77,15 @@ DefaultVisibility.create!(subject: question_1, role: monitor)
 DefaultVisibility.create!(subject: question_2, role: monitor)
 DefaultVisibility.create!(subject: question_3, role: monitor)
 DefaultVisibility.create!(subject: question_4, role: monitor)
+
+DefaultVisibility.create!(subject: covid, role: worker)
+DefaultVisibility.create!(subject: elizabeth_center, role: worker)
+DefaultVisibility.create!(subject: question_1, role: worker)
+DefaultVisibility.create!(subject: question_2, role: worker)
+DefaultVisibility.create!(subject: question_3, role: worker)
+DefaultVisibility.create!(subject: question_4, role: worker)
+
+DefaultVisibility.create!(subject: covid, role: unspecified)
 
 # Projects
 
@@ -104,47 +117,62 @@ covid_19.project_roles.each do |project_role|
 end
 
 natalena = User.create!(name: "Natalena", country_code: "+250", phone_number: "99999")
-Registration.create!(user: natalena, project_role: covid_19.project_roles.first)
+Registration.create!(user: natalena, project_role: covid_19.project_roles.last)
 
+[Role.find_by!(name: "monitor"), Role.find_by!(name: "health_worker")].each do |role|
+  PersonalisedText.create!(
+    project_role: covid_19.project_roles.find_by!(role: role),
+    user_interface_text: UserInterfaceText.find_by!(key: "intro.page_1"),
+    value: <<~TEXT.strip
+      # Monitoring
+      What this app is **not**:
+      - Do not use this app to ask for medical help
+      - Do not use this app to order more medical equipment
+      - Do not use this app as an excuse to make unnecessary trips.
+
+      What this app is:
+
+      This app is for monitoring the health service in light of the coronavirus pandemic. That means you have to check if everything is going to plan and record the answers to the questions in the app. You and your fellow monitors are helping your community and the country. There are 2 things for you to do:
+      1) collect data
+      2) chase up and see if you can help to solve a problem.
+
+      ## Safety first
+      You should always follow the health guidance from your local government: keep distance and wash hands. Do not make any extra trips.
+
+      ## Collect data
+      - First of all, only collect data on the trips you were already making to the health centre. Do not make an extra trip just to collect data.
+      - At the top of the Covid-19 project screen you can read a summary of what is meant to happen in your area. There is often also a button to click to give you more details. Read these details at least once.
+      - Before you go to your health centre, familiarise yourself with the set of questions, so you know what to look for while there.
+      - Let the people involved in the intervention know that you are monitoring, tell them you have been asked by {name_of_NGO} and {name_of_client} to do this. Show them this very text on your mobile.
+
+      ## Chasing
+      If you see something that doesn’t look right, tell those in charge. Tell them to fix it. Then you should record the issue in the app. If there is no one there who should fix it, then record the issue in the app and tell them as soon as you can. Next time, you can add more info about the issue with new data. When all is fine again, thank them for fixing and record the issue as resolved.
+      - How to record issues: each question has the link “Record an issue”. Other monitors on your project will be able to see this once both you and them have been connected to the internet. Add a photo if needed. Next time, if there is new information, one of your group of monitors, doesn’t matter who, need not be the one who first recorded the issue, can record this new information in the app. Just click on the issue and start typing. You can see what all the others have said about the issue.
+
+      ## Resolving issues
+      - How to mark an issue as Resolved: Just above where you can add a note to an issue there is a button that says “Mark issue as Resolved”. Click it. Then type extra information about how it was resolved and anything else you might find important. You can always add a photo by clicking the camera icon. Please do this in such a way that other monitors can learn from your experience.
+      - Duplication of issue. This can happen if multiple monitors record the same issue. If one of them is not connected to the internet, they can’t see that someone else already spotted the issue. Once they then later are connected, their issue is stored as well. It is okay, nothing will break. If the two issues are really the same, just mark one of them as resolved and add in the note that this was a duplicate.
+
+      - If you helped to resolve an issue, share this on social media. ENcourage others to use the app and help move the community forward.
+
+      ## Privacy
+      The makers of this app respect your privacy. We, the makers, our funders and partners have no interest in getting your personal data. We usually do not have your mobile number, name or address (only for people who got the app through any of the  local NGOs we work with in Covid-19 and gave consent for this do we have personal details.
+      We do collect location data. But since we do not know who you are, we do not know where you are or have been. Location data helps us to give you the relevant health centers nearby, saving you the effort of looking it up.
+      The sole purpose of this app is to help provide good healthcare for all in each community. Aggregating all the answers from all monitors helps monitor if essential resources such as gowns, masks, ventilators are distributed well across the country.
+    TEXT
+  )
+end
 
 PersonalisedText.create!(
-  project_role: covid_19.project_roles.find_by!(role: Role.find_by!(name: "monitor")),
+  project_role: covid_19.project_roles.find_by!(role: Role.find_by!(name: "unspecified")),
   user_interface_text: UserInterfaceText.find_by!(key: "intro.page_1"),
   value: <<~TEXT.strip
-    # Monitoring
-    What this app is **not**:
-    - Do not use this app to ask for medical help
-    - Do not use this app to order more medical equipment
-    - Do not use this app as an excuse to make unnecessary trips.
+    # COVID-19
 
-    What this app is:
+    Which role best describes you?
 
-    This app is for monitoring the health service in light of the coronavirus pandemic. That means you have to check if everything is going to plan and record the answers to the questions in the app. You and your fellow monitors are helping your community and the country. There are 2 things for you to do:
-    1) collect data
-    2) chase up and see if you can help to solve a problem.
+    ###### %{roles}
 
-    ## Safety first
-    You should always follow the health guidance from your local government: keep distance and wash hands. Do not make any extra trips.
-
-    ## Collect data
-    - First of all, only collect data on the trips you were already making to the health centre. Do not make an extra trip just to collect data.
-    - At the top of the Covid-19 project screen you can read a summary of what is meant to happen in your area. There is often also a button to click to give you more details. Read these details at least once.
-    - Before you go to your health centre, familiarise yourself with the set of questions, so you know what to look for while there.
-    - Let the people involved in the intervention know that you are monitoring, tell them you have been asked by {name_of_NGO} and {name_of_client} to do this. Show them this very text on your mobile.
-
-    ## Chasing
-    If you see something that doesn’t look right, tell those in charge. Tell them to fix it. Then you should record the issue in the app. If there is no one there who should fix it, then record the issue in the app and tell them as soon as you can. Next time, you can add more info about the issue with new data. When all is fine again, thank them for fixing and record the issue as resolved.
-    - How to record issues: each question has the link “Record an issue”. Other monitors on your project will be able to see this once both you and them have been connected to the internet. Add a photo if needed. Next time, if there is new information, one of your group of monitors, doesn’t matter who, need not be the one who first recorded the issue, can record this new information in the app. Just click on the issue and start typing. You can see what all the others have said about the issue.
-
-    ## Resolving issues
-    - How to mark an issue as Resolved: Just above where you can add a note to an issue there is a button that says “Mark issue as Resolved”. Click it. Then type extra information about how it was resolved and anything else you might find important. You can always add a photo by clicking the camera icon. Please do this in such a way that other monitors can learn from your experience.
-    - Duplication of issue. This can happen if multiple monitors record the same issue. If one of them is not connected to the internet, they can’t see that someone else already spotted the issue. Once they then later are connected, their issue is stored as well. It is okay, nothing will break. If the two issues are really the same, just mark one of them as resolved and add in the note that this was a duplicate.
-
-    - If you helped to resolve an issue, share this on social media. ENcourage others to use the app and help move the community forward.
-
-    ## Privacy
-    The makers of this app respect your privacy. We, the makers, our funders and partners have no interest in getting your personal data. We usually do not have your mobile number, name or address (only for people who got the app through any of the  local NGOs we work with in Covid-19 and gave consent for this do we have personal details.
-    We do collect location data. But since we do not know who you are, we do not know where you are or have been. Location data helps us to give you the relevant health centers nearby, saving you the effort of looking it up.
-    The sole purpose of this app is to help provide good healthcare for all in each community. Aggregating all the answers from all monitors helps monitor if essential resources such as gowns, masks, ventilators are distributed well across the country.
+    Lorem ipsum
   TEXT
 )
