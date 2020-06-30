@@ -13,5 +13,8 @@ test:
 
 production:
   <<: *default
-  database: field-backend_production
-  username: postgres
+  database: <%= ENV['PG_RDS_DBNAME'] %>
+  username: <%= ENV['PG_RDS_USERNAME'] %>
+  password: <%= ENV['PG_RDS_PASSWORD'] %>
+  host: <%= ENV['PG_RDS_HOST'] %>
+  port: <%= ENV['PG_RDS_PORT'] %>
