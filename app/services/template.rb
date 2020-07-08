@@ -14,11 +14,11 @@ module Template
     end
 
     def create_records(programme, project_name)
-      project = Project.create!(
-        programme: programme,
-        project_type: project_type,
-        name: project_name,
-      )
+      project = Project.find_or_create_by!(name: project_name) do |project|
+        project.programme = programme
+        project.project_type = project_type
+        project.name = project_name
+      end
 
       default_roles.map do |default|
         ProjectRole.create!(
@@ -72,8 +72,8 @@ module Template
         Visibility.create!(subject: project_activity, visible_to: project_role)
       end
 
-      default_questions.each do |default|
-        Template.for(default.question).create_records(project_activity)
+      default_questions.each do |default_question|
+        Template.for(default_question).create_records(project_activity)
       end
 
       project_activity
@@ -97,17 +97,17 @@ module Template
   end
 
   class Question
-    attr_accessor :question
+    attr_accessor :default_question
 
-    def initialize(question)
-      self.question = question
+    def initialize(default_question)
+      self.default_question = default_question
     end
 
     def create_records(project_activity)
       project_question = ProjectQuestion.create!(
         project_activity: project_activity,
-        question: question,
-        order: 999,
+        question: default_question.question, # WE are getting the question from the default question
+        order: default_question.order, # we get the order from the default question
       )
 
       default_visibilities.each do |default|
@@ -132,12 +132,12 @@ module Template
     end
 
     def default_visibilities
-      DefaultVisibility.where(subject: question)
+      DefaultVisibility.where(subject: default_question.question)
     end
 
     def default_expected_value(project_question)
       activity = project_question.project_activity.activity
-      DefaultExpectedValue.for(question: question, activity: activity)
+      DefaultExpectedValue.for(question: default_question.question, activity: activity)
     end
   end
 end
