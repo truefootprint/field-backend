@@ -15,6 +15,5 @@ class Programme < ApplicationRecord
     .map(&:question_id)
     .uniq
     Question.where(id: ids)
-    #.map(&:question)
   end
 end

@@ -29,7 +29,7 @@ elsif @programme
 	    json.question_text question.text
 	    json.question_id question.id
 	    if question.type == "MultiChoiceQuestion"
-	    	json.question_reponses_graph question.multi_choice_options_hash(@startDate, @endDate)
+	    	json.question_reponses_graph question.multi_choice_options_hash(@startDate, @endDate, @programme.project_questions)
 	    end
 	  end
 	end

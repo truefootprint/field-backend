@@ -13,20 +13,19 @@ class Question < ApplicationRecord
   validates :type, inclusion: { in: TYPES }
   validates :data_type, inclusion: { in: DATA_TYPES }
 
-  def responses(startDate = nil, endDate = nil)
+  def responses(startDate = nil, endDate = nil, programme_project_questions)
     if (startDate && endDate)
       condition = Response.where('created_at BETWEEN ? AND ?', startDate, endDate)
-                          .where(project_question_id: ProjectQuestion.where(question_id: self.id).ids)
+                          .where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
     else
-      condition = Response.where(project_question_id: ProjectQuestion.where(question_id: self.id).ids)
+      condition = Response.where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
     end
-    #these are not the responses
     condition.map{ |r| JSON.parse(r.value) }.flatten.sort
   end
 
-  def multi_choice_options_hash(startDate = nil, endDate = nil )
+  def multi_choice_options_hash(startDate = nil, endDate = nil, programme_project_questions)
     array_of_hashes = multi_choice_options.map{ |option| {option_id: option.id, option_text: option.text, count: 0} }
-    array_of_hashes.each { |h| h[:count] = responses(startDate, endDate).count(h[:option_id]) }
+    array_of_hashes.each { |h| h[:count] = responses(startDate, endDate, programme_project_questions).count(h[:option_id]) }
     array_of_hashes
   end
 end
