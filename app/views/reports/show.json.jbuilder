@@ -25,10 +25,12 @@ elsif @programme
 	json.project_id 99
 	json.activity ["@project.project_activities"] do |project_activity|
 	  json.project_activity_name "------"
-	  json.project_activity_graphs @programme.multi_choice_questions do | multi_choice_question |
-	    json.question_text multi_choice_question.text
-	    json.question_id multi_choice_question.id
-	    json.question_reponses_graph multi_choice_question.multi_choice_options_hash(@startDate, @endDate)
+	  json.project_activity_graphs @programme.questions do | question |
+	    json.question_text question.text
+	    json.question_id question.id
+	    if question.type == "MultiChoiceQuestion"
+	    	json.question_reponses_graph question.multi_choice_options_hash(@startDate, @endDate)
+	    end
 	  end
 	end
 end

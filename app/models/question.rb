@@ -16,10 +16,11 @@ class Question < ApplicationRecord
   def responses(startDate = nil, endDate = nil)
     if (startDate && endDate)
       condition = Response.where('created_at BETWEEN ? AND ?', startDate, endDate)
-                          .where(project_question_id: ProjectQuestion.where(question_id: self.id))
+                          .where(project_question_id: ProjectQuestion.where(question_id: self.id).ids)
     else
-      condition = Response.where(project_question_id: ProjectQuestion.where(question_id: self.id))
+      condition = Response.where(project_question_id: ProjectQuestion.where(question_id: self.id).ids)
     end
+    #these are not the responses
     condition.map{ |r| JSON.parse(r.value) }.flatten.sort
   end
 

@@ -20,6 +20,10 @@ class Response < ApplicationRecord
     Response.where(id: ids)
   end
 
+  def question_id
+    project_question.question_id
+  end
+
   def parsed_value
     DataTypeParser.parse_response(self)
   end
