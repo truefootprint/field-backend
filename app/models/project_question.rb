@@ -12,6 +12,7 @@ class ProjectQuestion < ApplicationRecord
   delegate :project_type, to: :project
   delegate :text, :type, :data_type, to: :question
 
+  scope :multi_choice_project_questions, -> { joins("INNER JOIN questions ON questions.id = project_questions.question_id").where("questions.type = 'MultiChoiceQuestion'") }
   scope :visible, -> { visible_to(Viewpoint.current) }
   scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
 
@@ -21,8 +22,43 @@ class ProjectQuestion < ApplicationRecord
     Topic.where(id: joins(:question).select(:"questions.topic_id"))
   end
 
+ # def
+  #ProjectQuestion.joins("INNER JOIN questions ON questions.id = project_questions.question_id").where("questions.type = 'MultiChoiceQuestion'").where(project_activity: [35, 37]).count
+
+
   def self.completion_questions
     scope = includes(:completion_question).where.not(completion_questions: { id: nil })
     CompletionQuestion.where(id: scope.select(:"completion_questions.id"))
+  end
+
+  def all_multi_choice_responses(startDate = nil, endDate = nil)
+    if (startDate && endDate)
+      condition = responses.where('created_at BETWEEN ? AND ?', startDate, endDate)
+    else
+      condition = responses
+    end
+    condition.map{ |r| JSON.parse(r.value) }.flatten.sort
+  end
+
+  def multi_choice_project_question_graph(startDate = nil, endDate = nil )
+    array_of_hashes = question.multi_choice_options.map{ |option| {option_id: option.id, option_text: option.text, count: 0} }
+    array_of_hashes.each { |h| h[:count] = all_multi_choice_responses(startDate, endDate).count(h[:option_id]) }
+    array_of_hashes
+  end
+
+  def free_test_project_question_graph(startDate = nil, endDate = nil)
+    if (startDate && endDate)
+      condition = responses.where('created_at BETWEEN ? AND ?', startDate, endDate)
+    else
+      condition = responses
+    end
+    [{ option_id: self.id, option_text: "Number of responses", count: condition.count }]
+  end
+
+  def photo_upload_project_question_graph(startDate = nil, endDate = nil)
+  end
+
+  def multi_choice_options_ids
+    question.multi_choice_options.map(&:id)
   end
 end

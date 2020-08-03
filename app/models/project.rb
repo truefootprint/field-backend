@@ -7,6 +7,8 @@ class Project < ApplicationRecord
   has_many :project_activities
   has_many :project_roles
 
+  has_many :project_questions, through: :project_activities
+
   has_many :source_materials, class_name: :SourceMaterial, as: :subject, inverse_of: :subject
   has_many :issues, class_name: :Issue, as: :subject, inverse_of: :subject
 
@@ -15,3 +17,4 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 end
+

@@ -10,6 +10,7 @@ class ProjectActivity < ApplicationRecord
 
   scope :visible, -> { visible_to(Viewpoint.current) }
   scope :visible_to, -> (viewpoint) { viewpoint.scope(self) }
+  #scope :multi_choice_questions, -> {  }
 
   scope :with_visible_project_questions, -> (viewpoint) {
     joins(:project_questions).merge(ProjectQuestion.visible_to(viewpoint))
@@ -19,5 +20,10 @@ class ProjectActivity < ApplicationRecord
 
   def self.project_questions
     ProjectQuestion.where(project_activity_id: select(:id))
+  end
+
+  def multi_choice_project_questions
+    project_questions.joins("INNER JOIN questions ON questions.id = project_questions.question_id")
+    .where("questions.type = 'MultiChoiceQuestion'")
   end
 end

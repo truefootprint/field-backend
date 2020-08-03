@@ -46,6 +46,14 @@ TYPE_RESOURCES = %i[
 ]
 
 Rails.application.routes.draw do
+  #get '/project_report/:id', to: 'reports#project_report', defaults: { format: 'json'
+  resources :reports, :defaults => { :format => 'json' } do
+    collection do
+      get 'setup_report_form'
+      get 'get_projects_list/:programme_id' => 'reports#get_projects_list'
+    end
+  end
+
   CRUD_RESOURCES.each do |name|
     resources name, controller: :crud
   end
