@@ -1,14 +1,18 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Basic::ControllerMethods
 
-  before_action :authenticate
-  before_action :save_metadata
-  around_action :set_viewpoint
+  before_action :authenticate, unless: :reports_controller?
+  before_action :save_metadata, unless: :reports_controller?
+  around_action :set_viewpoint, unless: :reports_controller?
   around_action :set_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from JSON::ParserError, with: :bad_request
+
+  def reports_controller?
+    controller_name == "reports"
+  end
 
   def authenticate
     api_token || request_http_basic_authentication
