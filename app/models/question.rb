@@ -28,4 +28,14 @@ class Question < ApplicationRecord
     array_of_hashes.each { |h| h[:count] = responses(startDate, endDate, programme_project_questions).count(h[:option_id]) }
     array_of_hashes
   end
+
+  def responses_count_question_graph(startDate = nil, endDate = nil, programme_project_questions)
+    if (startDate && endDate)
+      condition = Response.where('created_at BETWEEN ? AND ?', startDate, endDate)
+                          .where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
+    else
+      condition = Response.where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
+    end
+    [{ option_id: self.id, option_text: "Number of responses", count: condition.count }]
+  end
 end

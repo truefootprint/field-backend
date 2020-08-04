@@ -46,16 +46,13 @@ class ProjectQuestion < ApplicationRecord
     array_of_hashes
   end
 
-  def free_test_project_question_graph(startDate = nil, endDate = nil)
+  def responses_count_project_question_graph(startDate = nil, endDate = nil)
     if (startDate && endDate)
       condition = responses.where('created_at BETWEEN ? AND ?', startDate, endDate)
     else
       condition = responses
     end
     [{ option_id: self.id, option_text: "Number of responses", count: condition.count }]
-  end
-
-  def photo_upload_project_question_graph(startDate = nil, endDate = nil)
   end
 
   def multi_choice_options_ids

@@ -12,9 +12,9 @@ if @programme && @project
 	    if project_question.type == "MultiChoiceQuestion"
 	    	json.question_reponses_graph project_question.multi_choice_project_question_graph(@startDate, @endDate)
 	    elsif project_question.type == "FreeTextQuestion"
-	    	json.question_reponses_graph project_question.free_test_project_question_graph(@startDate, @endDate)
-	    #elsif project_question.type == "PhotoUploadQuestion"
-	    #	json.question_reponses_graph project_question.photo_upload_project_question_graph(@startDate, @endDate)
+	    	json.question_reponses_graph project_question.responses_count_project_question_graph(@startDate, @endDate)
+	    elsif project_question.type == "PhotoUploadQuestion"
+	    	json.question_reponses_graph project_question.responses_count_project_question_graph(@startDate, @endDate)
 	    end
 	  end
 	end
@@ -30,6 +30,11 @@ elsif @programme
 	    json.question_id question.id
 	    if question.type == "MultiChoiceQuestion"
 	    	json.question_reponses_graph question.multi_choice_options_hash(@startDate, @endDate, @programme.project_questions)
+	    elsif question.type == "FreeTextQuestion"
+	    	json.question_reponses_graph question.responses_count_question_graph(@startDate, @endDate, @programme.project_questions)
+	    elsif question.type == "PhotoUploadQuestion"
+	    	json.question_reponses_graph question.responses_count_question_graph(@startDate, @endDate, @programme.project_questions)
+
 	    end
 	  end
 	end
