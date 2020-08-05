@@ -3,6 +3,7 @@ if @programme && @project
 	json.programme_id @project.programme.id
 	json.project_name @project.name
 	json.project_id @project.id
+  json.project_issues @project.issues_graph(@startDate, @endDate)
 
 	json.activity @project.project_activities do |project_activity|
 	  json.project_activity_name project_activity.name
