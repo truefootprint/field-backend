@@ -19,6 +19,18 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 
+  def photo_urls
+    a = []
+    project_questions.select {|pq| pq.type == "PhotoUploadQuestion" }.each do |project_question|
+      project_question.responses.each do |response|
+        response.photos.map do |photo|
+          a << Rails.application.routes.url_helpers.url_for(photo)
+        end
+      end
+    end
+    a
+  end
+
   def issues_graph(startDate = nil, endDate = nil)
     project_issues = project_question_issues
     project_issues = project_issues.where('issues.created_at BETWEEN ? AND ?', startDate, endDate) if (startDate && endDate)

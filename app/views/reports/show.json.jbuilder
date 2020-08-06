@@ -19,6 +19,7 @@ if @programme && @project
 	    end
 	  end
 	end
+	json.photos @project.photo_urls
 elsif @programme
 	json.programme_name @programme.name
 	json.programme_id @programme.id
