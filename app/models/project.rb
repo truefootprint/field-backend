@@ -19,12 +19,15 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 
-  def photo_urls
+  def photos
     a = []
     project_questions.select {|pq| pq.type == "PhotoUploadQuestion" }.each do |project_question|
       project_question.responses.each do |response|
         response.photos.map do |photo|
-          a << Rails.application.routes.url_helpers.url_for(photo)
+          a << { programme_name: self.programme.name, project_name: self.name,
+                 activity_name: project_question.project_activity.name,
+                 project_question_text: project_question.text,
+                 photo_url: Rails.application.routes.url_helpers.url_for(photo)}
         end
       end
     end
