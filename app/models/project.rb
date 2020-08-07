@@ -24,7 +24,11 @@ class Project < ApplicationRecord
     project_questions.select {|pq| pq.type == "PhotoUploadQuestion" }.each do |project_question|
       project_question.responses.each do |response|
         response.photos.map do |photo|
-          a << { programme_name: self.programme.name, project_name: self.name,
+          a << {
+                 response_id: response.id,
+                 user_name: response.user.name,
+                 user_id: response.user.id,
+                 programme_name: self.programme.name, project_name: self.name,
                  activity_name: project_question.project_activity.name,
                  project_question_text: project_question.text,
                  photo_url: Rails.application.routes.url_helpers.url_for(photo)}
