@@ -51,6 +51,8 @@ class ProjectQuestion < ApplicationRecord
           backgroundColor: 'rgba(255,99,132,0.2)',
           borderColor: 'rgba(255,99,132,1)',
           borderWidth: 1,
+          borderWidth: 3,
+          barPercentage: 0.45,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
           data: array_of_hashes.sort_by! { |k| k["option_id"]}.map {|o| o[:count] }
@@ -65,9 +67,9 @@ class ProjectQuestion < ApplicationRecord
     else
       condition = responses
     end
-    [{ option_id: self.id, option_text: "Number of responses", count: condition.count }]
+    [{ option_id: self.id, option_text: "Responses", count: condition.count }]
     {
-      labels: "Number of responses",
+      labels: ["Responses"],
       datasets: [
         {
           label: "Number of responses",
@@ -82,6 +84,7 @@ class ProjectQuestion < ApplicationRecord
       ]
     }
   end
+
 
   def multi_choice_options_ids
     question.multi_choice_options.map(&:id)

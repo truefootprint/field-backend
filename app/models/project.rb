@@ -25,13 +25,11 @@ class Project < ApplicationRecord
       project_question.responses.each do |response|
         response.photos.map do |photo|
           a << {
-                 response_id: response.id,
-                 user_name: response.user.name,
-                 user_id: response.user.id,
-                 programme_name: self.programme.name, project_name: self.name,
-                 activity_name: project_question.project_activity.name,
-                 project_question_text: project_question.text,
-                 photo_url: Rails.application.routes.url_helpers.url_for(photo)}
+                 text: "User Id: #{response.user.id}, User name: #{response.user.name}, Response Id: #{response.id}, Programme: #{self.programme.name}, Project: #{self.name}, Activity: #{project_question.project_activity.name}",
+                 src: Rails.application.routes.url_helpers.url_for(photo),
+                 width: 4,
+                 height: 3
+               }
         end
       end
     end
