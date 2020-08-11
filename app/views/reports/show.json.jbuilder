@@ -13,7 +13,8 @@ if @programme && @project
 	    if project_question.type == "MultiChoiceQuestion"
 	    	json.question_reponses_graph project_question.multi_choice_project_question_graph(@startDate, @endDate)
 	    elsif project_question.type == "FreeTextQuestion"
-	    	json.question_reponses_graph project_question.responses_count_project_question_graph(@startDate, @endDate)
+	    	json.free_text_question true
+	      json.question_reponses_graph project_question.responses_count_project_question_graph(@startDate, @endDate)
 	    elsif project_question.type == "PhotoUploadQuestion"
 	    	json.question_reponses_graph project_question.responses_count_project_question_graph(@startDate, @endDate)
 	    end

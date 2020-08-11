@@ -43,6 +43,21 @@ class Project < ApplicationRecord
     project_issues = project_issues.where('issues.created_at BETWEEN ? AND ?', startDate, endDate) if (startDate && endDate)
     [{ option_id: self.id, option_text: "Total Issues", count: project_issues.count },
      { option_id: self.id, option_text: "Resolved Issues", count: project_issues.resolved.count }]
+    {
+      labels: ["Total Issues", "Resolved Issues"],
+      datasets: [
+        {
+          label: 'Count',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 3,
+          barPercentage: 0.45,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: [project_issues.count, project_issues.resolved.count]
+        }
+      ]
+    }
   end
 end
 
