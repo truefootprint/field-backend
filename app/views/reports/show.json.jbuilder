@@ -21,6 +21,7 @@ if @programme && @project
 	  end
 	end
 	json.photos @project.photos
+	json.issue_photos @project.issue_photos
 elsif @programme
 	json.programme_name @programme.name
 	json.programme_id @programme.id
@@ -37,8 +38,9 @@ elsif @programme
 	    	json.question_reponses_graph question.responses_count_question_graph(@startDate, @endDate, @programme.project_questions)
 	    elsif question.type == "PhotoUploadQuestion"
 	    	json.question_reponses_graph question.responses_count_question_graph(@startDate, @endDate, @programme.project_questions)
-
 	    end
 	  end
 	end
+	json.photos @programme.photos
+	json.issue_photos @programme.issue_photos
 end
