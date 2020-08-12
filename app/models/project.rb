@@ -36,6 +36,28 @@ class Project < ApplicationRecord
     a
   end
 
+  def issue_photos
+    a = []
+    project_questions.each do |project_question|
+      project_question.issues.each do |issue|
+        issue.notes.map do |note|
+          note.photos.map do |photo|
+            a << {
+                   text: "Photo Id: #{photo.id}, User Id: #{note.user.id}, User name: #{note.user.name},\
+                   Issue Note Id: #{note.id}, Project Question: #{project_question.text},\
+                   Project Question Id: #{project_question.id},\
+                   Activity: #{project_question.project_activity.name}",
+                   src: Rails.application.routes.url_helpers.url_for(photo),
+                   width: 4,
+                   height: 3
+                 }
+          end
+        end
+      end
+    end
+    a
+  end
+
   def issues_graph(startDate = nil, endDate = nil)
     project_issues = project_question_issues
     project_issues = project_issues.where('issues.created_at BETWEEN ? AND ?', startDate, endDate) if (startDate && endDate)

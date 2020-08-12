@@ -26,7 +26,22 @@ class Question < ApplicationRecord
   def multi_choice_options_hash(startDate = nil, endDate = nil, programme_project_questions)
     array_of_hashes = multi_choice_options.map{ |option| {option_id: option.id, option_text: option.text, count: 0} }
     array_of_hashes.each { |h| h[:count] = responses(startDate, endDate, programme_project_questions).count(h[:option_id]) }
-    array_of_hashes
+    {
+      labels: array_of_hashes.sort_by! { |k| k["option_id"]}.map {|o| o[:option_text] },
+      datasets: [
+        {
+          label: self.text,
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          borderWidth: 3,
+          barPercentage: 0.45,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: array_of_hashes.sort_by! { |k| k["option_id"]}.map {|o| o[:count] }
+        }
+      ]
+    }
   end
 
   def responses_count_question_graph(startDate = nil, endDate = nil, programme_project_questions)
@@ -37,5 +52,20 @@ class Question < ApplicationRecord
       condition = Response.where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
     end
     [{ option_id: self.id, option_text: "Number of responses", count: condition.count }]
+    {
+      labels: ["Responses"],
+      datasets: [
+        {
+          label: "Number of responses",
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 3,
+          barPercentage: 0.45,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: [condition.count]
+        }
+      ]
+    }
   end
 end
