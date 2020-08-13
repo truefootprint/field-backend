@@ -25,7 +25,7 @@ class Programme < ApplicationRecord
           a << {
                  text: "User Id: #{response.user.id}, User name: #{response.user.name}, Response Id: #{response.id}, Programme: #{self.name}, Project: #{project_question.project.name}, Activity: #{project_question.project_activity.name}",
                  src: Rails.application.routes.url_helpers.url_for(photo),
-                 key: photo.id,
+                 key: photo.id.to_s,
                  width: 4,
                  height: 3
                }
@@ -47,7 +47,7 @@ class Programme < ApplicationRecord
                    Project Question Id: #{project_question.id},\
                    Activity: #{project_question.project_activity.name}",
                    src: Rails.application.routes.url_helpers.url_for(photo),
-                   key: photo.id,
+                   key: photo.id.to_s,
                    width: 4,
                    height: 3
                  }
