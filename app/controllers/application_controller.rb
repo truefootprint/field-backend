@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Basic::ControllerMethods
 
-  before_action :authenticate, unless: :reports_controller?
-  before_action :save_metadata, unless: :reports_controller?
-  around_action :set_viewpoint, unless: :reports_controller?
+  before_action :authenticate#, unless: :reports_controller?
+  before_action :save_metadata#, unless: :reports_controller?
+  around_action :set_viewpoint#, unless: :reports_controller?
   around_action :set_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
@@ -19,7 +19,9 @@ class ApplicationController < ActionController::API
   end
 
   def api_token
-    @api_token ||= authenticate_with_http_basic { |_, t| ApiToken.find_by(token: t) }
+    @api_token ||= authenticate_with_http_basic do |_, t| 
+      ApiToken.find_by(token: t) 
+    end
   end
 
   def current_user
