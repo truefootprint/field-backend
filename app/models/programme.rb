@@ -10,11 +10,11 @@ class Programme < ApplicationRecord
   validates :description, presence: true
 
   def questions
-  	ids = project_questions
+  	ids = project_questions.order(:question_id)
   	.joins("INNER JOIN questions ON questions.id = project_questions.question_id")
     .map(&:question_id)
     .uniq
-    Question.where(id: ids)
+    Question.where(id: ids).order(:id)
   end
 
   def photos
@@ -23,7 +23,7 @@ class Programme < ApplicationRecord
       project_question.responses.each do |response|
         response.photos.map do |photo|
           a << {
-                 text: "User Id: #{response.user.id}, User name: #{response.user.name}, Response Id: #{response.id}, Programme: #{self.name}, Project: #{project_question.project.name}, Activity: #{project_question.project_activity.name}",
+                 text: "User Id: #{response.user.id}, Response Id: #{response.id}, Programme: #{self.name}, Project: #{project_question.project.name}, Activity: #{project_question.project_activity.name}",
                  src: Rails.application.routes.url_helpers.url_for(photo),
                  key: photo.id.to_s,
                  width: 4,
