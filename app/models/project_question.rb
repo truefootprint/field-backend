@@ -44,7 +44,7 @@ class ProjectQuestion < ApplicationRecord
     array_of_hashes = question.multi_choice_options.map{ |option| {option_id: option.id, option_text: option.text, count: 0} }
     array_of_hashes.each { |h| h[:count] = all_multi_choice_responses(startDate, endDate).count(h[:option_id]) }
     {
-      labels: array_of_hashes.sort_by! { |k| k["option_id"]}.map {|o| o[:option_text] },
+      labels: array_of_hashes.sort_by! { |k| k[:option_id]}.map {|o| o[:option_text] },
       datasets: [
         {
           label: self.text,
@@ -55,7 +55,7 @@ class ProjectQuestion < ApplicationRecord
           barPercentage: 0.45,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
-          data: array_of_hashes.sort_by! { |k| k["option_id"]}.map {|o| o[:count] }
+          data: array_of_hashes.sort_by! { |k| k[:option_id]}.map {|o| o[:count] }
         }
       ]
     }

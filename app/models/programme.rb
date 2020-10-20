@@ -10,7 +10,7 @@ class Programme < ApplicationRecord
   validates :description, presence: true
 
   def questions
-  	ids = project_questions.order(:question_id)
+  	ids = project_questions.order(:id)
   	.joins("INNER JOIN questions ON questions.id = project_questions.question_id")
     .map(&:question_id)
     .uniq
