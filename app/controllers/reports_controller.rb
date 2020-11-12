@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  before_action :admins_only
+  before_action :report_viewer
   
   def show
     @startDate = DateTime.parse(params[:startDate]).beginning_of_day #DateTime.parse('2019-01-01')

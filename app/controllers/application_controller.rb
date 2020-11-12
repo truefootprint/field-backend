@@ -47,6 +47,10 @@ class ApplicationController < ActionController::API
     current_user.roles.detect(&:admin?) || request_http_basic_authentication
   end
 
+  def report_viewer
+    current_user.id == 541
+  end
+
   def presentation
     return {} unless params.key?(:presentation)
     @presentation ||= JSON.parse(params.fetch(:presentation), symbolize_names: true)
