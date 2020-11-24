@@ -19,7 +19,7 @@ class ProjectActivity < ApplicationRecord
   validates :order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   def self.project_questions
-    ProjectQuestion.where(project_activity_id: select(:id))
+    ProjectQuestion.where(project_activity_id: select(:id)).order(:question_id)
   end
 
   def multi_choice_project_questions
