@@ -7,7 +7,7 @@ if @programme && @project
 
 	json.activity @project.project_activities do |project_activity|
 	  json.project_activity_name project_activity.name
-	  json.project_activity_graphs project_activity.project_questions do | project_question |
+	  json.project_activity_graphs project_activity.project_questions.order(:question_id) do | project_question |
 	    json.question_text project_question.text
 	    json.question_id project_question.id
 	    if project_question.type == "MultiChoiceQuestion"
