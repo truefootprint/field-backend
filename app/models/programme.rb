@@ -17,10 +17,10 @@ class Programme < ApplicationRecord
     Question.where(id: ids).order(:id)
   end
 
-  def photos
+  def photos(startDate = nil, endDate = nil)
     a = []
     project_questions.select {|pq| pq.type == "PhotoUploadQuestion" }.each do |project_question|
-      project_question.responses.each do |response|
+      project_question.responses.where('responses.created_at BETWEEN ? AND ?', startDate, endDate).each do |response|
         response.photos.map do |photo|
           a << {
                  text: "User Id: #{response.user.id}, Response Id: #{response.id}, Programme: #{self.name}, Project: #{project_question.project.name}, Activity: #{project_question.project_activity.name}",
@@ -35,11 +35,11 @@ class Programme < ApplicationRecord
     a
   end
 
-  def issue_photos
+  def issue_photos(startDate = nil, endDate = nil)
     a = []
     project_questions.each do |project_question|
       project_question.issues.each do |issue|
-        issue.notes.map do |note|
+        issue.notes.where('issue_notes.created_at BETWEEN ? AND ?', startDate, endDate).map do |note|
           note.photos.map do |photo|
             a << {
                    text: "Photo Id: #{photo.id}, User Id: #{note.user.id}, User name: #{note.user.name},\

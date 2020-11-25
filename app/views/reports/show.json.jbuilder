@@ -20,8 +20,8 @@ if @programme && @project
 	    end
 	  end
 	end
-	json.photos @project.photos
-	json.issue_photos @project.issue_photos
+	json.photos @project.photos(@startDate, @endDate)
+	json.issue_photos @project.issue_photos(@startDate, @endDate)
 elsif @programme
 	json.programme_name @programme.name
 	json.programme_id @programme.id
@@ -41,6 +41,6 @@ elsif @programme
 	    end
 	  end
 	end
-	json.photos @programme.photos
-	json.issue_photos @programme.issue_photos
+	json.photos @programme.photos(@startDate, @endDate)
+	json.issue_photos @programme.issue_photos(@startDate, @endDate)
 end

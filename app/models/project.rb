@@ -19,10 +19,10 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 
-  def photos
+  def photos(startDate = nil, endDate = nil)
     a = []
     project_questions.select {|pq| pq.type == "PhotoUploadQuestion" }.each do |project_question|
-      project_question.responses.each do |response|
+      project_question.responses.where('responses.created_at BETWEEN ? AND ?', startDate, endDate).each do |response|
         response.photos.map do |photo|
           a << {
                  text: "User Id: #{response.user.id}, Response Id: #{response.id}, Programme: #{self.programme.name}, Project: #{self.name}, Activity: #{project_question.project_activity.name}",
@@ -37,11 +37,11 @@ class Project < ApplicationRecord
     a
   end
 
-  def issue_photos
+  def issue_photos(startDate = nil, endDate = nil)
     a = []
     project_questions.each do |project_question|
       project_question.issues.each do |issue|
-        issue.notes.map do |note|
+        issue.notes.where('issue_notes.created_at BETWEEN ? AND ?', startDate, endDate).map do |note|
           note.photos.map do |photo|
             a << {
                    text: "Photo Id: #{photo.id}, User Id: #{note.user.id}, User name: #{note.user.name},\
