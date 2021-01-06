@@ -14,7 +14,7 @@ module Template
     end
 
     def create_records(programme, project_name)
-      project = Project.find_or_create_by!(name: project_name) do |project|
+      project = Project.i18n.find_or_create_by!(name: project_name) do |project|
         project.programme = programme
         project.project_type = project_type
         project.name = project_name
@@ -114,7 +114,7 @@ module Template
         project_roles = project_question.project.project_roles
         project_role = project_roles.detect { |r| r.role == default.role }
 
-        Visibility.create!(subject: project_question, visible_to: project_role)
+        Visibility.create!(subject: project_question, visible_to: project_role) if !project_role.blank?
       end
 
       default_expected_value(project_question).yield_self do |default|
