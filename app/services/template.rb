@@ -30,7 +30,7 @@ module Template
 
       default_visibilities.each do |default|
         project_role = project.project_roles.detect { |r| r.role == default.role }
-        Visibility.create!(subject: project, visible_to: project_role)
+        Visibility.create!(subject: project, visible_to: project_role) if !project_role.blank?
       end
 
       default_activities.each do |default|
@@ -69,7 +69,7 @@ module Template
 
       default_visibilities.each do |default|
         project_role = project.project_roles.detect { |r| r.role == default.role }
-        Visibility.create!(subject: project_activity, visible_to: project_role)
+        Visibility.create!(subject: project_activity, visible_to: project_role) if !project_role.blank?
       end
 
       default_questions.each do |default_question|
