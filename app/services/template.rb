@@ -14,7 +14,7 @@ module Template
     end
 
     def create_records(programme, project_name)
-      project = Project.i18n.find_or_create_by!(name: project_name) do |project|
+      project = Project.i18n.find_or_create_by!(name: project_name, programme: programme) do |project|
         project.programme = programme
         project.project_type = project_type
         project.name = project_name
