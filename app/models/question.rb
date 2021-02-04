@@ -23,6 +23,19 @@ class Question < ApplicationRecord
     condition.map{ |r| JSON.parse(r.value) }.flatten.sort
   end
 
+  def graph_responses(startDate = nil, endDate = nil, programme_project_questions)
+    if (startDate && endDate)
+      condition = Response.where('created_at BETWEEN ? AND ?', startDate, endDate)
+                          .where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
+    else
+      condition = Response.where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
+    end
+    condition.map {|response| {user_id: response.user_id, 
+                                                                                response: response.value, 
+                                                                                date: response.created_at.strftime("%m %b %Y"), 
+                                                                                project: response.project_question.project.name}}
+  end
+
   def multi_choice_options_hash(startDate = nil, endDate = nil, programme_project_questions)
     array_of_hashes = multi_choice_options.map{ |option| {option_id: option.id, option_text: option.text, count: 0} }
     array_of_hashes.each { |h| h[:count] = responses(startDate, endDate, programme_project_questions).count(h[:option_id]) }

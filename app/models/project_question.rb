@@ -61,6 +61,12 @@ class ProjectQuestion < ApplicationRecord
     }
   end
 
+  def graph_responses(startDate = nil, endDate = nil)
+    responses.where('created_at BETWEEN ? AND ?', startDate, endDate).map {|response| {user_id: response.user_id, 
+                                                                                       response: response.value, 
+                                                                                       date: response.created_at.strftime("%m %b %Y"), project: response.project_question.project.name}}
+  end
+
   def responses_count_project_question_graph(startDate = nil, endDate = nil)
     if (startDate && endDate)
       condition = responses.where('created_at BETWEEN ? AND ?', startDate, endDate)
