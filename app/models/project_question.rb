@@ -62,9 +62,9 @@ class ProjectQuestion < ApplicationRecord
   end
 
   def graph_responses(startDate = nil, endDate = nil)
-    responses.where('created_at BETWEEN ? AND ?', startDate, endDate).map {|response| {user_id: response.user_id, 
+    responses.where('created_at BETWEEN ? AND ?', startDate, endDate).order(updated_at: :desc).map {|response| {user_id: response.user_id, 
                                                                                        response: response.value, 
-                                                                                       date: response.created_at.strftime("%m %b %Y"), project: response.project_question.project.name}}
+                                                                                       date: response.updated_at.strftime("%m %b %Y"), project: response.project_question.project.name}}
   end
 
   def responses_count_project_question_graph(startDate = nil, endDate = nil)
