@@ -30,9 +30,10 @@ class Question < ApplicationRecord
     else
       condition = Response.where(project_question_id: programme_project_questions.where(question_id: self.id).ids)
     end
+    
     condition.order(updated_at: :desc).map {|response| {user_id: response.user_id, 
                                                                                 response: response.value, 
-                                                                                date: response.updated_at.strftime("%m %b %Y"), 
+                                                                                date: response.updated_at.strftime("%d %b %Y"), 
                                                                                 project: response.project_question.project.name}}
   end
 
