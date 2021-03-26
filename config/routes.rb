@@ -72,5 +72,8 @@ Rails.application.routes.draw do
 
   resources :change_roles, only: :create
   resources :tokens, only: :create
-  resources :translations, only: :index
+  resources :translations, only: [:index] do
+    collection {get :supported_locales}
+    collection {get :select_locale}
+  end
 end
