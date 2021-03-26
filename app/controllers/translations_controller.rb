@@ -14,4 +14,16 @@ class TranslationsController < ActionController::API # Don't inherit, no token r
 
     render json: body
   end
+
+  def supported_locales
+    a = JSON.load File.open("#{Rails.root}/config/data/locales.json")    
+    render json: a.to_json
+  end
+
+  def select_locale
+    locale = request.get_header("HTTP_ACCEPT_LANGUAGE") || request.env["Accept-Language"]
+    previous = I18n.locale
+    I18n.locale = locale
+    render json: locale.to_json
+  end
 end
