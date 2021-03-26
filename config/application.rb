@@ -16,7 +16,7 @@ module FieldBackend
 
     # Fall back to English for UI text / validation errors.
     config.i18n.fallbacks = %i[en-GB en]
-    config.i18n.available_locales = [:en, :fr, :es, :pt, :sw, :mg, :tet, :am, :id, :rw, :ro]
+    config.i18n.available_locales = [:en, :fr, :es, :pt, :sw, :mg, :tet, :am, :id, :rw, :ro, :laj]
     config.i18n.enforce_available_locales = false
   end
 end
