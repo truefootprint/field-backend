@@ -1,14 +1,14 @@
 {
-    "en": "English", 
-    "fr": "Français", 
-    "es": "Español", 
-    "pt": "Português", 
-    "sw": "Kiswahili", 
-    "mg": "Malagasy", 
-    "tet": "Lia-Tetun", 
-    "am":  "አማርኛ", 
-    "id":  "Bahasa Indonesia", 
-    "rw":  "Kinyarwanda", 
-    "ro":  "Română",
-    "laj": "Lango"
+    "English": "en",
+    "Français": "fr", 
+    "Español": "es", 
+    "Português": "pt", 
+    "Kiswahili": "sw", 
+    "Malagasy": "mg", 
+    "Lia-Tetun": "tet", 
+    "አማርኛ": "am", 
+    "Bahasa Indonesia": "id", 
+    "Kinyarwanda": "rw", 
+    "Română": "ro",
+    "Lango": "laj"
 }
