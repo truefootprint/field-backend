@@ -3,6 +3,8 @@ class MultiChoiceOption < ApplicationRecord
 
   belongs_to :question, class_name: :MultiChoiceQuestion
 
+  has_one_attached :photo, dependent: :destroy
+
   validate :belongs_to_multi_choice_question
   validates :text, presence: true, uniqueness: { scope: :question_id }
   validates :order, presence: true, numericality: { only_integer: true, greater_than: 0 }

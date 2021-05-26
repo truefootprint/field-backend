@@ -16,7 +16,11 @@ class CrudController < ApplicationController
   end
 
   def update
-    record.update!(model_params)
+    update_params = model_params
+    record.photo.attach(model_params[:photo]) if !model_params[:photo].blank? and record.is_a?(MultiChoiceOption)
+    update_params = model_params.except(:photo) if action_name == "update"
+
+    record.update!(update_params)
     render json: present(record)
   end
 
@@ -27,6 +31,9 @@ class CrudController < ApplicationController
   private
 
   def present(object)
+    return presenter.present(object, presentation.merge(for_user: current_user)).merge({photo: Rails.application.routes.url_helpers.url_for(object.photo)}) if object.respond_to?(:photo) && 
+      object.photo.attached? && 
+      object.is_a?(MultiChoiceOption)
     presenter.present(object, presentation.merge(for_user: current_user))
   end
 
@@ -48,7 +55,7 @@ class CrudController < ApplicationController
   end
 
   def model_params
-    params.permit!.slice(*(model.column_names + %i[file photo phone_number country_code]))
+    params.permit!.slice(*(model.column_names + %i[src file photo phone_number country_code]))
   end
 
   def model

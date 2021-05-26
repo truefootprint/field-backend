@@ -13,6 +13,9 @@ module FieldBackend
     config.load_defaults 6.0
     config.api_only = true
     config.autoload_paths += Dir["#{config.root}/app/models/**"]
+    config.autoloader = :classic
+    #it's zeitwerk bug you can just upgrade your rails version to 6.1.x and everything should work fine
+    #if you don't want to upgrade - switch to the classic load mode by adding in application.rb
 
     # Fall back to English for UI text / validation errors.
     config.i18n.fallbacks = %i[en-GB en]
