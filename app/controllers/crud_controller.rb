@@ -7,6 +7,7 @@ class CrudController < ApplicationController
   end
 
   def create
+    model_params[:photo].original_filename = model_params[:photo].original_filename + SecureRandom.uuid if !model_params[:photo].blank? and (model == MultiChoiceOption)  
     record = model.create!(model_params)
     render json: present(record), status: :created
   end
