@@ -7,7 +7,6 @@ class CrudController < ApplicationController
   end
 
   def create
-    model_params[:photo].original_filename = model_params[:photo].original_filename + SecureRandom.uuid if !model_params[:photo].blank? and (model == MultiChoiceOption)  
     record = model.create!(model_params)
     render json: present(record), status: :created
   end
@@ -17,11 +16,7 @@ class CrudController < ApplicationController
   end
 
   def update
-    update_params = model_params
-    record.photo.attach(model_params[:photo]) if !model_params[:photo].blank? and record.is_a?(MultiChoiceOption)
-    update_params = model_params.except(:photo) if action_name == "update"
-
-    record.update!(update_params)
+    record.update!(model_params)
     render json: present(record)
   end
 
