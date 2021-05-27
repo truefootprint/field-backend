@@ -5,11 +5,11 @@ class UpdateProcessor
       period_end = chunk.fetch(:period_end)
 
       chunk.fetch(:responses, []).each do |params|
-        Response.process(params, period_start, period_end, user)
+        UpdateProcessor::Response.process(params, period_start, period_end, user)
       end
 
       chunk.fetch(:issue_notes, []).each do |params|
-        IssueNote.process(params, period_start, period_end, user)
+        UpdateProcessor::IssueNote.process(params, period_start, period_end, user)
       end
     end
   end
