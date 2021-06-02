@@ -36,7 +36,7 @@ elsif @programme
 	  json.project_activity_graphs @programme.questions do | question |
 		
 		project = @programme.projects.first
-		next if !Visibility.where(visible_to: project.project_roles.last, subject_type: "ProjectQuestion", 
+		next if !Visibility.where(visible_to: project.project_roles.ids, subject_type: "ProjectQuestion",
 		                          subject: project.project_questions.where(question: question).last).any?
 	    json.question_text question.text
 	    json.question_id question.id
