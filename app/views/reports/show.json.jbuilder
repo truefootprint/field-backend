@@ -5,8 +5,9 @@ if @programme && @project
 	json.project_id @project.id
   json.project_issues @project.issues_graph(@startDate, @endDate)
 
-	json.activity @project.project_activities.order(:order) do |project_activity|
+	json.activity @project.project_activities do |project_activity|
 	  json.project_activity_name project_activity.name
+	  json.activity_order project_activity.order
 	  json.project_activity_graphs project_activity.project_questions.order(:order) do | project_question |
 
 	    next if !Visibility.where(visible_to: @project.project_roles.ids, subject_type: "ProjectQuestion", subject: project_question).any?
