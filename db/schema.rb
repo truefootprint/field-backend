@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_111951) do
+ActiveRecord::Schema.define(version: 2021_06_08_164305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -288,6 +288,7 @@ ActiveRecord::Schema.define(version: 2020_04_20_111951) do
     t.boolean "multiple_answers", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "issues_possible", default: true
     t.index ["data_type"], name: "index_questions_on_data_type"
     t.index ["topic_id", "text"], name: "index_questions_on_topic_id_and_text", unique: true
     t.index ["topic_id"], name: "index_questions_on_topic_id"

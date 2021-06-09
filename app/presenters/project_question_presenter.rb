@@ -5,6 +5,7 @@ class ProjectQuestionPresenter < ApplicationPresenter
         data_type: record.data_type,
         type: record.type,
         text: interpolate(record.text),
+        issues_possible: record.question.issues_possible
       )
       .merge(present_type_specific_fields(record))
       .merge(present_completion_question(record))
